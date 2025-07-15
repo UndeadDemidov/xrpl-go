@@ -89,18 +89,27 @@ const config: Config = {
         {
           label: "Changelog",
           position: "right",
-          items: [
-            {
-              label: "v0.1.x",
-              sidebarId: "changelog1",
-              to: "/changelog/v0.1.x/v011",
-            },
-            {
-              label: "v0.2.x",
-              sidebarId: "changelog2",
-              to: "/changelog/v0.2.x/v021",
-            },
-          ],
+          type: "docSidebar", // Remove this line when multiple changelog versions are needed
+          sidebarId: "changelog1", // Remove this line when multiple changelog versions are needed
+          docsPluginId: "changelog", // Remove this line when multiple changelog versions are needed
+
+          // Uncomment the following lines to enable dropdown multiple changelog versions
+          // items: [
+          //   {
+          //     type: "docSidebar",
+          //     sidebarId: "changelog1",
+          //     docsPluginId: "changelog",
+          //     label: "v0.1.x",
+          //   },
+          // Uncomment in sidebarsChangelog.ts to enable the second changelog version
+          // add the next major version files in ./changelog/v0.2.x
+          //   {
+          //     type: "docSidebar",
+          //     sidebarId: "changelog2",
+          //     docsPluginId: "changelog",
+          //     label: "v0.2.x",
+          //   },
+          // ],
         },
         {
           href: "https://github.com/Peersyst/xrpl-go",
