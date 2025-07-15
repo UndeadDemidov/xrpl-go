@@ -23,7 +23,7 @@ if err != nil {
 client := rpc.NewClient(cfg)
 ```
 
-Every time you create a new `Client`, you need to provde a `Config` struct as an argument. You can initialize a `Config` struct using the `NewClientConfig` function.
+Every time you create a new `Client`, you need to provide a `Config` struct as an argument. You can initialize a `Config` struct using the `NewClientConfig` function.
 
 `Config` struct follows the options pattern, so you can pass different options to the `NewClientConfig` function.
 
@@ -88,7 +88,8 @@ func (c *Client) SubmitMultisigned(txBlob string, failHard bool) (*requests.Subm
 
 ### Autofill/AutofillMultisigned
 
-The `Autofill` method is used to autofill some fields in a flat transaction. This method is useful for adding dynamic fields like `LastLedgerSequence` or `Fee`. It returns an error if the transaction is not valid or some internall call fails. There's also a `AutofillMultisigned` method that works the same way but for multisigned transactions.
+The `Autofill` method is used to autofill some fields in a flat transaction. This method is useful for adding dynamic fields like `LastLedgerSequence` or `Fee`. It returns an error if the transaction is not valid or some internal call fails. There's also a `AutofillMultisigned` method that works the same way but for multisigned transactions.
+Both methods support `Batch` transactions, filling in both the inner `RawTransactions` and the outer `Batch` transaction.
 
 ```go
 func (c *Client) Autofill(tx *transaction.FlatTransaction) error

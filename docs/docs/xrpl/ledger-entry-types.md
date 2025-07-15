@@ -7,6 +7,8 @@ The `ledger-entry-types` package contains types and functions to handle ledger o
 - [`AccountRoot`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/accountroot)
 - [`Amendments`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/amendments)
 - [`AMM`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/amm)
+- [`Credential`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/credential)
+- `Delegate`
 - [`Bridge`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/bridge)
 - [`Check`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/check)
 - [`DepositPreauth`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/depositpreauth)

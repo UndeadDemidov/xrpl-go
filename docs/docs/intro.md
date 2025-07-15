@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Getting Started
 
-This documentation englobes the `xrpl-go` project, a Go SDK for interacting with the XRP Ledger.
+This documentation covers the `xrpl-go` project, a Go SDK for interacting with the XRP Ledger.
 
 ## What is the XRP Ledger?
 

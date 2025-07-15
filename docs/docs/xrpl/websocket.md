@@ -109,7 +109,8 @@ func (c *Client) Request(reqParams XRPLRequest) (*ClientResponse, error)
 
 ### Autofill/AutofillMultisigned
 
-The `Autofill` method is used to autofill some fields in a flat transaction. This method is useful for adding dynamic fields like `LastLedgerSequence` or `Fee`. It returns an error if the transaction is not valid or some internall call fails. There's also a `AutofillMultisigned` method that works the same way but for multisigned transactions.
+The `Autofill` method is used to autofill some fields in a flat transaction. This method is useful for adding dynamic fields like `LastLedgerSequence` or `Fee`. It returns an error if the transaction is not valid or some internal call fails. There's also a `AutofillMultisigned` method that works the same way but for multisigned transactions.
+Both methods support `Batch` transactions, filling in both the inner `RawTransactions` and the outer `Batch` transaction.
 
 ```go
 func (c *Client) Autofill(tx *transaction.FlatTransaction) error
