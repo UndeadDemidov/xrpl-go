@@ -101,7 +101,7 @@ const config: Config = {
           //     docsPluginId: "changelog",
           //     label: "v0.1.x",
           //   },
-          // Uncomment in sidebarsChangelog.ts to enable the second changelog version
+          // Uncomment in sidebarsChangelog.ts changelog2 line to enable the second changelog version
           // add the next major version files in ./changelog/v0.2.x
           //   {
           //     type: "docSidebar",
