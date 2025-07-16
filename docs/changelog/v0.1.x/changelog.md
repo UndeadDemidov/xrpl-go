@@ -1,5 +1,7 @@
 ---
 sidebar_position: 0
+sectionTopLabel: Introduction
+sectionBottomLabel: Versions
 ---
 
 # Changelog
