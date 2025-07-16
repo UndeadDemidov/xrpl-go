@@ -29,6 +29,7 @@ const (
 	OfferEntry                           EntryType = "Offer"
 	OracleEntry                          EntryType = "Oracle"
 	PayChannelEntry                      EntryType = "PayChannel"
+	PermissionedDomainEntry              EntryType = "PermissionedDomain"
 	RippleStateEntry                     EntryType = "RippleState"
 	SignerListEntry                      EntryType = "SignerList"
 	TicketEntry                          EntryType = "Ticket"
@@ -91,6 +92,8 @@ func EmptyLedgerObject(t string) (Object, error) {
 		return &Oracle{}, nil
 	case PayChannelEntry:
 		return &PayChannel{}, nil
+	case PermissionedDomainEntry:
+		return &PermissionedDomain{}, nil
 	case RippleStateEntry:
 		return &RippleState{}, nil
 	case SignerListEntry:
@@ -155,6 +158,8 @@ func UnmarshalLedgerObject(data []byte) (Object, error) {
 		o = &Oracle{}
 	case PayChannelEntry:
 		o = &PayChannel{}
+	case PermissionedDomainEntry:
+		o = &PermissionedDomain{}
 	case RippleStateEntry:
 		o = &RippleState{}
 	case SignerListEntry:
