@@ -62,7 +62,7 @@ const config: Config = {
     [
       "@docusaurus/plugin-content-docs",
       {
-        id: "changelog",
+        id: "changelogPlugin",
         path: "changelog",
         routeBasePath: "changelog",
         sidebarPath: "./sidebarsChangelog.ts",
@@ -82,7 +82,7 @@ const config: Config = {
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "docsSidebar",
           position: "left",
           label: "Docs",
         },
@@ -90,23 +90,23 @@ const config: Config = {
           label: "Changelog",
           position: "right",
           type: "docSidebar", // Remove this line when multiple changelog versions are needed
-          sidebarId: "changelog1", // Remove this line when multiple changelog versions are needed
-          docsPluginId: "changelog", // Remove this line when multiple changelog versions are needed
+          sidebarId: "changelogSidebar1", // Remove this line when multiple changelog versions are needed
+          docsPluginId: "changelogPlugin", // Remove this line when multiple changelog versions are needed
 
           // Uncomment the following lines to enable dropdown multiple changelog versions
           // items: [
           //   {
           //     type: "docSidebar",
-          //     sidebarId: "changelog1",
-          //     docsPluginId: "changelog",
+          //     sidebarId: "changelogSidebar1",
+          //     docsPluginId: "changelogPlugin",
           //     label: "v0.1.x",
           //   },
           // Uncomment in sidebarsChangelog.ts changelog2 line to enable the second changelog version
           // add the next major version files in ./changelog/v0.2.x
           //   {
           //     type: "docSidebar",
-          //     sidebarId: "changelog2",
-          //     docsPluginId: "changelog",
+          //     sidebarId: "changelogSidebar2",
+          //     docsPluginId: "changelogPlugin",
           //     label: "v0.2.x",
           //   },
           // ],
