@@ -48,12 +48,17 @@ A wallet lets the developer sign and multisign transactions easily. The `Wallet`
 // Signing methods
 func (w *Wallet) Sign(tx map[string]interface{}) (string, string, error)
 func (w *Wallet) Multisign(tx map[string]interface{}) (string, string, error)
-func (w *Wallet) SignMultiBatch(tx *transaction.FlatTransaction, opts *SignMultiBatchOptions) error
 ```
 
-- The `Sign` method signs a flat transaction and returns the signed transaction blob and the signature.
-- The `Multisign` method multisigns a flat transaction by adding the wallet's signature to the transaction and returning the resulting transaction blob and the blob hash. Learn more about how multisigns work in the [official documentation](https://xrpl.org/docs/concepts/accounts/multi-signing).
-- The `SignMultiBatch` method signs each `RawTransaction` of a `Batch` transaction, signed by every account involved, excluding the account that's signing the overall transaction.
+The `Sign` method signs a flat transaction and returns the signed transaction blob and the signature.
+
+On the other hand, the `Multisign` method multisigns a flat transaction by adding the wallet's signature to the transaction and returning the resulting transaction blob and the blob hash. Learn more about how multisigns work in the [official documentation](https://xrpl.org/docs/concepts/accounts/multi-signing).
+
+There's also the `SignMultiBatch` package function that signs each `RawTransaction` of a `Batch` transaction, signed by every account involved, excluding the account that's signing the overall transaction.
+
+```go
+func SignMultiBatch(wallet Wallet, tx *transaction.FlatTransaction, opts *SignMultiBatchOptions) error
+```
 
 ## Usage
 
