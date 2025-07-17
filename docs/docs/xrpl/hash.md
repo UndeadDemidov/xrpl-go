@@ -21,7 +21,7 @@ import "github.com/Peersyst/xrpl-go/xrpl/hash"
 ### SignTxBlob
 
 ```go
-func SignTxBlob(blob []byte, secret string) ([]byte, error)
+func SignTxBlob(txBlob string) ([]byte, error)
 ```
 
 Hashes a signed transaction blob and returns the transaction hash or an error if the blob is invalid.
