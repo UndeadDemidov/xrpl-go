@@ -232,12 +232,12 @@ The `server` subpackage provides the following queries requests:
 
 | Request             | Method name                                                                                                              | V1 support | V2 support |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------- | ---------- |
-| `FeatureAllRequest` | [feature_all](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/feature_all)   | ❌         | ✅         |
-| `FeatureOneRequest` | [feature](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/feature)           | ❌         | ✅         |
-| `FeeRequest`        | [fee](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/fee)                   | ❌         | ✅         |
-| `ManifestRequest`   | [manifest](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/manifest)         | ❌         | ✅         |
-| `InfoRequest`       | [server_info](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/server_info)   | ❌         | ✅         |
-| `StateRequest`      | [server_state](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/server_state) | ❌         | ✅         |
+| `FeatureAllRequest` | [feature_all](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/feature_all)   | ✅         | ✅         |
+| `FeatureOneRequest` | [feature](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/feature)           | ✅         | ✅         |
+| `FeeRequest`        | [fee](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/fee)                   | ✅         | ✅         |
+| `ManifestRequest`   | [manifest](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/manifest)         | ✅         | ✅         |
+| `InfoRequest`       | [server_info](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/server_info)   | ✅         | ✅         |
+| `StateRequest`      | [server_state](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/server-info-methods/server_state) | ✅         | ✅         |
 
 #### Usage
 
