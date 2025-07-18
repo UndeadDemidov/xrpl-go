@@ -88,28 +88,25 @@ const config: Config = {
         },
         {
           label: "Changelog",
-          position: "right",
-          type: "docSidebar", // Remove this line when multiple changelog versions are needed
-          sidebarId: "changelogSidebar1", // Remove this line when multiple changelog versions are needed
-          docsPluginId: "changelogPlugin", // Remove this line when multiple changelog versions are needed
+          position: "left",
 
           // Uncomment the following lines to enable dropdown multiple changelog versions
-          // items: [
-          //   {
-          //     type: "docSidebar",
-          //     sidebarId: "changelogSidebar1",
-          //     docsPluginId: "changelogPlugin",
-          //     label: "v0.1.x",
-          //   },
-          // Uncomment in sidebarsChangelog.ts changelog2 line to enable the second changelog version
-          // add the next major version files in ./changelog/v0.2.x
-          //   {
-          //     type: "docSidebar",
-          //     sidebarId: "changelogSidebar2",
-          //     docsPluginId: "changelogPlugin",
-          //     label: "v0.2.x",
-          //   },
-          // ],
+          items: [
+            {
+              type: "docSidebar",
+              sidebarId: "changelogSidebar1",
+              docsPluginId: "changelogPlugin",
+              label: "v0.1.x",
+            },
+            // Uncomment in sidebarsChangelog.ts changelog2 line to enable the second changelog version
+            // add the next major version files in ./changelog/v0.2.x
+            //   {
+            //     type: "docSidebar",
+            //     sidebarId: "changelogSidebar2",
+            //     docsPluginId: "changelogPlugin",
+            //     label: "v0.2.x",
+            //   },
+          ],
         },
         {
           href: "https://github.com/Peersyst/xrpl-go",
@@ -139,6 +136,10 @@ const config: Config = {
             {
               label: "xrpl",
               to: "/docs/xrpl/currency",
+            },
+            {
+              label: "Changelog",
+              to: "changelog/v0.1.x/changelog",
             },
           ],
         },
