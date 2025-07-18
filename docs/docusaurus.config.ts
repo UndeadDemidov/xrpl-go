@@ -95,7 +95,6 @@ const config: Config = {
           label: "Changelog",
           position: "left",
 
-          // Uncomment the following lines to enable dropdown multiple changelog versions
           items: [
             {
               type: "docSidebar",
@@ -144,7 +143,7 @@ const config: Config = {
             },
             {
               label: "Changelog",
-              to: "changelog/v0.1.x/changelog",
+              to: "changelog/v0.1.x/changelog", // When adding a new changelog version, update this path
             },
           ],
         },
