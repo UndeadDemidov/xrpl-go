@@ -54,6 +54,8 @@ The `Sign` method signs a flat transaction and returns the signed transaction bl
 
 On the other hand, the `Multisign` method multisigns a flat transaction by adding the wallet's signature to the transaction and returning the resulting transaction blob and the blob hash. Learn more about how multisigns work in the [official documentation](https://xrpl.org/docs/concepts/accounts/multi-signing).
 
+## Signing a batch transaction
+
 There's also the `SignMultiBatch` package function that signs each `RawTransaction` of a `Batch` transaction, signed by every account involved, excluding the account that's signing the overall transaction.
 
 ```go
