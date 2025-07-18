@@ -1,3 +1,7 @@
+---
+pagination_prev: keypairs
+---
+
 # currency
 
 ## Overview
@@ -33,3 +37,4 @@ func DropsToXrp(value string) (string, error)
 // Non-standard currency codes conversions
 func ConvertStringToHex(input string) string
 func ConvertHexToString(input string) (string, error)
+```

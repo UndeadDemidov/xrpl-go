@@ -109,27 +109,30 @@ func (c *Client) Request(reqParams XRPLRequest) (*ClientResponse, error)
 
 ### Autofill/AutofillMultisigned
 
-The `Autofill` method is used to autofill some fields in a flat transaction. This method is useful for adding dynamic fields like `LastLedgerSequence` or `Fee`. It returns an error if the transaction is not valid or some internall call fails. There's also a `AutofillMultisigned` method that works the same way but for multisigned transactions.
+The `Autofill` method is used to autofill some fields in a flat transaction. This method is useful for adding dynamic fields like `LastLedgerSequence` or `Fee`. It returns an error if the transaction is not valid or some internal call fails. There's also a `AutofillMultisigned` method that works the same way but for multisigned transactions.
+Both methods support `Batch` transactions, filling in both the inner `RawTransactions` and the outer `Batch` transaction.
 
 ```go
 func (c *Client) Autofill(tx *transaction.FlatTransaction) error
 func (c *Client) AutofillMultisigned(tx *transaction.FlatTransaction, nSigners uint64) error
 ```
 
-### Submit/SubmitMultisigned
+### Submit
 
-The `Submit` method is used to submit a transaction to the XRPL network. It returns a `TxResponse` struct containing the transaction result for the blob submitted. `txBlob` must be signed. There's also a `SubmitMultisigned` method that works the same way but for multisigned transactions.
+The `SubmitTx` and `SubmitTxBlob` methods are used to submit a transaction to the XRPL network. They return a `SubmitResponse` struct containing the immediate submission result and status for the submitted blob or flattened transaction. The inputted transaction must be signed. There's also a `SubmitMultisigned` method that works the same way but for multisigned transactions.
 
 ```go
+func (c *Client) SubmitTx(tx transaction.FlatTransaction, opts *rpctypes.SubmitOptions) (*requests.SubmitResponse, error)
 func (c *Client) SubmitTxBlob(txBlob string, failHard bool) (*requests.SubmitResponse, error)
 func (c *Client) SubmitMultisigned(txBlob string, failHard bool) (*requests.SubmitMultisignedResponse, error)
 ```
 
-### SubmitTxBlobAndWait
+### SubmitTxAndWait/SubmitTxBlobAndWait
 
-The `SubmitTxBlobAndWait` method is used to submit a transaction to the XRPL network and wait for it to be included in a ledger. It returns a `TxResponse` struct containing the transaction result for the blob submitted.
+The `SubmitTxAndWait` and `SubmitTxBlobAndWait` methods are used to submit a transaction to the XRPL network and wait for it to be included in a ledger. They return a `TxResponse` struct containing the finalized ledger transaction result for the flattened transaction or blob submitted.
 
 ```go
+func (c *Client) SubmitTxAndWait(tx transaction.FlatTransaction, opts *rpctypes.SubmitOptions) (*requests.TxResponse, error)
 func (c *Client) SubmitTxBlobAndWait(txBlob string, failHard bool) (*requests.TxResponse, error)
 ```
 

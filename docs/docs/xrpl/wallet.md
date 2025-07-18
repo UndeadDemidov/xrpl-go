@@ -54,6 +54,14 @@ The `Sign` method signs a flat transaction and returns the signed transaction bl
 
 On the other hand, the `Multisign` method multisigns a flat transaction by adding the wallet's signature to the transaction and returning the resulting transaction blob and the blob hash. Learn more about how multisigns work in the [official documentation](https://xrpl.org/docs/concepts/accounts/multi-signing).
 
+## Signing a batch transaction
+
+There's also the `SignMultiBatch` package function that signs each `RawTransaction` of a `Batch` transaction, signed by every account involved, excluding the account that's signing the overall transaction.
+
+```go
+func SignMultiBatch(wallet Wallet, tx *transaction.FlatTransaction, opts *SignMultiBatchOptions) error
+```
+
 ## Usage
 
 In this section, we will see how to generate a `Wallet`, call the faucet to get XRP, and send the XRP to another account.
@@ -65,6 +73,7 @@ if err != nil {
     // ...
 }
 ```
+
 Once we have the `Wallet`, we can call the faucet to get XRP. For this example, we will use the `DevnetFaucetProvider` to get XRP on the `devnet` ledger:
 
 ```go
