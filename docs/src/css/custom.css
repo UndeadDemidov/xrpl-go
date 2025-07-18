@@ -80,10 +80,10 @@ main {
   /* no margins */
   margin: 0;
   /* make it bigger */
-  font-size: 1rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   /* your color */
-  color: rgb(68, 73, 80);
+  color: rgb(85, 86, 87);
   line-height: 1.5;
   /* pull it left of links */
   margin-left: -0.5rem;
