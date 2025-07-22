@@ -1,22 +1,18 @@
 version: "2"
-run:
-  tests: false
-  timeout: 1m
-output:
-  formats:
-    text:
-      path: stdout
-      print-linter-name: true
-      print-issued-lines: true
+
 linters:
   enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - ineffassign
+    - unused
     - gocritic
     - gosec
     - misspell
-    - revive
     - unparam
+    - revive
   exclusions:
-    generated: lax
     presets:
       - comments
       - common-false-positives
@@ -25,6 +21,7 @@ linters:
     rules:
       - linters:
           - gosec
+          - errcheck
         path: examples/
       - linters:
           - errcheck
@@ -33,16 +30,22 @@ linters:
           - errcheck
           - unused
         path: _mock\.go
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
+      - linters: [revive]
+        text: "avoid meaningless package names"
 formatters:
   enable:
     - gofmt
-  exclusions:
-    generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
+
+
+run:
+  tests: false
+  timeout: 1m
+
+
+output:
+  formats:
+    text:
+      path: stdout
+      color: true
+      print-linter-name: true
+      print-issued-lines: true
