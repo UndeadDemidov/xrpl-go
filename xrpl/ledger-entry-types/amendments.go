@@ -4,7 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// The Amendments ledger entry type contains a list of Amendments that are currently active.
+// Amendments ledger entry type contains a list of Amendments that are currently active.
 // Each ledger version contains at most one Amendments entry.
 // ```json
 //
@@ -57,11 +57,12 @@ type Amendments struct {
 	PreviousTxnLgrSeq uint32 `json:",omitempty"`
 }
 
-// Returns the type of the ledger entry.
+// EntryType returns the ledger entry type for Amendments.
 func (*Amendments) EntryType() EntryType {
 	return AmendmentsEntry
 }
 
+// MajorityEntry wraps a Majority in the Amendments ledger entry.
 type MajorityEntry struct {
 	Majority Majority
 }

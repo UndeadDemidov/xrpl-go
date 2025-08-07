@@ -1,7 +1,10 @@
+// revive:disable:var-naming
 package types
 
+// Type represents a v1 subscription stream type.
 type Type string
 
+// Stream types used in v1 subscription requests.
 const (
 	LedgerStreamType      Type = "ledgerClosed"
 	ValidationStreamType  Type = "validationReceived"

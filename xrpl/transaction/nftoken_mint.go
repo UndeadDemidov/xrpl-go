@@ -19,7 +19,7 @@ var (
 	ErrAmountRequiredWithExpirationOrDestination = errors.New("amount is required when Expiration or Destination is present")
 )
 
-// The NFTokenMint transaction creates a non-fungible token and adds it to the relevant NFTokenPage object of the NFTokenMinter as an NFToken object.
+// NFTokenMint transaction creates a non-fungible token and adds it to the relevant NFTokenPage object of the NFTokenMinter as an NFToken object.
 // This transaction is the only opportunity the NFTokenMinter has to specify any token fields that are defined as immutable (for example, the TokenFlags).
 //
 // Example:
@@ -94,27 +94,27 @@ const (
 	tfMutable uint32 = 16
 )
 
-// Allow the issuer (or an entity authorized by the issuer) to destroy the minted NFToken. (The NFToken's owner can always do so.)
+// SetBurnableFlag allows the issuer (or an entity authorized by the issuer) to destroy the minted NFToken. (The NFToken's owner can always do so.)
 func (n *NFTokenMint) SetBurnableFlag() {
 	n.Flags |= tfBurnable
 }
 
-// The minted NFToken can only be bought or sold for XRP. This can be desirable if the token has a transfer fee and the issuer does not want to receive fees in non-XRP currencies.
+// SetOnlyXRPFlag restricts the minted NFToken to be bought or sold only for XRP.
 func (n *NFTokenMint) SetOnlyXRPFlag() {
 	n.Flags |= tfOnlyXRP
 }
 
-// DEPRECATED Automatically create trust lines from the issuer to hold transfer fees received from transferring the minted NFToken. The fixRemoveNFTokenAutoTrustLine amendment makes it invalid to set this flag.
+// SetTrustlineFlag is deprecated and was used to auto-create trust lines for transfer fees. (Invalid with fixRemoveNFTokenAutoTrustLine amendment.) Deprecated in favor of tfTransferable.
 func (n *NFTokenMint) SetTrustlineFlag() {
 	n.Flags |= tfTrustLine
 }
 
-// The minted NFToken can be transferred to others. If this flag is not enabled, the token can still be transferred from or to the issuer, but a transfer to the issuer must be made based on a buy offer from the issuer and not a sell offer from the NFT holder.
+// SetTransferableFlag allows the minted NFToken to be transferred to others.
 func (n *NFTokenMint) SetTransferableFlag() {
 	n.Flags |= tfTransferable
 }
 
-// The URI field of the minted NFToken can be updated using the NFTokenModify transaction.
+// SetMutableFlag allows the URI field of the minted NFToken to be updated using the NFTokenModify transaction.
 func (n *NFTokenMint) SetMutableFlag() {
 	n.Flags |= tfMutable
 }

@@ -25,7 +25,13 @@ func main() {
 			WithHost("wss://s.altnet.rippletest.net").
 			WithFaucetProvider(faucet.NewTestnetFaucetProvider()),
 	)
-	defer client.Disconnect()
+
+	defer func() {
+		if err := client.Disconnect(); err != nil {
+			fmt.Println("Error disconnecting:", err)
+		}
+	}()
+
 	fmt.Println("✅ Client configured!")
 	fmt.Println()
 

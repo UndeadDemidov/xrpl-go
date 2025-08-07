@@ -2,6 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
+// XChainCreateAccountProofSig holds the parameters of a proof signature used for cross-chain account creation attestations.
 type XChainCreateAccountProofSig struct {
 	// The amount committed by the XChainAccountCreateCommit transaction on the source chain.
 	Amount types.CurrencyAmount
@@ -17,6 +18,7 @@ type XChainCreateAccountProofSig struct {
 	WasLockingChainSend uint8
 }
 
+// XChainCreateAccountAttestation represents an attestation containing a proof signature from a witness server for cross-chain account creation.
 type XChainCreateAccountAttestation struct {
 	// An attestation from one witness server.
 	XChainCreateAccountProofSig XChainCreateAccountProofSig

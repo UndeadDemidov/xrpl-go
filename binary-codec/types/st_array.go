@@ -9,13 +9,16 @@ import (
 )
 
 const (
-	ArrayEndMarker  = 0xF1
+	// ArrayEndMarker denotes the end of an STArray serialized sequence.
+	ArrayEndMarker = 0xF1
+	// ObjectEndMarker denotes the end of an STObject within an STArray.
 	ObjectEndMarker = 0xE1
 )
 
 // STArray represents an array of STObject instances.
 type STArray struct{}
 
+// ErrNotSTObjectInSTArray is returned when a non-STObject value is found in an STArray.
 var ErrNotSTObjectInSTArray = errors.New("not STObject in STArray. Array fields must be STObjects")
 
 // FromJSON is a method that takes a JSON value (which should be a slice of JSON objects),

@@ -66,9 +66,9 @@ func Encode(json map[string]any) (string, error) {
 	return strings.ToUpper(hex.EncodeToString(b)), nil
 }
 
-// EncodeForMultiSign: encodes a transaction into binary format in preparation for providing one
+// EncodeForMultisigning encodes a transaction into binary format in preparation for providing one
 // signature towards a multi-signed transaction.
-// (Only encodes fields that are intended to be signed.)
+// Only encodes fields that are intended to be signed.
 func EncodeForMultisigning(json map[string]any, xrpAccountID string) (string, error) {
 	st := &types.AccountID{}
 
@@ -90,7 +90,7 @@ func EncodeForMultisigning(json map[string]any, xrpAccountID string) (string, er
 	return strings.ToUpper(txMultiSigPrefix + encoded + hex.EncodeToString(suffix)), nil
 }
 
-// Encodes a transaction into binary format in preparation for signing.
+// EncodeForSigning encodes a transaction into binary format in preparation for signing.
 func EncodeForSigning(json map[string]any) (string, error) {
 
 	encoded, err := Encode(removeNonSigningFields(json))
@@ -102,7 +102,7 @@ func EncodeForSigning(json map[string]any) (string, error) {
 	return strings.ToUpper(txSigPrefix + encoded), nil
 }
 
-// EncodeForPaymentChannelClaim: encodes a payment channel claim into binary format in preparation for signing.
+// EncodeForSigningClaim encodes a payment channel claim into binary format in preparation for signing.
 func EncodeForSigningClaim(json map[string]any) (string, error) {
 
 	if json["Channel"] == nil || json["Amount"] == nil {

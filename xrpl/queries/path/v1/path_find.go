@@ -8,11 +8,16 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// SubCommand represents the path_find subcommand type for session management.
 type SubCommand string
 
+// SubCommand values for opening, closing, and checking status of a path_find session.
 const (
+	// Create starts sending pathfinding information.
 	Create SubCommand = "create"
-	Close  SubCommand = "close"
+	// Close stops sending pathfinding information.
+	Close SubCommand = "close"
+	// Status retrieves information on the currently-open pathfinding request.
 	Status SubCommand = "status"
 )
 
@@ -20,7 +25,8 @@ const (
 // Create Request
 // ############################################################################
 
-// Start sending pathfinding information.
+// FindCreateRequest is the request type for the path_find create subcommand.
+// It starts sending pathfinding information.
 type FindCreateRequest struct {
 	common.BaseRequest
 	Subcommand         SubCommand             `json:"subcommand"`
@@ -31,15 +37,18 @@ type FindCreateRequest struct {
 	Paths              []transaction.PathStep `json:"paths,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the FindCreateRequest.
 func (*FindCreateRequest) Method() string {
 	return "path_find"
 }
 
+// APIVersion returns the API version required by the FindCreateRequest.
 func (*FindCreateRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate verifies the FindCreateRequest parameters.
+// TODO: implement V2.
 func (*FindCreateRequest) Validate() error {
 	return nil
 }
@@ -48,17 +57,20 @@ func (*FindCreateRequest) Validate() error {
 // Close Request
 // ############################################################################
 
-// Stop sending pathfinding information.
+// FindCloseRequest is the request type for the path_find close subcommand.
+// It stops sending pathfinding information.
 type FindCloseRequest struct {
 	common.BaseRequest
 	Subcommand SubCommand `json:"subcommand"`
 }
 
+// Method returns the JSON-RPC method name for the FindCloseRequest.
 func (*FindCloseRequest) Method() string {
 	return "path_find"
 }
 
-// TODO: Implement V2
+// Validate verifies the FindCloseRequest parameters.
+// TODO: implement V2.
 func (*FindCloseRequest) Validate() error {
 	return nil
 }
@@ -67,17 +79,20 @@ func (*FindCloseRequest) Validate() error {
 // Status Request
 // ############################################################################
 
-// Get the information of the currently-open pathfinding request.
+// FindStatusRequest is the request type for the path_find status subcommand.
+// It retrieves information on the currently-open pathfinding request.
 type FindStatusRequest struct {
 	common.BaseRequest
 	Subcommand SubCommand `json:"subcommand"`
 }
 
+// Method returns the JSON-RPC method name for the FindStatusRequest.
 func (*FindStatusRequest) Method() string {
 	return "path_find"
 }
 
-// TODO: Implement V2
+// Validate verifies the FindStatusRequest parameters.
+// TODO: implement V2.
 func (*FindStatusRequest) Validate() error {
 	return nil
 }
@@ -88,7 +103,8 @@ func (*FindStatusRequest) Validate() error {
 
 // TODO: Add ID handling (v2)
 
-// The expected response from the path_find method.
+// FindResponse is the response type returned by the path_find command.
+// It includes payment path alternatives and session status.
 type FindResponse struct {
 	Alternatives       []pathtypes.Alternative `json:"alternatives"`
 	DestinationAccount types.Address           `json:"destination_account"`

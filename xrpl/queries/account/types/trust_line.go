@@ -1,9 +1,11 @@
+//revive:disable:var-naming
 package types
 
 import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// TrustLine defines a trust line between two accounts.
 type TrustLine struct {
 	Account        types.Address `json:"account"`
 	Balance        string        `json:"balance"`

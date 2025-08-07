@@ -9,20 +9,23 @@ import (
 // Request
 // ############################################################################
 
-// The ping command returns an acknowledgement, so that clients can test the
-// connection status and latency.
+// PingRequest returns an acknowledgement so that clients can test the connection
+// status and latency.
 type PingRequest struct {
 	common.BaseRequest
 }
 
+// Method returns the XRPL JSON-RPC method name for PingRequest.
 func (*PingRequest) Method() string {
 	return "ping"
 }
 
+// APIVersion returns the XRPL API version for PingRequest.
 func (*PingRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
+// Validate ensures the PingRequest is valid.
 func (*PingRequest) Validate() error {
 	return nil
 }
@@ -31,7 +34,7 @@ func (*PingRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the ping method.
+// PingResponse is the expected response from the ping method.
 type PingResponse struct {
 	Role      string `json:"role,omitempty"`
 	Unlimited bool   `json:"unlimited,omitempty"`

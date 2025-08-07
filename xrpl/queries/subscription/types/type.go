@@ -1,7 +1,11 @@
+// revive:disable:var-naming
+// Package types defines types for subscription streams in XRPL.
 package types
 
+// Type represents a subscription stream type for server events.
 type Type string
 
+// Stream types used in subscription requests.
 const (
 	LedgerStreamType      Type = "ledgerClosed"
 	ValidationStreamType  Type = "validationReceived"

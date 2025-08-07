@@ -11,12 +11,9 @@ import (
 // Request
 // ############################################################################
 
-//   - The account_channels method returns information about an account's Payment
-//
-// Channels. This includes only channels where the specified account is the
-// channel's source, not the destination. (A channel's "source" and "owner" are
-// the same.) All information retrieved is relative to a particular version of
-// the ledger.
+// ChannelsRequest returns information about an account's Payment Channels where the specified account is the source.
+// Only channels where the account is the channel's source are included.
+// All information is relative to a specific ledger version.
 type ChannelsRequest struct {
 	common.BaseRequest
 	Account            types.Address          `json:"account"`
@@ -32,6 +29,7 @@ func (*ChannelsRequest) Method() string {
 	return "account_channels"
 }
 
+// APIVersion returns the Rippled API version for ChannelsRequest.
 func (*ChannelsRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
@@ -49,7 +47,7 @@ func (r *ChannelsRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_channels method.
+// ChannelsResponse is the response returned by the account_channels method.
 type ChannelsResponse struct {
 	Account     types.Address                `json:"account"`
 	Channels    []accounttypes.ChannelResult `json:"channels"`

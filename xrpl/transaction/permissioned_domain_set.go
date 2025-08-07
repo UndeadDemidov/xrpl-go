@@ -4,7 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// Create a permissioned domain, or modify one that you own.
+// PermissionedDomainSet creates a permissioned domain, or modifies one that you own.
 // (Requires the PermissionedDomains amendment)
 //
 // ```json
@@ -54,6 +54,7 @@ func (p *PermissionedDomainSet) Flatten() FlatTransaction {
 	return flattened
 }
 
+// Validate validates the PermissionedDomainSet transaction.
 func (p *PermissionedDomainSet) Validate() (bool, error) {
 	if ok, err := p.BaseTx.Validate(); !ok {
 		return false, err

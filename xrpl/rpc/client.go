@@ -18,12 +18,14 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/wallet"
 )
 
+// Client is an XRPL RPC client for sending requests and managing transactions.
 type Client struct {
 	cfg *Config
 
 	NetworkID uint32
 }
 
+// NewClient creates a new RPC Client with the given configuration.
 func NewClient(cfg *Config) *Client {
 	return &Client{
 		cfg: cfg,
@@ -192,6 +194,7 @@ func (c *Client) SubmitTxAndWait(tx transaction.FlatTransaction, opts *rpctypes.
 	return c.SubmitTxBlobAndWait(txBlob, opts.FailHard)
 }
 
+// SubmitMultisigned submits a multisigned transaction blob to the server and returns the response.
 func (c *Client) SubmitMultisigned(txBlob string, failHard bool) (*requests.SubmitMultisignedResponse, error) {
 	tx, err := binarycodec.Decode(txBlob)
 	if err != nil {

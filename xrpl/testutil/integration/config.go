@@ -1,7 +1,11 @@
+// Package integration provides configuration and utilities for running XRP Ledger integration tests.
 package integration
 
 const (
-	DefaultMaxRetries  = 3
+	// DefaultMaxRetries is the default number of retry attempts for integration test transactions.
+	DefaultMaxRetries = 3
+
+	// DefaultWalletCount is the default number of wallets to generate for integration tests.
 	DefaultWalletCount = 1
 )
 

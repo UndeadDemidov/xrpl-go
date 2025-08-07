@@ -4,7 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 )
 
-// Delete an empty Automated Market Maker (AMM) instance that could not be fully deleted automatically.
+// AMMDelete deletes an empty Automated Market Maker (AMM) instance that could not be fully deleted automatically.
 // Normally, an AMMWithdraw transaction automatically deletes an AMM and all associated ledger entries when it withdraws all the assets from the AMM's pool.
 // However, if there are too many trust lines to the AMM account to remove in one transaction, it may stop before fully removing the AMM.
 // Similarly, an AMMDelete transaction removes up to a maximum of 512 trust lines; it may take several AMMDelete transactions to delete all the trust lines and the associated AMM.
@@ -57,7 +57,7 @@ func (a *AMMDelete) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the AMMDelete struct and makes sure all fields are correct.
+// Validate checks the AMMDelete transaction fields for correctness.
 func (a *AMMDelete) Validate() (bool, error) {
 	_, err := a.BaseTx.Validate()
 	if err != nil {

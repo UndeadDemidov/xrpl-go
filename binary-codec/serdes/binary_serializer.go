@@ -12,11 +12,13 @@ var (
 	ErrLengthPrefixTooLong = errors.New("length of value must not exceed 918744 bytes of data")
 )
 
+// BinarySerializer serializes field instances and their values into binary format.
 type BinarySerializer struct {
 	sink         []byte
 	fieldIDCodec interfaces.FieldIDCodec
 }
 
+// NewBinarySerializer creates a BinarySerializer with the provided FieldIDCodec.
 func NewBinarySerializer(fieldIDCodec interfaces.FieldIDCodec) *BinarySerializer {
 	return &BinarySerializer{
 		fieldIDCodec: fieldIDCodec,
@@ -27,6 +29,7 @@ func (s *BinarySerializer) put(v []byte) {
 	s.sink = append(s.sink, v...)
 }
 
+// GetSink returns the serialized binary data accumulated in the serializer.
 func (s *BinarySerializer) GetSink() []byte {
 	return s.sink
 }

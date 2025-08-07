@@ -10,21 +10,23 @@ import (
 // Request
 // ############################################################################
 
-// The server_info command asks the server for a human-readable version of
-// various information about the rippled server being queried.
+// InfoRequest represents a server_info request for human-readable server information.
 type InfoRequest struct {
 	common.BaseRequest
 }
 
+// Method returns the JSON-RPC method name for the InfoRequest.
 func (*InfoRequest) Method() string {
 	return "server_info"
 }
 
+// APIVersion returns the supported API version for the InfoRequest.
 func (*InfoRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement V2
+// Validate checks that the InfoRequest is correctly formed.
+// // TODO implement V2
 func (*InfoRequest) Validate() error {
 	return nil
 }

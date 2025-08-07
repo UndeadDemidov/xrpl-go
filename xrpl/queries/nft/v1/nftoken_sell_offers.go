@@ -11,8 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The nft_sell_offers method retrieves all of sell offers for the specified
-// NFToken.
+// NFTokenSellOffersRequest represents a request to retrieve all sell offers for a specified NFToken.
 type NFTokenSellOffersRequest struct {
 	common.BaseRequest
 	NFTokenID   types.NFTokenID        `json:"nft_id"`
@@ -20,15 +19,18 @@ type NFTokenSellOffersRequest struct {
 	LedgerIndex common.LedgerSpecifier `json:"ledger_index,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the NFTokenSellOffersRequest.
 func (*NFTokenSellOffersRequest) Method() string {
 	return "nft_sell_offers"
 }
 
+// APIVersion returns the supported API version for the NFTokenSellOffersRequest.
 func (*NFTokenSellOffersRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate checks that the NFTokenSellOffersRequest is correctly formed.
+// TODO implement V2
 func (*NFTokenSellOffersRequest) Validate() error {
 	return nil
 }
@@ -37,7 +39,7 @@ func (*NFTokenSellOffersRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the nft_sell_offers method.
+// NFTokenSellOffersResponse contains all sell offers returned for a specified NFToken.
 type NFTokenSellOffersResponse struct {
 	NFTokenID types.NFTokenID         `json:"nft_id"`
 	Offers    []nfttypes.NFTokenOffer `json:"offers"`

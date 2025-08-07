@@ -6,6 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// UnsubscribeOrderBook represents an order book subscription filter to stop receiving updates.
 type UnsubscribeOrderBook struct {
 	TakerGets types.IssuedCurrencyAmount `json:"taker_gets,omitempty"`
 	TakerPays types.IssuedCurrencyAmount `json:"taker_pays,omitempty"`
@@ -16,8 +17,7 @@ type UnsubscribeOrderBook struct {
 // Request
 // ############################################################################
 
-// The unsubscribe command tells the server to stop sending messages for a
-// particular subscription or set of subscriptions.
+// UnsubscribeRequest tells the server to stop sending messages for specific subscriptions.
 type UnsubscribeRequest struct {
 	common.BaseRequest
 	Streams          []string               `json:"streams,omitempty"`
@@ -26,15 +26,17 @@ type UnsubscribeRequest struct {
 	Books            []UnsubscribeOrderBook `json:"books,omitempty"`
 }
 
+// Method returns the XRPL JSON-RPC method name for UnsubscribeRequest.
 func (*UnsubscribeRequest) Method() string {
 	return "unsubscribe"
 }
 
-// TODO: Implement V2
+// Validate ensures the UnsubscribeRequest is valid.
 func (*UnsubscribeRequest) Validate() error {
 	return nil
 }
 
+// APIVersion returns the XRPL API version for UnsubscribeRequest.
 func (*UnsubscribeRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
@@ -43,6 +45,6 @@ func (*UnsubscribeRequest) APIVersion() int {
 // Response
 // ############################################################################
 
-// The expected response from the unsubscribe method.
+// UnsubscribeResponse is the expected response from the unsubscribe method.
 type UnsubscribeResponse struct {
 }

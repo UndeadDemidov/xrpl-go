@@ -12,35 +12,13 @@ linters:
     - misspell
     - unparam
     - revive
-  exclusions:
-    presets:
-      - comments
-      - common-false-positives
-      - legacy
-      - std-error-handling
-    rules:
-      - linters:
-          - gosec
-          - errcheck
-        path: examples/
-      - linters:
-          - errcheck
-        path: _test\.go
-      - linters:
-          - errcheck
-          - unused
-        path: _mock\.go
-      - linters: [revive]
-        text: "avoid meaningless package names"
 formatters:
   enable:
     - gofmt
 
-
 run:
   tests: false
   timeout: 1m
-
 
 output:
   formats:

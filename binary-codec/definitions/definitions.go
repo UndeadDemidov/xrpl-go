@@ -14,6 +14,7 @@ var (
 	definitions *Definitions
 )
 
+// Definitions holds the binary serialization definitions for the XRP Ledger, loaded from the RFC JSON document.
 type Definitions struct {
 	Types                  map[string]int32
 	LedgerEntryTypes       map[string]int32
@@ -25,6 +26,7 @@ type Definitions struct {
 	DelegatablePermissions map[string]int32
 }
 
+// Get returns the singleton instance of Definitions.
 func Get() *Definitions {
 	return definitions
 }

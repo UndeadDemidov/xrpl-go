@@ -1,5 +1,6 @@
 package types
 
+// NFTokenID represents the identifier of a non-fungible token.
 type NFTokenID Hash256
 
 // String returns the string representation of a NFTokenID.

@@ -8,13 +8,12 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// ErrInvalidXChainClaimID is returned when the XChainClaimID is invalid or missing.
 var (
 	ErrInvalidXChainClaimID = errors.New("invalid XChainClaimID")
 )
 
-// (Requires the XChainBridge amendment )
-//
-// The XChainAddClaimAttestation transaction provides proof from a witness server,
+// XChainAddClaimAttestation transaction provides proof from a witness server,
 // attesting to an XChainCommit transaction.
 //
 // The signature must be from one of the keys on the door's signer list at the time the signature was provided.
@@ -22,6 +21,7 @@ var (
 // the new signature set is used and some of the currently collected signatures may be removed.
 //
 // Any account can submit signatures.
+// (Requires the XChainBridge amendment)
 //
 // ```json
 //

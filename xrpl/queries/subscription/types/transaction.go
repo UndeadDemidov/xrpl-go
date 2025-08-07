@@ -5,6 +5,7 @@ import (
 	transactions "github.com/Peersyst/xrpl-go/xrpl/transaction"
 )
 
+// TransactionStream represents a transaction notification in a subscription stream.
 type TransactionStream struct {
 	// The ledger close time represented in ISO 8601 time format.
 	CloseTimeISO string `json:"close_time_iso"`

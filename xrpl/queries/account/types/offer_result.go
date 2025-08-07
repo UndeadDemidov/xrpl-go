@@ -1,7 +1,9 @@
 package types
 
+// OfferResultFlags defines the bit flags associated with an offer result.
 type OfferResultFlags uint
 
+// OfferResult represents the result of an offer in the XRP Ledger order book.
 type OfferResult struct {
 	Flags    OfferResultFlags `json:"flags"`
 	Sequence uint             `json:"seq"`

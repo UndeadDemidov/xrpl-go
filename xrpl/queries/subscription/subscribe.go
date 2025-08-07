@@ -12,8 +12,7 @@ import (
 // Request
 // ############################################################################
 
-// The subscribe method requests periodic notifications from the server when
-// certain events happen.
+// Request requests periodic notifications from the server when certain events happen.
 type Request struct {
 	common.BaseRequest
 	Streams          []string                `json:"streams,omitempty"`
@@ -25,15 +24,18 @@ type Request struct {
 	URLPassword      string                  `json:"url_password,omitempty"`
 }
 
+// Method returns the XRPL JSON-RPC method name for Request.
 func (*Request) Method() string {
 	return "subscribe"
 }
 
-// TODO: Implement V2
+// Validate ensures the Request is valid.
+// TODO implement v2
 func (*Request) Validate() error {
 	return nil
 }
 
+// APIVersion returns the XRPL API version for Request.
 func (*Request) APIVersion() int {
 	return version.RippledAPIV2
 }
@@ -42,7 +44,7 @@ func (*Request) APIVersion() int {
 // Response
 // ############################################################################
 
-// The expected response from the subscribe method.
+// Response is the expected response from the subscribe method.
 type Response struct {
 	LoadBase         uint               `json:"load_base,omitempty"`
 	LoadFactor       uint               `json:"load_factor,omitempty"`

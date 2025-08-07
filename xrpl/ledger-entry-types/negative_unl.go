@@ -2,8 +2,8 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// (Added by the NegativeUNL amendment.)
-// The NegativeUNL ledger entry type contains the current status of the Negative UNL, a list of trusted validators currently believed to be offline.
+// NegativeUNL represents a ledger entry containing the current status of the Negative UNL,
+// a list of trusted validators currently believed to be offline.
 //
 // Each ledger version contains at most one NegativeUNL entry. If no validators are
 // currently disabled or scheduled to be disabled, there is no NegativeUNL entry.
@@ -56,13 +56,12 @@ func (*NegativeUNL) EntryType() EntryType {
 	return NegativeUNLEntry
 }
 
-// Each DisabledValidator object represents one disabled validator. In JSON, a
-// DisabledValidator object has one field, DisabledValidator, which in turn contains
-// another object with the following fields:
+// DisabledValidatorEntry represents an entry for a disabled validator in the NegativeUNL ledger entry.
 type DisabledValidatorEntry struct {
 	DisabledValidator DisabledValidator
 }
 
+// DisabledValidator describes a disabled validator in the NegativeUNL ledger entry, including the ledger sequence when disabled and the public key.
 type DisabledValidator struct {
 	// The ledger index when the validator was added to the Negative UNL.
 	FirstLedgerSequence uint32

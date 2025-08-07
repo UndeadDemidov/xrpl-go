@@ -1,3 +1,4 @@
+// Package testutil provides utilities for testing JSON flattening and serialization.
 package testutil
 
 import (
@@ -5,7 +6,7 @@ import (
 	"fmt"
 )
 
-// Func to compare a flatten object and a JSON string
+// CompareFlattenAndExpected compares a flattened map and expected JSON bytes and returns an error if they differ.
 func CompareFlattenAndExpected(flattened map[string]interface{}, expected []byte) error {
 	// Convert flattened to JSON
 	flattenedJSON, err := json.Marshal(flattened)

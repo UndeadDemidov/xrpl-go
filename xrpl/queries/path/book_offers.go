@@ -11,8 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The book_offers method retrieves a list of offers, also known as the order
-// book, between two currencies.
+// BookOffersRequest retrieves a list of offers (order book) between two currencies.
 type BookOffersRequest struct {
 	common.BaseRequest
 	TakerGets   pathtypes.BookOfferCurrency `json:"taker_gets"`
@@ -23,15 +22,18 @@ type BookOffersRequest struct {
 	Limit       int                         `json:"limit,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the BookOffersRequest.
 func (*BookOffersRequest) Method() string {
 	return "book_offers"
 }
 
+// APIVersion returns the supported API version for the BookOffersRequest.
 func (*BookOffersRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement V2
+// Validate checks that the BookOffersRequest is correctly formed.
+// TODO implement V2
 func (*BookOffersRequest) Validate() error {
 	return nil
 }
@@ -40,7 +42,7 @@ func (*BookOffersRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the book_offers method.
+// BookOffersResponse contains the data returned by a BookOffersRequest, including the list of offers.
 type BookOffersResponse struct {
 	LedgerCurrentIndex common.LedgerIndex    `json:"ledger_current_index,omitempty"`
 	LedgerIndex        common.LedgerIndex    `json:"ledger_index,omitempty"`

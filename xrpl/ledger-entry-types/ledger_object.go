@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// EntryType represents the type of a ledger entry as a string identifier.
 type EntryType string
 
 const (
@@ -34,12 +35,15 @@ const (
 	XChainOwnedCreateAccountClaimIDEntry EntryType = "XChainOwnedCreateAccountClaimID"
 )
 
+// FlatLedgerObject represents a generic ledger entry as a flat map of field names to values.
 type FlatLedgerObject map[string]interface{}
 
+// EntryType returns the LedgerEntryType string stored in this flat object.
 func (f FlatLedgerObject) EntryType() EntryType {
 	return EntryType(f["LedgerEntryType"].(string))
 }
 
+// Object represents a generic ledger entry object with an EntryType method.
 type Object interface {
 	EntryType() EntryType
 }
@@ -98,6 +102,7 @@ func EmptyLedgerObject(t string) (Object, error) {
 	return nil, fmt.Errorf("unrecognized LedgerObject type \"%s\"", t)
 }
 
+// UnmarshalLedgerObject parses the provided JSON data into the correct ledger entry object based on its LedgerEntryType.
 func UnmarshalLedgerObject(data []byte) (Object, error) {
 	if len(data) == 0 {
 		return nil, nil

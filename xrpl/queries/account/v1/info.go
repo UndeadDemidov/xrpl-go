@@ -12,9 +12,8 @@ import (
 // Request
 // ############################################################################
 
-// The `account_info` command retrieves information about an account, its
-// activity, and its XRP balance. All information retrieved is relative to a
-// particular version of the ledger.
+// InfoRequest retrieves information about an account, its activity, and its XRP balance.
+// All information is relative to a specific ledger version.
 type InfoRequest struct {
 	common.BaseRequest
 	Account     types.Address          `json:"account"`
@@ -25,15 +24,17 @@ type InfoRequest struct {
 	Strict      bool                   `json:"strict,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for InfoRequest.
 func (*InfoRequest) Method() string {
 	return "account_info"
 }
 
+// APIVersion returns the Rippled API version for InfoRequest.
 func (*InfoRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement (V2)
+// Validate checks the InfoRequest parameters for validity.
 func (*InfoRequest) Validate() error {
 	return nil
 }

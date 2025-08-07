@@ -7,6 +7,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// Transaction represents a transaction with metadata and blob returned by account_tx.
 type Transaction struct {
 	LedgerIndex uint64                      `json:"ledger_index"`
 	Meta        transaction.TxObjMeta       `json:"meta"`
@@ -19,8 +20,7 @@ type Transaction struct {
 // Request
 // ############################################################################
 
-// The account_tx method retrieves a list of transactions that involved the
-// specified account.
+// TransactionsRequest retrieves a list of transactions involving the specified account.
 type TransactionsRequest struct {
 	common.BaseRequest
 	Account        types.Address          `json:"account"`
@@ -34,15 +34,18 @@ type TransactionsRequest struct {
 	Marker         any                    `json:"marker,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for TransactionsRequest.
 func (*TransactionsRequest) Method() string {
 	return "account_tx"
 }
 
+// APIVersion returns the Rippled API version for TransactionsRequest.
 func (*TransactionsRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement (V2)
+// Validate checks the TransactionsRequest for valid parameters.
+// TODO implement v2
 func (*TransactionsRequest) Validate() error {
 	return nil
 }

@@ -2,8 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// (Added by the PayChan amendment.)
-// A PayChannel entry represents a payment channel.
+// PayChannel represents a ledger entry for a payment channel (added by the PayChan amendment).
 type PayChannel struct {
 	// The unique ID for this ledger entry. In JSON, this field is represented with different names depending on the
 	// context and API method. (Note, even though this is specified as "optional" in the code, every ledger entry

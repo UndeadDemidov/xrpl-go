@@ -1,3 +1,4 @@
+// Package types provides types for the subscription streams, including book changes events.
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/queries/common"
@@ -32,9 +33,8 @@ type BookUpdate struct {
 	Close interface{} `json:"close"`
 }
 
-// The book_changes stream sends bookChanges messages whenever a new ledger is validated. This message
-// contains a summary of all changes to order books in the decentralized exchange that occurred in that
-// ledger.
+// BookChangesStream sends bookChanges messages whenever a new ledger is validated.
+// It contains a summary of all changes to order books in the decentralized exchange for that ledger.
 type BookChangesStream struct {
 	// The value bookChanges indicates this is from the Book Changes stream.
 	Type Type `json:"type"`

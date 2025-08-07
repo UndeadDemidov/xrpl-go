@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// Deserialize unmarshals the JSON string d into s and verifies the result matches the original.
 func Deserialize(s interface{}, d string) error {
 	decode := reflect.New(reflect.TypeOf(s))
 	err := json.Unmarshal([]byte(d), decode.Interface())
@@ -22,6 +23,7 @@ func Deserialize(s interface{}, d string) error {
 
 }
 
+// Serialize marshals s into JSON and asserts it equals the expected string d.
 func Serialize(t *testing.T, s interface{}, d string) error {
 	j, err := json.MarshalIndent(s, "", "\t")
 	if err != nil {
@@ -31,6 +33,7 @@ func Serialize(t *testing.T, s interface{}, d string) error {
 	return nil
 }
 
+// SerializeAndDeserialize runs Serialize then Deserialize for s and d.
 func SerializeAndDeserialize(t *testing.T, s interface{}, d string) error {
 	if err := Serialize(t, s, d); err != nil {
 		return err

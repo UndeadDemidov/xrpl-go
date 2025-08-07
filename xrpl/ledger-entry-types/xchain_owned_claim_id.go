@@ -2,6 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
+// XChainClaimProofSig holds the parameters of a proof signature for a cross-chain claim attestation.
 type XChainClaimProofSig struct {
 	// The amount to claim in the XChainCommit transaction on the destination chain.
 	Amount types.CurrencyAmount
@@ -17,6 +18,7 @@ type XChainClaimProofSig struct {
 	WasLockingChainSend uint8
 }
 
+// XChainClaimAttestation represents an attestation containing a proof signature from a witness server for a cross-chain claim.
 type XChainClaimAttestation struct {
 	// An attestation from one witness server.
 	XChainClaimProofSig XChainClaimProofSig

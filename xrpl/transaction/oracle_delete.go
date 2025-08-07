@@ -1,6 +1,6 @@
 package transaction
 
-// Deletes a price oracle for the Account.
+// OracleDelete deletes a price oracle for the Account.
 // ```json
 //
 //	{
@@ -16,12 +16,12 @@ type OracleDelete struct {
 	OracleDocumentID uint32
 }
 
-// Returns the type of the transaction.
+// TxType returns the type of the transaction.
 func (tx *OracleDelete) TxType() TxType {
 	return OracleDeleteTx
 }
 
-// Returns a flattened transaction.
+// Flatten returns a flattened transaction.
 func (tx *OracleDelete) Flatten() FlatTransaction {
 	flattened := tx.BaseTx.Flatten()
 
@@ -32,7 +32,7 @@ func (tx *OracleDelete) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the transaction.
+// Validate checks that the OracleDelete transaction is valid.
 func (tx *OracleDelete) Validate() (bool, error) {
 	return tx.BaseTx.Validate()
 }
