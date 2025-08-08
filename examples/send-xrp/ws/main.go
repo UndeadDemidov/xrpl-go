@@ -71,6 +71,11 @@ func main() {
 		return
 	}
 
+	if xrpAmountInt < 0 {
+		fmt.Printf("❌ XRP amount %d cannot be negative\n", xrpAmountInt)
+		return
+	}
+
 	fmt.Println("⏳ Sending 1 XRP to rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe...")
 	p := &transaction.Payment{
 		BaseTx: transaction.BaseTx{

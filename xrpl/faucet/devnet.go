@@ -51,8 +51,9 @@ func (fp *DevnetFaucetProvider) FundWallet(address types.Address) error {
 	if err != nil {
 		return fmt.Errorf("error sending POST request: %v", err)
 	}
-	defer resp.Body.Close()
-
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}

@@ -101,6 +101,11 @@ func main() {
 		return
 	}
 
+	if seq < 0 || seq > 0xFFFFFFFF {
+		fmt.Printf("❌ Ticket sequence %d is out of uint32 range\n", seq)
+		return
+	}
+
 	fmt.Println("⏳ Submitting AccountSet transaction...")
 	as := &transaction.AccountSet{
 		BaseTx: transaction.BaseTx{

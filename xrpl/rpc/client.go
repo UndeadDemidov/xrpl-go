@@ -65,8 +65,9 @@ func (c *Client) Request(reqParams XRPLRequest) (XRPLResponse, error) {
 	}
 
 	// allow client to reuse persistent connection
-	defer response.Body.Close()
-
+	defer func() {
+		_ = response.Body.Close()
+	}()
 	// Check for service unavailable response and retry if so
 	if response.StatusCode == 503 {
 
