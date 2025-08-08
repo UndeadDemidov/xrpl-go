@@ -5,15 +5,13 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// (Requires the XChainBridge amendment )
-//
-// The XChainCreateClaimID transaction creates a new cross-chain claim ID that is used for a cross-chain transfer.
+// XChainCreateClaimID transaction creates a new cross-chain claim ID that is used for a cross-chain transfer.
 // A cross-chain claim ID represents one cross-chain transfer of value.
 //
 // This transaction is the first step of a cross-chain transfer of value and is submitted on the destination chain,
 // not the source chain.
 //
-// It also includes the account on the source chain that locks or burns the funds on the source chain.
+// It also includes the account on the source chain that locks or burns the funds on the source chain.// (Requires the XChainBridge amendment )
 //
 // ```json
 //
@@ -47,12 +45,12 @@ type XChainCreateClaimID struct {
 	XChainBridge types.XChainBridge
 }
 
-// Returns the type of the transaction.
+// TxType returns the transaction type identifier for XChainCreateClaimID.
 func (x *XChainCreateClaimID) TxType() TxType {
 	return XChainCreateClaimIDTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a flat representation of the transaction.
 func (x *XChainCreateClaimID) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -73,7 +71,7 @@ func (x *XChainCreateClaimID) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate checks the transaction fields for correctness and returns an error if invalid.
 func (x *XChainCreateClaimID) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

@@ -14,10 +14,12 @@ import (
 	pathtypes "github.com/Peersyst/xrpl-go/xrpl/queries/path/types"
 )
 
+// DestinationAccount is the XRP address receiving the payment in this example.
 const (
 	DestinationAccount = types.Address("rKT4JX4cCof6LcDYRz8o3rGRu7qxzZ2Zwj")
 )
 
+// DestinationAmount is the currency amount sent to the destination account in this example.
 var (
 	DestinationAmount = types.IssuedCurrencyAmount{
 		Issuer:   "rVnYNK9yuxBz4uP8zC8LEFokM2nqH3poc",

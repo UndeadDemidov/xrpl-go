@@ -8,6 +8,7 @@ import (
 // EntryType represents the type of a ledger entry as a string identifier.
 type EntryType string
 
+// EntryType constants define all supported ledger entry types.
 const (
 	AccountRootEntry                     EntryType = "AccountRoot"
 	AmendmentsEntry                      EntryType = "Amendments"
@@ -48,6 +49,8 @@ type Object interface {
 	EntryType() EntryType
 }
 
+// EmptyLedgerObject returns a new empty ledger object matching the given entry type string.
+// Returns an error if the entry type is unrecognized.
 func EmptyLedgerObject(t string) (Object, error) {
 	switch EntryType(t) {
 	case AccountRootEntry:

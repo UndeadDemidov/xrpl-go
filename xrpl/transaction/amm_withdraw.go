@@ -5,7 +5,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// Withdraw assets from an Automated Market Maker (AMM) instance by returning the AMM's liquidity provider tokens (LP Tokens).
+// AMMWithdraw withdraws assets from an Automated Market Maker (AMM) by redeeming liquidity provider tokens (LP Tokens).
 //
 // # Example
 //
@@ -60,37 +60,37 @@ const (
 	tfOneAssetWithdrawAll uint32 = 262144
 )
 
-// Perform a double-asset withdrawal and receive the specified amount of LP Tokens.
+// SetLPTokentFlag performs a double-asset withdrawal and receives the specified amount of LP Tokens.
 func (a *AMMWithdraw) SetLPTokentFlag() {
 	a.Flags |= tfLPToken
 }
 
-// Perform a double-asset withdrawal returning all your LP Tokens.
+// SetWithdrawAllFlag performs a double-asset withdrawal returning all your LP Tokens.
 func (a *AMMWithdraw) SetWithdrawAllFlag() {
 	a.Flags |= tfWithdrawAll
 }
 
-// Perform a single-asset withdrawal returning all of your LP Tokens.
+// SetOneAssetWithdrawAllFlag performs a single-asset withdrawal returning all of your LP Tokens.
 func (a *AMMWithdraw) SetOneAssetWithdrawAllFlag() {
 	a.Flags |= tfOneAssetWithdrawAll
 }
 
-// Perform a single-asset withdrawal with a specified amount of the asset to withdrawal.
+// SetSingleAssetFlag performs a single-asset withdrawal with a specified amount of the asset to withdraw.
 func (a *AMMWithdraw) SetSingleAssetFlag() {
 	a.Flags |= tfSingleAsset
 }
 
-// Perform a double-asset withdrawal with specified amounts of both assets.
+// SetTwoAssetFlag performs a double-asset withdrawal with specified amounts of both assets.
 func (a *AMMWithdraw) SetTwoAssetFlag() {
 	a.Flags |= tfTwoAsset
 }
 
-// Perform a single-asset withdrawal and receive the specified amount of LP Tokens.
+// SetOneAssetLPTokenFlag performs a single-asset withdrawal and receives the specified amount of LP Tokens.
 func (a *AMMWithdraw) SetOneAssetLPTokenFlag() {
 	a.Flags |= tfOneAssetLPToken
 }
 
-// Perform a single-asset withdrawal with a specified effective price.
+// SetLimitLPTokenFlag performs a single-asset withdrawal with a specified effective price.
 func (a *AMMWithdraw) SetLimitLPTokenFlag() {
 	a.Flags |= tfLimitLPToken
 }
