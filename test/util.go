@@ -33,6 +33,7 @@ func SerializeAndDeserialize(t *testing.T, s interface{}, d string) error {
 	if err != nil {
 		return err
 	}
+	
 	require.Equal(t, s, decode.Elem().Interface(), "json decoding does not match expected struct")
 	return nil
 }
