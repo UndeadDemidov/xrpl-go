@@ -101,6 +101,14 @@ func GetTxTypeOfString(t string) TxType {
 		return TrustSetTx
 	case TicketCreateTx:
 		return TicketCreateTx
+	case MPTokenAuthorizeTx:
+		return MPTokenAuthorizeTx
+	case MPTokenIssuanceCreateTx:
+		return MPTokenIssuanceCreateTx
+	case MPTokenIssuanceDestroyTx:
+		return MPTokenIssuanceDestroyTx
+	case MPTokenIssuanceSetTx:
+		return MPTokenIssuanceSetTx
 	case HashedTx:
 		return HashedTx
 	case BinaryTx:
