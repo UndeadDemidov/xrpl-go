@@ -83,7 +83,6 @@ func (m MPTokenMetadata) Validate() error {
 	switch m.AssetClass {
 	case "rwa", "memes", "wrapped", "gaming", "defi", "other":
 		// ok
-		break
 	default:
 		return fmt.Errorf("invalid asset class: %s", m.AssetClass)
 	}
@@ -91,10 +90,9 @@ func (m MPTokenMetadata) Validate() error {
 	switch m.AssetSubclass {
 	case "stablecoin", "commodity", "real_estate", "private_credit", "equity", "treasury", "other":
 		// ok
-		break
 	default:
 		return fmt.Errorf("invalid asset subclass: %s", m.AssetSubclass)
 	}
 
-	return fmt.Errorf("invalid asset class or subclass: %s, %s", m.AssetClass, m.AssetSubclass)
+	return nil
 }
