@@ -89,10 +89,47 @@ func (a *Amount) FromJson(value any) ([]byte, error) {
 	case types.MPTCurrencyAmount:
 		return serializeMPTCurrencyAmount(v)
 	case map[string]interface{}:
+		// Check if this is an MPT transaction
+		if mpIssuanceID, hasMPT := v["mp_issuance_id"]; hasMPT {
+			var mpt types.MPTCurrencyAmount
+			if value, hasValue := v["value"]; hasValue {
+				if strValue, ok := value.(string); ok {
+					mpt.Value = strValue
+				} else {
+					return nil, fmt.Errorf("MPT value must be a string, got %T", value)
+				}
+			}
+			if strMPTIssuanceID, ok := mpIssuanceID.(string); ok {
+				mpt.MPTIssuanceID = strMPTIssuanceID
+			} else {
+				return nil, fmt.Errorf("MPT issuance ID must be a string, got %T", mpIssuanceID)
+			}
+			return serializeMPTCurrencyAmount(mpt)
+		}
+
+		// Handle IssuedCurrencyAmount
 		var cur types.IssuedCurrencyAmount
-		cur.Issuer = types.Address(v["issuer"].(string))
-		cur.Currency = v["currency"].(string)
-		cur.Value = v["value"].(string)
+		if issuer, hasIssuer := v["issuer"]; hasIssuer && issuer != nil {
+			if strIssuer, ok := issuer.(string); ok {
+				cur.Issuer = types.Address(strIssuer)
+			} else {
+				return nil, fmt.Errorf("issuer must be a string, got %T", issuer)
+			}
+		}
+		if currency, hasCurrency := v["currency"]; hasCurrency && currency != nil {
+			if strCurrency, ok := currency.(string); ok {
+				cur.Currency = strCurrency
+			} else {
+				return nil, fmt.Errorf("currency must be a string, got %T", currency)
+			}
+		}
+		if value, hasValue := v["value"]; hasValue && value != nil {
+			if strValue, ok := value.(string); ok {
+				cur.Value = strValue
+			} else {
+				return nil, fmt.Errorf("value must be a string, got %T", value)
+			}
+		}
 		return serializeIssuedCurrencyAmount(cur)
 	case string:
 		i64, e := strconv.ParseInt(v, 10, 64)
