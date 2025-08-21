@@ -1,6 +1,8 @@
 package types
 
 import (
+	"encoding/binary"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -126,14 +128,43 @@ func (a *XRPCurrencyAmount) UnmarshalText(data []byte) error {
 }
 
 type MPTCurrencyAmount struct {
-	MPTIssuanceID string `json:"mp_issuance_id,omitempty"`
-	Value         string `json:"value,omitempty"`
+	MPTIssuanceID Hash192 `json:"mp_issuance_id,omitempty"`
+	Value         string  `json:"value,omitempty"`
 }
 
 func (MPTCurrencyAmount) Kind() CurrencyKind {
 	return MPT
 }
 
-func (MPTCurrencyAmount) Validate() error {
+func (a MPTCurrencyAmount) Validate() error {
+	if err := a.MPTIssuanceID.Validate(); err != nil {
+		return fmt.Errorf("mp_issuance_id: %w", err)
+	}
 	return nil
+}
+
+func (a MPTCurrencyAmount) IssuerAccountID() ([]byte, error) {
+	if err := a.Validate(); err != nil {
+		return nil, err
+	}
+
+	issuanceID, err := hex.DecodeString(string(a.MPTIssuanceID))
+	if err != nil {
+		return nil, err
+	}
+
+	return issuanceID[4:], nil
+}
+
+func (a MPTCurrencyAmount) SequenceNumber() (uint32, error) {
+	if err := a.Validate(); err != nil {
+		return 0, err
+	}
+
+	issuanceID, err := hex.DecodeString(string(a.MPTIssuanceID))
+	if err != nil {
+		return 0, err
+	}
+
+	return binary.BigEndian.Uint32(issuanceID[:4]), nil
 }

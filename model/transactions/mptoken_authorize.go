@@ -6,7 +6,7 @@ import (
 
 type MPTokenAuthorize struct {
 	BaseTx
-	MPTokenIssuanceID string        `json:",omitempty"`
+	MPTokenIssuanceID types.Hash192 `json:",omitempty"`
 	Holder            types.Address `json:",omitempty"`
 	Flags             *types.Flag   `json:",omitempty"`
 }

@@ -1,6 +1,7 @@
 package types
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"testing"
 )
@@ -182,6 +183,74 @@ func TestUnmarshalCurrencyAmount_JSONRoundTrip(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestMPTCurrencyAmount_Methods(t *testing.T) {
+	// Test with the specific values provided by the user
+	mpt := MPTCurrencyAmount{
+		MPTIssuanceID: "005342F3D0045E31BC8E02B4A85A5FE56B33AA25C3745405",
+		Value:         "100.00",
+	}
+
+	t.Run("Validate", func(t *testing.T) {
+		err := mpt.Validate()
+		if err != nil {
+			t.Errorf("Validate() failed: %v", err)
+		}
+	})
+
+	t.Run("Kind", func(t *testing.T) {
+		kind := mpt.Kind()
+		if kind != MPT {
+			t.Errorf("Kind() = %v, want %v", kind, MPT)
+		}
+	})
+
+	t.Run("SequenceNumber", func(t *testing.T) {
+		sequence, err := mpt.SequenceNumber()
+		if err != nil {
+			t.Errorf("SequenceNumber() failed: %v", err)
+		}
+
+		expectedSequence := uint32(5456627)
+		if sequence != expectedSequence {
+			t.Errorf("SequenceNumber() = %v, want %v", sequence, expectedSequence)
+		}
+	})
+
+	t.Run("IssuerAccountID", func(t *testing.T) {
+		issuerID, err := mpt.IssuerAccountID()
+		if err != nil {
+			t.Errorf("IssuerAccountID() failed: %v", err)
+		}
+
+		// The issuer account ID should be the last 20 bytes (40 hex chars) of the MPTIssuanceID
+		// Removing the first 4 bytes (8 hex chars) which represent the sequence number
+		expectedIssuerHex := "D0045E31BC8E02B4A85A5FE56B33AA25C3745405"
+		expectedIssuerBytes, _ := hex.DecodeString(expectedIssuerHex)
+
+		if len(issuerID) != len(expectedIssuerBytes) {
+			t.Errorf("IssuerAccountID() length = %v, want %v", len(issuerID), len(expectedIssuerBytes))
+		}
+
+		for i, b := range issuerID {
+			if b != expectedIssuerBytes[i] {
+				t.Errorf("IssuerAccountID()[%d] = %02x, want %02x", i, b, expectedIssuerBytes[i])
+			}
+		}
+	})
+
+	t.Run("JSON marshaling", func(t *testing.T) {
+		jsonData, err := json.Marshal(mpt)
+		if err != nil {
+			t.Errorf("JSON marshaling failed: %v", err)
+		}
+
+		expectedJSON := `{"mp_issuance_id":"005342F3D0045E31BC8E02B4A85A5FE56B33AA25C3745405","value":"100.00"}`
+		if string(jsonData) != expectedJSON {
+			t.Errorf("JSON marshaling = %s, want %s", string(jsonData), expectedJSON)
+		}
+	})
 }
 
 // jsonEqual compares two CurrencyAmount values by marshaling them to JSON and comparing the strings

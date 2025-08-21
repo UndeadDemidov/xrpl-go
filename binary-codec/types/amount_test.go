@@ -531,7 +531,7 @@ func TestSerializeMPTCurrencyAmount(t *testing.T) {
 
 			// Verify the MPT issuance ID bytes (positions 9-32)
 			mptIDBytes := result[9:33]
-			expectedMPTID, _ := hex.DecodeString(tt.input.MPTIssuanceID)
+			expectedMPTID, _ := hex.DecodeString(string(tt.input.MPTIssuanceID))
 			require.Equal(t, expectedMPTID, mptIDBytes)
 		})
 	}
@@ -568,7 +568,7 @@ func TestAmountFromJsonWithMPT(t *testing.T) {
 
 	// Verify the MPT issuance ID bytes (positions 9-32)
 	mptIDBytes := result[9:33]
-	expectedMPTID, _ := hex.DecodeString(mptAmount.MPTIssuanceID)
+	expectedMPTID, _ := hex.DecodeString(string(mptAmount.MPTIssuanceID))
 	require.Equal(t, expectedMPTID, mptIDBytes)
 }
 
@@ -613,7 +613,7 @@ func TestMPTSerializationMatchesJavaScript(t *testing.T) {
 
 	// MPT ID should match the input
 	mptIDBytes := result[9:33]
-	expectedMPTID, _ := hex.DecodeString(mptAmount.MPTIssuanceID)
+	expectedMPTID, _ := hex.DecodeString(string(mptAmount.MPTIssuanceID))
 	require.Equal(t, expectedMPTID, mptIDBytes)
 }
 

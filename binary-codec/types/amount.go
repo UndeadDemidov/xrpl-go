@@ -100,7 +100,7 @@ func (a *Amount) FromJson(value any) ([]byte, error) {
 				}
 			}
 			if strMPTIssuanceID, ok := mpIssuanceID.(string); ok {
-				mpt.MPTIssuanceID = strMPTIssuanceID
+				mpt.MPTIssuanceID = types.Hash192(strMPTIssuanceID)
 			} else {
 				return nil, fmt.Errorf("MPT issuance ID must be a string, got %T", mpIssuanceID)
 			}
@@ -573,7 +573,7 @@ func serializeMPTCurrencyAmount(value types.MPTCurrencyAmount) ([]byte, error) {
 	binary.BigEndian.PutUint64(amountBytes, uint64(val))
 
 	// Serialize the MPT issuance ID (24 bytes)
-	mptIDBytes, err := hex.DecodeString(value.MPTIssuanceID)
+	mptIDBytes, err := hex.DecodeString(string(value.MPTIssuanceID))
 	if err != nil {
 		return nil, fmt.Errorf("invalid MPT issuance ID format: %w", err)
 	}
