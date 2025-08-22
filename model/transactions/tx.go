@@ -166,6 +166,18 @@ func BaseTxForTransaction(tx Tx) *BaseTx {
 	case TicketCreateTx:
 		t := tx.(*TicketCreate)
 		return &t.BaseTx
+	case MPTokenIssuanceCreateTx:
+		m := tx.(*MPTokenIssuanceCreate)
+		return &m.BaseTx
+	case MPTokenIssuanceDestroyTx:
+		m := tx.(*MPTokenIssuanceDestroy)
+		return &m.BaseTx
+	case MPTokenIssuanceSetTx:
+		m := tx.(*MPTokenIssuanceSet)
+		return &m.BaseTx
+	case MPTokenAuthorizeTx:
+		m := tx.(*MPTokenAuthorize)
+		return &m.BaseTx
 	default:
 		return nil
 	}
@@ -249,6 +261,14 @@ func UnmarshalTx(data json.RawMessage) (Tx, error) {
 		tx = &TrustSet{}
 	case TicketCreateTx:
 		tx = &TicketCreate{}
+	case MPTokenIssuanceCreateTx:
+		tx = &MPTokenIssuanceCreate{}
+	case MPTokenIssuanceDestroyTx:
+		tx = &MPTokenIssuanceDestroy{}
+	case MPTokenIssuanceSetTx:
+		tx = &MPTokenIssuanceSet{}
+	case MPTokenAuthorizeTx:
+		tx = &MPTokenAuthorize{}
 	default:
 		return nil, fmt.Errorf("unsupported transaction type %s", txType.TransactionType)
 	}

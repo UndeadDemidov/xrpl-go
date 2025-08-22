@@ -307,6 +307,88 @@ func TestDecodeAddressToAccountID(t *testing.T) {
 	}
 }
 
+func TestEncodeAccountIDToClassicAddress(t *testing.T) {
+	tt := []struct {
+		description  string
+		input        []byte
+		expectedAddr types.Address
+		expectedErr  error
+	}{
+		{
+			description:  "Successful encode - 1",
+			input:        []byte{0x88, 0xa5, 0xa5, 0x7c, 0x82, 0x9f, 0x40, 0xf2, 0x5e, 0xa8, 0x33, 0x85, 0xbb, 0xde, 0x6c, 0x3d, 0x8b, 0x4c, 0xa0, 0x82},
+			expectedAddr: "rDTXLQ7ZKZVKz33zJbHjgVShjsBnqMBhmN",
+			expectedErr:  nil,
+		},
+		{
+			description:  "Successful encode - 2",
+			input:        []byte{0xbd, 0xe4, 0x2b, 0xbd, 0x77, 0x5b, 0x46, 0x7e, 0x34, 0xfe, 0x48, 0x52, 0xe7, 0xce, 0x3d, 0xd2, 0x61, 0x03, 0xf7, 0x6c},
+			expectedAddr: "rJKhsipKHooQbtS3v5Jro6N5Q7TMNPkoAs",
+			expectedErr:  nil,
+		},
+		{
+			description:  "Length error - too short",
+			input:        []byte{0x88, 0xa5, 0xa5, 0x7c, 0x82, 0x9f, 0x40, 0xf2, 0x5e, 0xa8, 0x33, 0x85, 0xbb, 0xde, 0x6c, 0x3d, 0x8b, 0x4c, 0xa0},
+			expectedAddr: "",
+			expectedErr:  &EncodeLengthError{Instance: "AccountID", Input: 19, Expected: 20},
+		},
+		{
+			description:  "Length error - too long",
+			input:        []byte{0x88, 0xa5, 0xa5, 0x7c, 0x82, 0x9f, 0x40, 0xf2, 0x5e, 0xa8, 0x33, 0x85, 0xbb, 0xde, 0x6c, 0x3d, 0x8b, 0x4c, 0xa0, 0x82, 0x00},
+			expectedAddr: "",
+			expectedErr:  &EncodeLengthError{Instance: "AccountID", Input: 21, Expected: 20},
+		},
+	}
+
+	for _, tc := range tt {
+		t.Run(tc.description, func(t *testing.T) {
+			result, err := EncodeAccountIDToClassicAddress(tc.input)
+
+			if tc.expectedErr != nil {
+				require.EqualError(t, err, tc.expectedErr.Error())
+				require.Equal(t, tc.expectedAddr, result)
+			} else {
+				require.NoError(t, err)
+				require.Equal(t, tc.expectedAddr, result)
+			}
+		})
+	}
+}
+
+func TestEncodeDecodeClassicAddressRoundTrip(t *testing.T) {
+	tt := []struct {
+		description string
+		input       string
+	}{
+		{
+			description: "Round trip test - 1",
+			input:       "rDTXLQ7ZKZVKz33zJbHjgVShjsBnqMBhmN",
+		},
+		{
+			description: "Round trip test - 2",
+			input:       "rJKhsipKHooQbtS3v5Jro6N5Q7TMNPkoAs",
+		},
+	}
+
+	for _, tc := range tt {
+		t.Run(tc.description, func(t *testing.T) {
+			// Decode classic address to accountID
+			typePrefix, accountID, err := DecodeClassicAddressToAccountID(tc.input)
+			require.NoError(t, err)
+			require.NotNil(t, typePrefix)
+			require.NotNil(t, accountID)
+
+			// Encode accountID back to classic address
+			resultAddr, err := EncodeAccountIDToClassicAddress(accountID)
+			require.NoError(t, err)
+			require.NotEmpty(t, resultAddr)
+
+			// Verify that the result matches the original input
+			require.Equal(t, tc.input, string(resultAddr))
+		})
+	}
+}
+
 func TestIsValidClassicAddress(t *testing.T) {
 	tt := []struct {
 		description string

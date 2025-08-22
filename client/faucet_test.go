@@ -2,8 +2,10 @@ package client_test
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"testing"
+	"time"
 
 	addresscodec "github.com/CreatureDev/xrpl-go/address-codec"
 	"github.com/CreatureDev/xrpl-go/client"
@@ -24,7 +26,9 @@ func TestFundAccount(t *testing.T) {
 }
 
 func init() {
-	conf, err := client.NewJsonRpcConfig("https://s.altnet.rippletest.net:51234/")
+	conf, err := client.NewJsonRpcConfig("https://s.altnet.rippletest.net:51234/", client.WithHttpClient(&http.Client{
+		Timeout: 5 * time.Second,
+	}))
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(-1)
