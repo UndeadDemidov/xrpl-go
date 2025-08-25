@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package account
 
 import (
@@ -7,6 +8,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// Transaction represents a transaction entry in an account transactions response.
 type Transaction struct {
 	CloseTimeISO string                      `json:"close_time_iso"`
 	Hash         common.LedgerHash           `json:"hash"`
@@ -22,8 +24,7 @@ type Transaction struct {
 // Request
 // ############################################################################
 
-// The account_tx method retrieves a list of transactions that involved the
-// specified account.
+// TransactionsRequest retrieves a list of transactions that involved the specified account.
 type TransactionsRequest struct {
 	common.BaseRequest
 	Account        types.Address          `json:"account"`
@@ -37,15 +38,18 @@ type TransactionsRequest struct {
 	Marker         any                    `json:"marker,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for TransactionsRequest.
 func (*TransactionsRequest) Method() string {
 	return "account_tx"
 }
 
+// APIVersion returns the API version supported by the request.
 func (*TransactionsRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement (V2)
+// Validate performs validation of the TransactionsRequest.
+// TODO: implement V2
 func (*TransactionsRequest) Validate() error {
 	return nil
 }
@@ -54,7 +58,7 @@ func (*TransactionsRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_tx method.
+// TransactionsResponse represents the expected response from the account_tx method.
 type TransactionsResponse struct {
 	Account        types.Address      `json:"account"`
 	LedgerIndexMin common.LedgerIndex `json:"ledger_index_min"`

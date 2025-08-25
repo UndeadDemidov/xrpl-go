@@ -10,9 +10,7 @@ import (
 // Request
 // ############################################################################
 
-// The gateway_balances command calculates the total balances issued by a given
-// account, optionally excluding amounts held by operational addresses. Expects
-// a response in the form of a GatewayBalancesResponse.
+// GatewayBalancesRequest calculates total balances issued by an account, optionally excluding specified hot wallets.
 type GatewayBalancesRequest struct {
 	common.BaseRequest
 
@@ -30,14 +28,17 @@ type GatewayBalancesRequest struct {
 	LedgerIndex common.LedgerSpecifier `json:"ledger_index,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for GatewayBalancesRequest.
 func (r *GatewayBalancesRequest) Method() string {
 	return "gateway_balances"
 }
 
+// APIVersion returns the API version supported by GatewayBalancesRequest.
 func (r *GatewayBalancesRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
+// Validate performs validation on GatewayBalancesRequest.
 func (r *GatewayBalancesRequest) Validate() error {
 	return nil
 }
@@ -46,12 +47,13 @@ func (r *GatewayBalancesRequest) Validate() error {
 // Response
 // ############################################################################
 
+// GatewayBalance represents a currency balance entry in a gateway_balances response.
 type GatewayBalance struct {
 	Currency string `json:"currency"`
 	Value    string `json:"value"`
 }
 
-// The expected response from the gateway_balances method.
+// GatewayBalancesResponse represents the response from the gateway_balances method, including obligations, balances, and assets.
 type GatewayBalancesResponse struct {
 	// The address of the account that issued the balances.
 	Account types.Address `json:"account"`

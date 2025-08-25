@@ -7,8 +7,10 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// ObjectType defines the type of ledger object for account_objects requests.
 type ObjectType string
 
+// ObjectType constants for account_objects requests.
 const (
 	CheckObject          ObjectType = "check"
 	CredentialObject     ObjectType = "credential"
@@ -26,9 +28,8 @@ const (
 // Request
 // ############################################################################
 
-// The account_objects command returns the raw ledger format for all objects
-// owned by an account. For a higher-level view of an account's trust lines and
-// balances, see the account_lines method instead.
+// ObjectsRequest retrieves raw ledger objects owned by an account.
+// For a higher-level view of trust lines and balances, see account_lines.
 type ObjectsRequest struct {
 	common.BaseRequest
 	Account              types.Address          `json:"account"`
@@ -40,15 +41,18 @@ type ObjectsRequest struct {
 	Marker               any                    `json:"marker,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for ObjectsRequest.
 func (*ObjectsRequest) Method() string {
 	return "account_objects"
 }
 
+// APIVersion returns the API version supported by ObjectsRequest.
 func (*ObjectsRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement (V2)
+// Validate performs validation of the ObjectsRequest.
+// TODO: implement V2.
 func (*ObjectsRequest) Validate() error {
 	return nil
 }
@@ -57,7 +61,7 @@ func (*ObjectsRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_objects method.
+// ObjectsResponse represents the expected response from the account_objects method.
 type ObjectsResponse struct {
 	Account            types.Address             `json:"account"`
 	AccountObjects     []ledger.FlatLedgerObject `json:"account_objects"`

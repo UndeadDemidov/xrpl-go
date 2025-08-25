@@ -11,9 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The account_lines method returns information about an account's trust lines,
-// including balances in all non-XRP currencies and assets. All information
-// retrieved is relative to a particular version of the ledger.
+// LinesRequest returns information about an account's trust lines, including balances in all non-XRP currencies and assets for a specific ledger version.
 type LinesRequest struct {
 	common.BaseRequest
 	Account     types.Address          `json:"account"`
@@ -24,15 +22,18 @@ type LinesRequest struct {
 	Marker      any                    `json:"marker,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for LinesRequest.
 func (*LinesRequest) Method() string {
 	return "account_lines"
 }
 
+// APIVersion returns the API version supported by LinesRequest.
 func (*LinesRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement (V2)
+// Validate performs validation on LinesRequest.
+// TODO: implement V2.
 func (*LinesRequest) Validate() error {
 	return nil
 }
@@ -41,7 +42,7 @@ func (*LinesRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_lines method.
+// LinesResponse represents the response for the account_lines method, containing account trust lines and pagination data.
 type LinesResponse struct {
 	Account            types.Address            `json:"account"`
 	Lines              []accounttypes.TrustLine `json:"lines"`
