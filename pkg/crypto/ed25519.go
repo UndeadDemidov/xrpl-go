@@ -60,6 +60,7 @@ func (c ED25519CryptoAlgorithm) DeriveKeypair(decodedSeed []byte, validator bool
 	return private, public, nil
 }
 
+// Sign signs a message using the ED25519 algorithm with the provided private key.
 func (c ED25519CryptoAlgorithm) Sign(msg, privKey string) (string, error) {
 	b, err := hex.DecodeString(privKey)
 	if err != nil {

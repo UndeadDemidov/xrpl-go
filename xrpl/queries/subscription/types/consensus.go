@@ -1,3 +1,4 @@
+// Package types contains data structures for subscription stream types.
 // revive:disable:var-naming
 package types
 

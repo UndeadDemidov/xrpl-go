@@ -10,7 +10,9 @@ import (
 )
 
 const (
+	// TestnetFaucetHost is the hostname for the XRPL Testnet faucet service.
 	TestnetFaucetHost = "faucet.altnet.rippletest.net"
+	// TestnetFaucetPath is the API path for account operations on the Testnet faucet.
 	TestnetFaucetPath = "/accounts"
 )
 

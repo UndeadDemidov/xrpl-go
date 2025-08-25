@@ -7,17 +7,16 @@ import (
 )
 
 var (
+	// ErrClawbackMissingAmount is returned when the Amount field is not set.
 	ErrClawbackMissingAmount = errors.New("clawback: missing field Amount")
+	// ErrClawbackInvalidAmount is returned when the Amount is not a valid issued currency.
 	ErrClawbackInvalidAmount = errors.New("clawback: invalid Amount")
-	ErrClawbackSameAccount   = errors.New("clawback: Account and Amount.issuer cannot be the same")
+	// ErrClawbackSameAccount is returned when the clawback account and the token issuer are the same.
+	ErrClawbackSameAccount = errors.New("clawback: Account and Amount.issuer cannot be the same")
 )
 
-// Requires the Clawback amendment.
-// Claw back tokens issued by your account.
-// Clawback is disabled by default. To use clawback, you must send an AccountSet transaction to enable the Allow Trust Line Clawback setting.
-// An issuer with any existing tokens cannot enable Clawback. You can only enable Allow Trust Line Clawback if you have a completely empty owner directory,
-// meaning you must do so before you set up any trust lines, offers, escrows, payment channels, checks, or signer lists. After you enable Clawback,
-// it cannot reverted: the account permanently gains the ability to claw back issued assets on trust lines.
+// Clawback reclaims tokens issued by the account. Requires the Clawback amendment.
+// Before using, enable Allow Trust Line Clawback via AccountSet with an empty owner directory. Once enabled, clawback cannot be disabled.
 type Clawback struct {
 	// Base transaction fields
 	BaseTx

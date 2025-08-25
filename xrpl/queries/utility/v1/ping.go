@@ -1,3 +1,4 @@
+// Package v1 contains version 1 utility queries for XRPL.
 package v1
 
 import (

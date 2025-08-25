@@ -1,3 +1,4 @@
+// Package types contains type definitions for account query responses and related data structures.
 // revive:disable:var-naming
 package types
 

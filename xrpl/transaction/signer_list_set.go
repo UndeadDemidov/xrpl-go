@@ -10,21 +10,26 @@ import (
 )
 
 var (
-	ErrInvalidSignerEntries                      = fmt.Errorf("signerEntries must have at least %d entry and no more than %d entries", MinSigners, MaxSigners)
-	ErrInvalidWalletLocator                      = errors.New("invalid WalletLocator in SignerEntry, must be an hexadecimal string")
+	// ErrInvalidSignerEntries is returned when the number of signer entries is outside the allowed range.
+	ErrInvalidSignerEntries = fmt.Errorf("signerEntries must have at least %d entry and no more than %d entries", MinSigners, MaxSigners)
+	// ErrInvalidWalletLocator is returned when a SignerEntry's WalletLocator is not a valid hexadecimal string.
+	ErrInvalidWalletLocator = errors.New("invalid WalletLocator in SignerEntry, must be an hexadecimal string")
+	// ErrSignerQuorumGreaterThanSumOfSignerWeights is returned when SignerQuorum exceeds sum of all SignerWeights.
 	ErrSignerQuorumGreaterThanSumOfSignerWeights = errors.New("signerQuorum must be less than or equal to the sum of all SignerWeights")
-	ErrInvalidQuorumAndEntries                   = errors.New("signerEntries must be empty when the SignerQuorum is set to 0 to delete a signer list")
+	// ErrInvalidQuorumAndEntries is returned when SignerEntries is non-empty while SignerQuorum is zero.
+	ErrInvalidQuorumAndEntries = errors.New("signerEntries must be empty when the SignerQuorum is set to 0 to delete a signer list")
 )
 
 const (
-	// At least one account must be part of the SignerList
+	// MinSigners is the minimum number of signers required in the SignerList.
 	MinSigners = 1
 
-	// A SignerList can have at most 32 signers
+	// MaxSigners is the maximum number of signers allowed in the SignerList.
 	MaxSigners = 32
 )
 
-// The SignerListSet transaction creates, replaces, or removes a list of signers that can be used to multi-sign a transaction. This transaction type was introduced by the MultiSign amendment.
+// SignerListSet creates, replaces, or removes a list of signers that can be used to multi-sign a transaction.
+// This transaction type was introduced by the MultiSign amendment.
 //
 // Example:
 //

@@ -1,5 +1,5 @@
-// revive:disable:var-naming
 // Package types defines types for subscription streams in XRPL.
+// revive:disable:var-naming
 package types
 
 // Type represents a subscription stream type for server events.

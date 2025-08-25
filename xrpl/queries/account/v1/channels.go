@@ -1,3 +1,4 @@
+// Package v1 contains version 1 account queries for XRPL.
 package v1
 
 import (

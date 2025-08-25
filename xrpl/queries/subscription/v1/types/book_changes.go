@@ -1,8 +1,11 @@
+// Package types contains data structures for v1 subscription stream types.
+//
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/queries/common"
 
-// A BookUpdate represents the changes to a single order book in a single ledger version.
+// BookUpdate represents the changes to a single order book in a single ledger version.
 type BookUpdate struct {
 	// An identifier for the first of the two currencies in the order book. For XRP, this is the
 	// string XRP_drops. For tokens, this is formatted as the address of the issuer in base58,
@@ -32,7 +35,7 @@ type BookUpdate struct {
 	Close interface{} `json:"close"`
 }
 
-// The book_changes stream sends bookChanges messages whenever a new ledger is validated. This message
+// BookChangesStream represents the book_changes stream that sends bookChanges messages whenever a new ledger is validated. This message
 // contains a summary of all changes to order books in the decentralized exchange that occurred in that
 // ledger.
 type BookChangesStream struct {

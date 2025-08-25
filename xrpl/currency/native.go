@@ -1,3 +1,4 @@
+// Package currency provides utilities for working with XRP native currency conversions and calculations.
 package currency
 
 import (

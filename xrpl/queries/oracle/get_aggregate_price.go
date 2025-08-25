@@ -1,3 +1,4 @@
+// Package oracle contains oracle-related queries for XRPL.
 package oracle
 
 import (

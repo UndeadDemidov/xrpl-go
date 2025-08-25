@@ -1,3 +1,4 @@
+// Package v1 contains version 1 subscription functionality for XRPL streams.
 package v1
 
 import (
@@ -12,8 +13,7 @@ import (
 // Request
 // ############################################################################
 
-// The subscribe method requests periodic notifications from the server when
-// certain events happen.
+// Request subscribes to specified streams, accounts, or order books for periodic notifications.
 type Request struct {
 	Streams          []string                `json:"streams,omitempty"`
 	Accounts         []types.Address         `json:"accounts,omitempty"`
@@ -24,15 +24,18 @@ type Request struct {
 	URLPassword      string                  `json:"url_password,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for Request.
 func (*Request) Method() string {
 	return "subscribe"
 }
 
-// TODO: Implement V2
+// Validate performs validation on Request.
+// TODO: implement V2.
 func (*Request) Validate() error {
 	return nil
 }
 
+// APIVersion returns the API version supported by Request.
 func (*Request) APIVersion() int {
 	return version.RippledAPIV1
 }
@@ -41,7 +44,7 @@ func (*Request) APIVersion() int {
 // Response
 // ############################################################################
 
-// The expected response from the subscribe method.
+// Response represents the response from the subscribe method, including server status and ledger information.
 type Response struct {
 	LoadBase         uint               `json:"load_base,omitempty"`
 	LoadFactor       uint               `json:"load_factor,omitempty"`

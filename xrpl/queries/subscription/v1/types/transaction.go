@@ -1,3 +1,6 @@
+// Package types contains data structures for v1 subscription stream types.
+//
+//revive:disable:var-naming
 package types
 
 import (
@@ -5,6 +8,7 @@ import (
 	transactions "github.com/Peersyst/xrpl-go/xrpl/transaction"
 )
 
+// TransactionStream represents a transaction notification from a v1 subscription stream.
 type TransactionStream struct {
 	// `transaction` indicates this is the notification of a transaction, which could
 	// come from several possible streams.

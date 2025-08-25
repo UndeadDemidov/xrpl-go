@@ -5,10 +5,10 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// Create a Check object in the ledger, which is a deferred payment that can be cashed by its intended destination. The sender of this transaction is the sender of the Check.
+// CheckCreate creates a Check object in the ledger, which is a deferred payment that can be cashed by its intended destination.
+// The sender of this transaction is the sender of the Check.
 //
 // Example:
-//
 // ```json
 //
 //	{
@@ -23,7 +23,7 @@ import (
 //	    "SourceTag": 11747
 //	}
 //
-// / ```
+// ```
 type CheckCreate struct {
 	BaseTx
 	// The unique address of the account that can cash the Check.

@@ -98,12 +98,12 @@ type XChainAddClaimAttestation struct {
 	XChainClaimID string
 }
 
-// Returns the type of the transaction.
+// TxType returns the type of the transaction.
 func (x *XChainAddClaimAttestation) TxType() TxType {
 	return XChainAddClaimAttestationTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a flattened version of the transaction.
 func (x *XChainAddClaimAttestation) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -150,7 +150,7 @@ func (x *XChainAddClaimAttestation) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate validates the transaction.
 func (x *XChainAddClaimAttestation) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

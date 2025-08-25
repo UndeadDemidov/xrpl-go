@@ -6,6 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// OrderBook represents an order book subscription configuration for tracking currency exchanges.
 type OrderBook struct {
 	TakerGets types.IssuedCurrencyAmount `json:"taker_gets"`
 	TakerPays types.IssuedCurrencyAmount `json:"taker_pays"`

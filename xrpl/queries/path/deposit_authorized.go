@@ -39,7 +39,7 @@ func (*DepositAuthorizedRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the deposit_authorized method.
+// DepositAuthorizedResponse represents the expected response from the deposit_authorized method.
 type DepositAuthorizedResponse struct {
 	DepositAuthorized  bool               `json:"deposit_authorized"`
 	DestinationAccount types.Address      `json:"destination_account"`

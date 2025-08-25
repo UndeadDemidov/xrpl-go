@@ -37,7 +37,7 @@ func GenerateSeed(entropy string, alg interfaces.KeypairCryptoAlg, r interfaces.
 	return addresscodec.EncodeSeed(pe, alg)
 }
 
-// Derives a keypair from a given seed. Returns a tuple of private key and public key.
+// DeriveKeypair derives a key pair from a given seed. Returns a tuple of private key and public key.
 // The seed has to be encoded using the addresscodec package. Otherwise, it returns an error.
 func DeriveKeypair(seed string, validator bool) (private, public string, err error) {
 	ds, alg, err := addresscodec.DecodeSeed(seed)

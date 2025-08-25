@@ -38,7 +38,7 @@ type SignMultiBatchOptions struct {
 	MultisignAccount string
 }
 
-// Sign a multi-account Batch transaction.
+// SignMultiBatch signs a multi-account Batch transaction.
 // It takes a wallet, a batch transaction, and a set of options.
 // It returns an error if the transaction is invalid.
 func SignMultiBatch(wallet Wallet, tx *transaction.FlatTransaction, opts *SignMultiBatchOptions) error {

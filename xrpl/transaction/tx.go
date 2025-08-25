@@ -8,25 +8,31 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// Tx defines the interface for all transaction types requiring a TxType method.
 // TODO: Refactor to use a single interface for all transaction types
 type Tx interface {
 	TxType() TxType
 }
 
+// TxHash represents a transaction hash reference.
 type TxHash string
 
+// TxType returns the TxType for a hashed transaction.
 func (*TxHash) TxType() TxType {
 	return HashedTx
 }
 
+// Binary represents a raw transaction blob for submission.
 type Binary struct {
 	TxBlob string `json:"tx_blob"`
 }
 
+// TxType returns the TxType for a binary transaction.
 func (tx *Binary) TxType() TxType {
 	return BinaryTx
 }
 
+// BaseTx contains the common fields for all transactions.
 type BaseTx struct {
 	// The unique address of the transaction sender.
 	Account types.Address
@@ -102,10 +108,12 @@ type BaseTx struct {
 	TxnSignature string `json:",omitempty"`
 }
 
+// TxType returns the transaction type stored in BaseTx.
 func (tx *BaseTx) TxType() TxType {
 	return tx.TransactionType
 }
 
+// Flatten converts BaseTx into a FlatTransaction map for JSON-RPC submission.
 func (tx *BaseTx) Flatten() FlatTransaction {
 	flattened := make(FlatTransaction)
 
@@ -169,6 +177,7 @@ func (tx *BaseTx) Flatten() FlatTransaction {
 	return flattened
 }
 
+// Validate checks BaseTx fields for correctness, returning false and an error if invalid.
 func (tx *BaseTx) Validate() (bool, error) {
 	flattenTx := tx.Flatten()
 

@@ -1,3 +1,4 @@
+// Package v1 contains version 1 transaction queries for XRPL.
 package v1
 
 import (
@@ -9,6 +10,7 @@ import (
 )
 
 var (
+	// ErrNoTxBlob is returned when no TxBlob is defined in SubmitRequest.
 	ErrNoTxBlob = errors.New("no TxBlob defined")
 )
 
@@ -16,22 +18,24 @@ var (
 // Request
 // ############################################################################
 
-// The submit method applies a transaction and sends it to the network to be
-// confirmed and included in future ledgers.
+// SubmitRequest applies a transaction and sends it to the network for confirmation.
 type SubmitRequest struct {
 	common.BaseRequest
 	TxBlob   string `json:"tx_blob"`
 	FailHard bool   `json:"fail_hard,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for SubmitRequest.
 func (*SubmitRequest) Method() string {
 	return "submit"
 }
 
+// APIVersion returns the API version supported by SubmitRequest.
 func (*SubmitRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
+// Validate performs validation on SubmitRequest.
 func (req *SubmitRequest) Validate() error {
 	if req.TxBlob == "" {
 		return ErrNoTxBlob
@@ -43,7 +47,7 @@ func (req *SubmitRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the submit method.
+// SubmitResponse represents the response from the submit method, including engine results and transaction details.
 type SubmitResponse struct {
 	EngineResult             string                      `json:"engine_result"`
 	EngineResultCode         int                         `json:"engine_result_code"`

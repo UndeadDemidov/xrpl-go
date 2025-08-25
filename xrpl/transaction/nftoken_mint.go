@@ -159,7 +159,7 @@ func (n *NFTokenMint) Flatten() FlatTransaction {
 }
 
 const (
-	// Allowing a transfer fee of up to 50%.
+	// MaxTransferFee allows a transfer fee of up to 50%.
 	MaxTransferFee = 50000
 )
 

@@ -1,5 +1,5 @@
-// revive:disable:var-naming
 // Package interfaces defines common interfaces for XRPL WebSocket.
+// revive:disable:var-naming
 package interfaces
 
 // Request represents a generic XRPL WebSocket request.

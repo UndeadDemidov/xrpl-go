@@ -165,7 +165,7 @@ func (p *Payment) SetLimitQualityFlag() {
 	p.Flags |= tfLimitQuality
 }
 
-// ValidatePayment validates the Payment struct and make sure all the fields are correct.
+// Validate validates the Payment struct and make sure all the fields are correct.
 func (p *Payment) Validate() (bool, error) {
 	// Validate the base transaction
 	_, err := p.BaseTx.Validate()

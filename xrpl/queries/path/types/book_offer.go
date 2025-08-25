@@ -5,6 +5,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// BookOffer represents an orderbook offer ledger entry, including metadata such as flags, owner, and amounts to get and pay.
 type BookOffer struct {
 	// The unique ID for this ledger entry. In JSON, this field is represented with different names depending on the
 	// context and API method. (Note, even though this is specified as "optional" in the code, every ledger entry
@@ -44,6 +45,7 @@ type BookOffer struct {
 	Quality         string `json:"quality,omitempty"`
 }
 
+// BookOfferCurrency represents a currency and optional issuer in a book offer.
 type BookOfferCurrency struct {
 	Currency string `json:"currency"`
 	Issuer   string `json:"issuer,omitempty"`

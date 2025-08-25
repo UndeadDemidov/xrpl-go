@@ -1,3 +1,4 @@
+// Package types contains data structures for CLIO server query types.
 package types
 
 import (

@@ -10,7 +10,9 @@ import (
 )
 
 const (
+	// DevnetFaucetHost is the hostname for the XRPL Devnet faucet service.
 	DevnetFaucetHost = "faucet.devnet.rippletest.net"
+	// DevnetFaucetPath is the API path for account operations on the Devnet faucet.
 	DevnetFaucetPath = "/accounts"
 )
 

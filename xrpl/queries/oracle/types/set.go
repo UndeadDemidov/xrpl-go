@@ -1,3 +1,4 @@
+// Package types contains data structures for oracle query types.
 // revive:disable:var-naming
 package types
 

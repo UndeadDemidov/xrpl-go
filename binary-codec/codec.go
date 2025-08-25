@@ -1,3 +1,4 @@
+// Package binarycodec provides encoding and decoding functionality for XRPL binary format.
 package binarycodec
 
 import (

@@ -18,12 +18,15 @@ const (
 	// Perform a single-asset withdrawal/deposit with a specified effective price.
 	tfLimitLPToken uint32 = 4194304
 
-	// The maximum value is 1000, indicating a 1% fee. The minimum value is 0. https://xrpl.org/docs/references/protocol/transactions/types/ammcreate#ammcreate-fields
+	// AmmMaxTradingFee is the maximum trading fee; a value of 1000 corresponds to a 1% fee.
 	AmmMaxTradingFee = 1000
 )
 
 var (
-	ErrAMMTradingFeeTooHigh        = fmt.Errorf("trading fee is too high, max value is %d", AmmMaxTradingFee)
+	// ErrAMMTradingFeeTooHigh is returned when the specified trading fee exceeds AmmMaxTradingFee.
+	ErrAMMTradingFeeTooHigh = fmt.Errorf("trading fee is too high, max value is %d", AmmMaxTradingFee)
+	// ErrAMMMustSetAmountWithAmount2 is returned when Amount2 is set without Amount.
 	ErrAMMMustSetAmountWithAmount2 = errors.New("must set Amount with Amount2")
-	ErrAMMMustSetAmountWithEPrice  = errors.New("must set Amount with EPrice")
+	// ErrAMMMustSetAmountWithEPrice is returned when EPrice is set without Amount.
+	ErrAMMMustSetAmountWithEPrice = errors.New("must set Amount with EPrice")
 )

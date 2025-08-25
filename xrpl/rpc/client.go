@@ -1,3 +1,4 @@
+// Package rpc provides RPC client functionality for interacting with XRPL servers.
 package rpc
 
 import (

@@ -1,3 +1,4 @@
+// Package subscribe contains subscription functionality for XRPL streams.
 package subscribe
 
 import (

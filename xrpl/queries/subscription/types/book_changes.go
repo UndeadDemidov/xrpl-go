@@ -1,4 +1,6 @@
 // Package types provides types for the subscription streams, including book changes events.
+//
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/queries/common"

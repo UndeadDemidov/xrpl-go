@@ -1,9 +1,11 @@
+// Package types contains data structures for path finding query types.
 package types
 
 import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
 )
 
+// Alternative represents one of the possible payment paths, including computed path steps and source/destination amounts.
 type Alternative struct {
 	PathsComputed [][]transaction.PathStep `json:"paths_computed"`
 	// SourceAmount      types.CurrencyAmount     `json:"source_amount"`
@@ -12,6 +14,7 @@ type Alternative struct {
 	DestinationAmount any `json:"destination_amount,omitempty"`
 }
 
+// RippleAlternative represents an alternative payment path specifically for XRP, including computed path steps and source amount.
 type RippleAlternative struct {
 	PathsComputed [][]transaction.PathStep `json:"paths_computed"`
 	// SourceAmount  types.CurrencyAmount     `json:"source_amount"`

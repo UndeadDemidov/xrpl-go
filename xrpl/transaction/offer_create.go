@@ -4,7 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// An OfferCreate transaction places an Offer in the decentralized exchange.
+// OfferCreate transaction places an Offer in the decentralized exchange.
 //
 // Example:
 //
@@ -53,22 +53,24 @@ const (
 	tfSell uint32 = 524288
 )
 
-// tfPassive indicates that the offer is passive, meaning it does not consume offers that exactly match it, and instead waits to be consumed by an offer that exactly matches it.
+// SetPassiveFlag sets the tfPassive flag, indicating the offer is passive and will not consume exactly matching offers.
 func (o *OfferCreate) SetPassiveFlag() {
 	o.Flags |= tfPassive
 }
 
-// Treat the Offer as an Immediate or Cancel order. The Offer never creates an Offer object in the ledger: it only trades as much as it can by consuming existing Offers at the time the transaction is processed. If no Offers match, it executes "successfully" without trading anything. In this case, the transaction still uses the result code tesSUCCESS.
+// SetImmediateOrCancelFlag sets the tfImmediateOrCancel flag, treating the offer as an Immediate or Cancel order.
+// It executes against existing offers only and never creates a new ledger entry.
 func (o *OfferCreate) SetImmediateOrCancelFlag() {
 	o.Flags |= tfImmediateOrCancel
 }
 
-// Treat the offer as a Fill or Kill order. The Offer never creates an Offer object in the ledger, and is canceled if it cannot be fully filled at the time of execution. By default, this means that the owner must receive the full TakerPays amount; if the tfSell flag is enabled, the owner must be able to spend the entire TakerGets amount instead.
+// SetFillOrKillFlag sets the tfFillOrKill flag, treating the offer as a Fill or Kill order.
+// The offer is canceled if it cannot be fully filled immediately.
 func (o *OfferCreate) SetFillOrKillFlag() {
 	o.Flags |= tfFillOrKill
 }
 
-// tfSell indicates that the offer is selling, not buying.
+// SetSellFlag sets the tfSell flag, indicating the offer is selling rather than buying.
 func (o *OfferCreate) SetSellFlag() {
 	o.Flags |= tfSell
 }
@@ -96,7 +98,7 @@ func (o *OfferCreate) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the OfferCreate transaction.
+// Validate validates the OfferCreate transaction.
 func (o *OfferCreate) Validate() (bool, error) {
 	_, err := o.BaseTx.Validate()
 	if err != nil {

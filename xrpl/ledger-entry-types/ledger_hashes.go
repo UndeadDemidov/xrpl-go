@@ -2,6 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
+// Hashes represents a LedgerHashes object that contains a history of prior ledgers.
 // (Not to be confused with the "ledger hash" string data type, which uniquely identifies a ledger version.
 // This section describes the LedgerHashes ledger object type.)
 //

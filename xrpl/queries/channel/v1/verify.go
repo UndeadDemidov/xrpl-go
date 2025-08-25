@@ -1,3 +1,4 @@
+// Package v1 contains version 1 payment channel queries for XRPL.
 package v1
 
 import (

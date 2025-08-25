@@ -22,7 +22,7 @@ var (
 	ErrHolderAccountConflict = errors.New("holder must be different from the account")
 )
 
-// The MPTokenAuthorize transaction is used to globally lock/unlock a MPTokenIssuance,
+// MPTokenAuthorize transaction is used to globally lock/unlock a MPTokenIssuance,
 // or lock/unlock an individual's MPToken.
 type MPTokenAuthorize struct {
 	BaseTx
@@ -33,12 +33,7 @@ type MPTokenAuthorize struct {
 	Holder *types.Address `json:",omitempty"`
 }
 
-// If set and transaction is submitted by a holder, it indicates that the holder no
-// longer wants to hold the MPToken, which will be deleted as a result. If the the holder's
-// MPToken has non-zero balance while trying to set this flag, the transaction will fail. On
-// the other hand, if set and transaction is submitted by an issuer, it would mean that the
-// issuer wants to unauthorize the holder (only applicable for allow-listing),
-// which would unset the lsfMPTAuthorized flag on the MPToken.
+// SetMPTUnauthorizeFlag toggles the unauthorize flag on the transaction to indicate that the holder no longer wants to hold the token or that the issuer wants to unauthorize a holder.
 func (m *MPTokenAuthorize) SetMPTUnauthorizeFlag() {
 	m.Flags |= tfMPTUnauthorize
 }

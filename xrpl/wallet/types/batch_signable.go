@@ -1,3 +1,6 @@
+// Package types contains data structures for wallet operations and batch signing.
+//
+//revive:disable:var-naming
 package types
 
 import (
@@ -60,7 +63,7 @@ func FromFlatBatchTransaction(transaction *transaction.FlatTransaction) (*BatchS
 	return batchSignable, nil
 }
 
-// FromFlatBatchTransaction creates a BatchSignable from a Batch transaction.
+// FromBatchTransaction creates a BatchSignable from a Batch transaction.
 // It returns an error if the transaction is invalid.
 func FromBatchTransaction(transaction *transaction.Batch) (*BatchSignable, error) {
 	rawTxs := transaction.RawTransactions

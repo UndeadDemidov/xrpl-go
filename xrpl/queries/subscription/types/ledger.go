@@ -1,3 +1,4 @@
+// Package types contains data structures for subscription stream types.
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/queries/common"

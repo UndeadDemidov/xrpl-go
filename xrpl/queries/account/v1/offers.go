@@ -40,9 +40,6 @@ func (*OffersRequest) Validate() error {
 	return nil
 }
 
-// ############################################################################
-// Response
-// ############################################################################
 // OffersResponse is the response type for the account_offers method.
 type OffersResponse struct {
 	Account            types.Address              `json:"account"`

@@ -127,7 +127,7 @@ func (a *AMMWithdraw) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the AMMWithdraw struct and make sure all the fields are correct.
+// Validate validates the AMMWithdraw struct and make sure all the fields are correct.
 func (a *AMMWithdraw) Validate() (bool, error) {
 	_, err := a.BaseTx.Validate()
 	if err != nil {

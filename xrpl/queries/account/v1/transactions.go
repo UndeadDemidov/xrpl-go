@@ -54,7 +54,7 @@ func (*TransactionsRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_tx method.
+// TransactionsResponse represents the expected response from the account_tx method.
 type TransactionsResponse struct {
 	Account        types.Address      `json:"account"`
 	LedgerIndexMin common.LedgerIndex `json:"ledger_index_min"`

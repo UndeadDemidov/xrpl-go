@@ -7,9 +7,6 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/queries/version"
 )
 
-// ############################################################################
-// Request
-// ############################################################################
 // DataRequest is the request type for the ledger_data method.
 // It retrieves the contents of the specified ledger and supports iterating
 // through multiple calls to obtain the full contents of a single ledger version.
@@ -39,9 +36,6 @@ func (*DataRequest) Validate() error {
 	return nil
 }
 
-// ############################################################################
-// Response
-// ############################################################################
 // DataResponse is the response type for the ledger_data method.
 type DataResponse struct {
 	LedgerIndex uint32              `json:"ledger_index"`

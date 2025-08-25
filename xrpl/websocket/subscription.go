@@ -116,7 +116,7 @@ func (c *Client) OnPeerStatusChange(
 
 // Orderbook streams
 
-// OnOrderbook handles "orderbook" events.
+// OnOrderBook handles "orderbook" events.
 // It returns a stream of orderbook streams. Creates a new channel and a goroutine to handle the stream.
 func (c *Client) OnOrderBook(
 	handler func(orderbook *streamtypes.OrderBookStream),

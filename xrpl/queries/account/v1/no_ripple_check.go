@@ -44,7 +44,6 @@ func (*NoRippleCheckRequest) Validate() error {
 // Response
 // ############################################################################
 
-// Response expected by a NoRippleCheckRequest
 // NoRippleCheckResponse is the response returned by NoRippleCheckRequest.
 type NoRippleCheckResponse struct {
 	LedgerCurrentIndex common.LedgerIndex            `json:"ledger_current_index"`

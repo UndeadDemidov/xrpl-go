@@ -4,7 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// Create a new Automated Market Maker (AMM) instance for trading a pair of assets (fungible tokens or XRP).
+// AMMCreate creates a new Automated Market Maker (AMM) instance for trading a pair of assets (fungible tokens or XRP).
 //
 // Creates both an AMM entry and a special AccountRoot entry to represent the AMM.
 // Also transfers ownership of the starting balance of both assets from the sender to the created AccountRoot and issues an initial balance of liquidity provider tokens (LP Tokens) from the AMM account to the sender.
@@ -65,7 +65,7 @@ func (a *AMMCreate) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the AMMCreate struct and makes sure all fields are correct.
+// Validate validates the AMMCreate struct and ensures all fields are correct.
 func (a *AMMCreate) Validate() (bool, error) {
 	_, err := a.BaseTx.Validate()
 	if err != nil {

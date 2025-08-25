@@ -35,7 +35,7 @@ func (*InfoRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the server_info method.
+// InfoResponse represents the expected response from the server_info method.
 type InfoResponse struct {
 	Info servertypes.Info `json:"info"`
 }

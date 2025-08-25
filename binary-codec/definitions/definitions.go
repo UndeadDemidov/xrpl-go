@@ -1,3 +1,4 @@
+// Package definitions contains XRPL binary codec field and type definitions.
 package definitions
 
 import (

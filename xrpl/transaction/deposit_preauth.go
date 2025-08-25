@@ -8,20 +8,23 @@ import (
 )
 
 var (
-	ErrDepositPreauthInvalidAuthorize              = errors.New("deposit preauth: invalid Authorize")
-	ErrDepositPreauthInvalidUnauthorize            = errors.New("deposit preauth: invalid Unauthorize")
-	ErrDepositPreauthInvalidAuthorizeCredentials   = errors.New("deposit preauth: invalid AuthorizeCredentials")
+	// ErrDepositPreauthInvalidAuthorize is returned when the Authorize address is invalid.
+	ErrDepositPreauthInvalidAuthorize = errors.New("deposit preauth: invalid Authorize")
+	// ErrDepositPreauthInvalidUnauthorize is returned when the Unauthorize address is invalid.
+	ErrDepositPreauthInvalidUnauthorize = errors.New("deposit preauth: invalid Unauthorize")
+	// ErrDepositPreauthInvalidAuthorizeCredentials is returned when an AuthorizeCredentials entry is invalid.
+	ErrDepositPreauthInvalidAuthorizeCredentials = errors.New("deposit preauth: invalid AuthorizeCredentials")
+	// ErrDepositPreauthInvalidUnauthorizeCredentials is returned when an UnauthorizeCredentials entry is invalid.
 	ErrDepositPreauthInvalidUnauthorizeCredentials = errors.New("deposit preauth: invalid UnauthorizeCredentials")
-	ErrDepositPreauthMustSetOnlyOneField           = errors.New("deposit preauth: must set only one field (Authorize or AuthorizeCredentials or Unauthorize or UnauthorizeCredentials)")
-	ErrDepositPreauthAuthorizeCannotBeSender       = errors.New("deposit preauth: Authorize cannot be the same as the sender's account")
-	ErrDepositPreauthUnauthorizeCannotBeSender     = errors.New("deposit preauth: Unauthorize cannot be the same as the sender's account")
+	// ErrDepositPreauthMustSetOnlyOneField is returned when more than one preauth field is set.
+	ErrDepositPreauthMustSetOnlyOneField = errors.New("deposit preauth: must set only one field (Authorize or AuthorizeCredentials or Unauthorize or UnauthorizeCredentials)")
+	// ErrDepositPreauthAuthorizeCannotBeSender is returned when Authorize equals the sender's account.
+	ErrDepositPreauthAuthorizeCannotBeSender = errors.New("deposit preauth: Authorize cannot be the same as the sender's account")
+	// ErrDepositPreauthUnauthorizeCannotBeSender is returned when Unauthorize equals the sender's account.
+	ErrDepositPreauthUnauthorizeCannotBeSender = errors.New("deposit preauth: Unauthorize cannot be the same as the sender's account")
 )
 
-// Added by the DepositPreauth amendment.
-// A DepositPreauth transaction gives another account pre-approval to deliver payments to the sender
-// of this transaction.
-// This is only useful if the sender of this transaction is using (or plans to use) Deposit
-// Authorization.
+// DepositPreauth gives pre-approval for another account to deliver payments to the sender. (Requires the DepositPreauth amendment)
 //
 // ```json
 //

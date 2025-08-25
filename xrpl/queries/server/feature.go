@@ -1,3 +1,4 @@
+// Package server contains server-related queries for XRPL.
 package server
 
 import (

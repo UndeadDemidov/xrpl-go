@@ -43,7 +43,7 @@ func (*InfoRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_info method.
+// InfoResponse represents the expected response from the account_info method.
 type InfoResponse struct {
 	AccountData        typesv1.AccountData    `json:"account_data"`
 	LedgerCurrentIndex common.LedgerIndex     `json:"ledger_current_index,omitempty"`

@@ -1,3 +1,4 @@
+// Package path contains path finding and order book queries for XRPL.
 package path
 
 import (

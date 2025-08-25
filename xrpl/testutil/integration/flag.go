@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	// IntegrationEnvVar is the environment variable name used to specify the integration test environment.
 	IntegrationEnvVar = "INTEGRATION"
 )
 

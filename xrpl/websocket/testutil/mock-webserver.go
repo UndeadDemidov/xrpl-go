@@ -1,3 +1,4 @@
+// Package testutil provides testing utilities for websocket functionality.
 package testutil
 
 import (

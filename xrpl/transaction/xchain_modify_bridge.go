@@ -15,17 +15,10 @@ const (
 	tfClearAccountCreateAmount uint32 = 0x00010000
 )
 
-// XChainCreateClaimID transaction creates a new cross-chain claim ID that is used
-// for a cross-chain transfer. A cross-chain claim ID represents one cross-chain transfer
-// of value.
-//
-// This transaction is the first step of a cross-chain transfer of value and is submitted
-// on the destination chain, not the source chain.
-//
-// It also includes the account on the source chain that locks or burns the funds on the
-// source chain.
+// XChainModifyBridge modifies an existing Bridge ledger object, updating its flags, minimum account create amount, and signature reward.
 // (Requires the XChainBridge amendment)
 //
+// Example:
 // ```json
 //
 //	{

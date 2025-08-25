@@ -1,3 +1,4 @@
+// Package bigdecimal provides arbitrary-precision decimal arithmetic operations for financial calculations.
 package bigdecimal
 
 import (

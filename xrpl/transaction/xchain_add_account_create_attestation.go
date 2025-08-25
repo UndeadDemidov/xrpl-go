@@ -9,18 +9,21 @@ import (
 )
 
 var (
+	// ErrInvalidAttestationRewardAccount is returned when the AttestationRewardAccount is not a valid address.
 	ErrInvalidAttestationRewardAccount = errors.New("invalid attestation reward account")
+	// ErrInvalidAttestationSignerAccount is returned when the AttestationSignerAccount is not a valid address.
 	ErrInvalidAttestationSignerAccount = errors.New("invalid attestation signer account")
-	ErrInvalidOtherChainSource         = errors.New("invalid other chain source")
-	ErrInvalidPublicKey                = errors.New("invalid public key")
-	ErrInvalidWasLockingChainSend      = errors.New("invalid was locking chain send")
+	// ErrInvalidOtherChainSource is returned when OtherChainSource is not a valid address.
+	ErrInvalidOtherChainSource = errors.New("invalid other chain source")
+	// ErrInvalidPublicKey is returned when the PublicKey field is empty or invalid.
+	ErrInvalidPublicKey = errors.New("invalid public key")
+	// ErrInvalidWasLockingChainSend is returned when WasLockingChainSend is not 0 or 1.
+	ErrInvalidWasLockingChainSend = errors.New("invalid was locking chain send")
+	// ErrInvalidXChainAccountCreateCount is returned when XChainAccountCreateCount is not a valid unsigned integer.
 	ErrInvalidXChainAccountCreateCount = errors.New("invalid x chain account create count")
 )
 
-// (Requires the XChainBridge amendment )
-//
-// The XChainAddAccountCreateAttestation transaction provides an attestation from a witness server that an
-// XChainAccountCreateCommit transaction occurred on the other chain.
+// XChainAddAccountCreateAttestation provides an attestation that an XChainAccountCreateCommit transaction occurred on the other chain. (Requires the XChainBridge amendment)
 //
 // The signature must be from one of the keys on the door's signer list at the time the signature was provided.
 // If the signature list changes between the time the signature was submitted and the quorum is reached,
@@ -85,12 +88,12 @@ type XChainAddAccountCreateAttestation struct {
 	XChainBridge types.XChainBridge
 }
 
-// Returns the type of the transaction.
+// TxType returns the TxType for XChainAddAccountCreateAttestation transactions.
 func (x *XChainAddAccountCreateAttestation) TxType() TxType {
 	return XChainAddAccountCreateAttestationTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a FlatTransaction map representing the XChainAddAccountCreateAttestation transaction.
 func (x *XChainAddAccountCreateAttestation) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -141,7 +144,7 @@ func (x *XChainAddAccountCreateAttestation) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate checks XChainAddAccountCreateAttestation fields and returns false and an error if invalid.
 func (x *XChainAddAccountCreateAttestation) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

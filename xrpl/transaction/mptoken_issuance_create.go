@@ -28,34 +28,35 @@ const (
 )
 
 var (
-	ErrTransferFeeRequiresCanTransfer          = errors.New("mptoken issuance create: TransferFee cannot be provided without enabling tfMPTCanTransfer flag")
-	ErrInvalidMaximumAmount                    = errors.New("mptoken issuance create: invalid MaximumAmount, must be a valid unsigned 64-bit integer")
-	ErrInvalidMPTokenMetadata                  = errors.New("mptoken issuance create: MPTokenMetadata must be a valid hex string and at most 1024 bytes")
+	// ErrTransferFeeRequiresCanTransfer is returned when TransferFee is set without enabling tfMPTCanTransfer flag.
+	ErrTransferFeeRequiresCanTransfer = errors.New("mptoken issuance create: TransferFee cannot be provided without enabling tfMPTCanTransfer flag")
+	// ErrInvalidMaximumAmount is returned when the MaximumAmount is not a valid unsigned 64-bit integer.
+	ErrInvalidMaximumAmount = errors.New("mptoken issuance create: invalid MaximumAmount, must be a valid unsigned 64-bit integer")
+	// ErrInvalidMPTokenMetadata is returned when MPTokenMetadata is not a valid hex string or exceeds size limit.
+	ErrInvalidMPTokenMetadata = errors.New("mptoken issuance create: MPTokenMetadata must be a valid hex string and at most 1024 bytes")
+	// ErrInvalidMPTokenIssuanceCreateTransferFee is returned when the TransferFee is outside the allowed range.
 	ErrInvalidMPTokenIssuanceCreateTransferFee = errors.New("mptoken issuance create: TransferFee must be between 0 and 50000")
 )
 
-// The MPTokenIssuanceCreate transaction creates an MPTokenIssuance object and adds it to the relevant directory node of the creator account.
-// If the transaction is successful, the newly created token is owned by the account (the creator account) that executed the transaction.
+// MPTokenIssuanceCreate represents a transaction to create a new MPTokenIssuance object.
+// This is the only opportunity an issuer has to specify immutable token fields.
 //
 // Example:
 //
 // ```json
 //
-// {
-//    "TransactionType": "MPTokenIssuanceCreate",
-//    "Account": "rajgkBmMxmz161r8bWYH7CQAFZP5bA9oSG",
-//    "AssetScale": 2,
-//    "TransferFee": 314,
-//    "MaximumAmount": "50000000",
-//    "Flags": 83659,
-//    "MPTokenMetadata": "FOO",
-//    "Fee": "10"
-//  }
+//	{
+//	   "TransactionType": "MPTokenIssuanceCreate",
+//	   "Account": "rajgkBmMxmz161r8bWYH7CQAFZP5bA9oSG",
+//	   "AssetScale": 2,
+//	   "TransferFee": 314,
+//	   "MaximumAmount": "50000000",
+//	   "Flags": 83659,
+//	   "MPTokenMetadata": "FOO",
+//	   "Fee": "10"
+//	}
 //
 // ```
-
-// MPTokenIssuanceCreate represents a transaction to create a new MPTokenIssuance object.
-// This is the only opportunity an issuer has to specify immutable token fields.
 type MPTokenIssuanceCreate struct {
 	BaseTx
 	// An asset scale is the difference, in orders of magnitude, between a standard unit and
@@ -113,32 +114,32 @@ func (m *MPTokenIssuanceCreate) Flatten() FlatTransaction {
 	return flattened
 }
 
-// If set, indicates that the MPT can be locked both individually and globally. If not set, the MPT cannot be locked in any way.
+// SetMPTCanLockFlag sets the tfMPTCanLock flag to allow the MPT to be locked both individually and globally.
 func (m *MPTokenIssuanceCreate) SetMPTCanLockFlag() {
 	m.Flags |= tfMPTCanLock
 }
 
-// If set, indicates that individual holders must be authorized. This enables issuers to limit who can hold their assets.
+// SetMPTRequireAuthFlag sets the tfMPTRequireAuth flag to require individual holders to be authorized.
 func (m *MPTokenIssuanceCreate) SetMPTRequireAuthFlag() {
 	m.Flags |= tfMPTRequireAuth
 }
 
-// If set, indicates that individual holders can place their balances into an escrow.
+// SetMPTCanEscrowFlag sets the tfMPTCanEscrow flag to allow individual holders to place their balances into an escrow.
 func (m *MPTokenIssuanceCreate) SetMPTCanEscrowFlag() {
 	m.Flags |= tfMPTCanEscrow
 }
 
-// If set, indicates that individual holders can trade their balances using the XRP Ledger DEX.
+// SetMPTCanTradeFlag sets the tfMPTCanTrade flag to allow individual holders to trade their balances via DEX or AMM.
 func (m *MPTokenIssuanceCreate) SetMPTCanTradeFlag() {
 	m.Flags |= tfMPTCanTrade
 }
 
-// If set, indicates that tokens can be transferred to other accounts that are not the issuer.
+// SetMPTCanTransferFlag sets the tfMPTCanTransfer flag to allow tokens to be transferred to non-issuer accounts.
 func (m *MPTokenIssuanceCreate) SetMPTCanTransferFlag() {
 	m.Flags |= tfMPTCanTransfer
 }
 
-// If set, indicates that the issuer can use the Clawback transaction to claw back value from individual holders.
+// SetMPTCanClawbackFlag sets the tfMPTCanClawback flag to allow the issuer to claw back tokens from individual holders.
 func (m *MPTokenIssuanceCreate) SetMPTCanClawbackFlag() {
 	m.Flags |= tfMPTCanClawback
 }

@@ -34,6 +34,7 @@ func (s *BinarySerializer) GetSink() []byte {
 	return s.sink
 }
 
+// WriteFieldAndValue serializes a field instance and its value into binary format and writes it to the sink.
 func (s *BinarySerializer) WriteFieldAndValue(fi definitions.FieldInstance, value []byte) error {
 	h, err := s.fieldIDCodec.Encode(fi.FieldName)
 

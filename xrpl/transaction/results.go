@@ -3,7 +3,7 @@ package transaction
 // TxResult represents the result code of a transaction
 type TxResult string
 
-//revive:disable:var-naming
+//revive:disable:var-naming,exported
 // #nosec G101
 
 const (
@@ -477,6 +477,8 @@ const (
 	// If this appears in a validated ledger, then the transaction's success is final.
 	TesSUCCESS TxResult = "tesSUCCESS"
 )
+
+//revive:enable:var-naming,exported
 
 // String returns the string representation of the result
 func (t TxResult) String() string {

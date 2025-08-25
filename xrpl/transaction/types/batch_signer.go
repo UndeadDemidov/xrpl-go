@@ -56,6 +56,7 @@ func (bs *BatchSigner) Flatten() map[string]any {
 	}
 }
 
+// Validate validates the BatchSigner fields, ensuring the Account is valid, SigningPubKey is present, and TxnSignature is not set.
 func (bs *BatchSigner) Validate() error {
 	if !addresscodec.IsValidAddress(bs.BatchSigner.Account.String()) {
 		return ErrBatchSignerAccountMissing

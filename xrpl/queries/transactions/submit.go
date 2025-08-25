@@ -1,3 +1,4 @@
+// Package transactions contains transaction-related queries for XRPL.
 package transactions
 
 import (
