@@ -1,4 +1,6 @@
 // Package types contains types for ledger query responses.
+//
+//revive:disable:var-naming
 package types
 
 import (
