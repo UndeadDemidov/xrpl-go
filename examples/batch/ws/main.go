@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	CreatePaymentTx = func(sender, receiver *wallet.Wallet, amount txnTypes.CurrencyAmount) *transaction.Payment {
+	createPaymentTx = func(sender, receiver *wallet.Wallet, amount txnTypes.CurrencyAmount) *transaction.Payment {
 		return &transaction.Payment{
 			BaseTx: transaction.BaseTx{
 				Account:         sender.GetAddress(),
@@ -102,8 +102,8 @@ func main() {
 			TransactionType: transaction.BatchTx,
 		},
 		RawTransactions: []txnTypes.RawTransaction{
-			{RawTransaction: CreatePaymentTx(&userWallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
-			{RawTransaction: CreatePaymentTx(&userWallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
+			{RawTransaction: createPaymentTx(&userWallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
+			{RawTransaction: createPaymentTx(&userWallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
 		},
 	}
 	batchTx.SetAllOrNothingFlag()
@@ -154,8 +154,8 @@ func main() {
 			TransactionType: transaction.BatchTx,
 		},
 		RawTransactions: []txnTypes.RawTransaction{
-			{RawTransaction: CreatePaymentTx(&userWallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
-			{RawTransaction: CreatePaymentTx(&user2Wallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
+			{RawTransaction: createPaymentTx(&userWallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
+			{RawTransaction: createPaymentTx(&user2Wallet, &receiverWallet, txnTypes.XRPCurrencyAmount(5000000)).Flatten()},
 		},
 		BatchSigners: []txnTypes.BatchSigner{
 			{

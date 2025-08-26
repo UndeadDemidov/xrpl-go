@@ -11,11 +11,10 @@ import (
 )
 
 const (
-	AccountSeed        = "sEd7MgLAff94dLx91rVRByUbLrdSrdj"
-	DestinationAddress = "rDwvihpE48E48F8rvNrqTb2UGWv62xqYTg"
-	Currency           = "USD"
-	Value              = "100"
-	Issuer             = "rDwvihpE48E48F8rvNrqTb2UGWv62xqYTg"
+	destinationAddress = "rDwvihpE48E48F8rvNrqTb2UGWv62xqYTg"
+	currency           = "USD"
+	value              = "100"
+	issuer             = "rDwvihpE48E48F8rvNrqTb2UGWv62xqYTg"
 )
 
 func main() {
@@ -81,11 +80,11 @@ func main() {
 			},
 		},
 		Amount: types.IssuedCurrencyAmount{
-			Issuer:   Issuer,
-			Currency: Currency,
-			Value:    Value,
+			Issuer:   issuer,
+			Currency: currency,
+			Value:    value,
 		},
-		Destination: types.Address(DestinationAddress),
+		Destination: types.Address(destinationAddress),
 	}
 
 	fmt.Println(tx.Flatten())
@@ -108,11 +107,11 @@ func main() {
 			Account:         types.Address(mnemonicWallet.ClassicAddress),
 		},
 		Amount: types.IssuedCurrencyAmount{
-			Issuer:   Issuer,
-			Currency: Currency,
-			Value:    Value,
+			Issuer:   issuer,
+			Currency: currency,
+			Value:    value,
 		},
-		Destination: types.Address(DestinationAddress),
+		Destination: types.Address(destinationAddress),
 	}
 
 	mnemonicTxBlob, mnemonicHash, err := mnemonicWallet.Sign(mnemonicTx.Flatten())

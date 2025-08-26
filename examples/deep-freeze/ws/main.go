@@ -16,7 +16,7 @@ const (
 	currencyCode = "USDA"
 )
 
-type SubmittableTransaction interface {
+type submittableTransaction interface {
 	TxType() transactions.TxType
 	Flatten() transactions.FlatTransaction // Ensures all transactions can be flattened
 }
@@ -325,7 +325,7 @@ func getClient() *websocket.Client {
 }
 
 // submitAndWait submits a transaction and waits for it to be included in a validated ledger
-func submitAndWait(client *websocket.Client, txn SubmittableTransaction, wallet wallet.Wallet) {
+func submitAndWait(client *websocket.Client, txn submittableTransaction, wallet wallet.Wallet) {
 	fmt.Printf("⏳ Submitting %s transaction...\n", txn.TxType())
 
 	flattenedTx := txn.Flatten()

@@ -12,6 +12,13 @@ linters:
     - misspell
     - unparam
     - revive
+  exclusions:
+    rules:
+      - path: examples/
+        linters:
+          - revive
+        text: "package-comments"
+
 formatters:
   enable:
     - gofmt

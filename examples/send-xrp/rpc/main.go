@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	WalletSeed = "sn3nxiW7v8KXzPzAqzyHXbSSKNuN9"
+	walletSeed = "sn3nxiW7v8KXzPzAqzyHXbSSKNuN9"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 
 	client := rpc.NewClient(cfg)
 
-	w, err := wallet.FromSeed(WalletSeed, "")
+	w, err := wallet.FromSeed(walletSeed, "")
 	if err != nil {
 		fmt.Println(err)
 		return
