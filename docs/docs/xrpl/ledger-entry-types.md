@@ -7,6 +7,8 @@ The `ledger-entry-types` package contains types and functions to handle ledger o
 - [`AccountRoot`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/accountroot)
 - [`Amendments`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/amendments)
 - [`AMM`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/amm)
+- [`Credential`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/credential)
+- `Delegate`
 - [`Bridge`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/bridge)
 - [`Check`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/check)
 - [`DepositPreauth`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/depositpreauth)
@@ -21,6 +23,7 @@ The `ledger-entry-types` package contains types and functions to handle ledger o
 - [`Offer`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/offer)
 - [`Oracle`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/oracle)
 - [`PayChannel`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/paychannel)
+- [`PermissionedDomain`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/permissioneddomain)
 - [`RippleState`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/ripplestate)
 - [`SignerList`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/signerlist)
 - [`Ticket`](https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/ticket)
