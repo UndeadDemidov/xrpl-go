@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // NFTokenID represents the identifier of a non-fungible token.

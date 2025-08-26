@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // Oracle represents the oracle query response, containing an account and document ID.

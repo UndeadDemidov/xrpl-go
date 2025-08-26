@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/pkg/typecheck"

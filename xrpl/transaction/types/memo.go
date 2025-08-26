@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // MemoWrapper wraps a Memo for optional inclusion in a transaction.

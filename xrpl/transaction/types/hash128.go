@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // Hash128 represents a 128-bit hash encoded as a string.

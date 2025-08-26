@@ -1,4 +1,6 @@
 // Package types provides data structures for server query responses.
+//
+//revive:disable:var-naming
 package types
 
 // ServerPort represents a network port and its supported protocols in the server response.

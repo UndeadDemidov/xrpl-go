@@ -1,4 +1,6 @@
 // Package types contains data structures for subscription stream types.
+//
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/queries/common"

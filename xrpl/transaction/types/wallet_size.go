@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // WalletSize returns a pointer to a uint32 representing the wallet size (optional).

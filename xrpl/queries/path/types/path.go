@@ -1,4 +1,6 @@
 // Package types contains data structures for path finding query types.
+//
+//revive:disable:var-naming
 package types
 
 import (

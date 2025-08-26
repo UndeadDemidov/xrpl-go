@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // Signer represents a transaction signer wrapper, containing signer data.

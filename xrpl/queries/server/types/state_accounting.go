@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // StateAccountingFinal holds accounting information for various server states.
