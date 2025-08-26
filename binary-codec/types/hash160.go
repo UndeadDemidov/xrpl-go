@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // Hash160 struct represents a 160-bit hash.

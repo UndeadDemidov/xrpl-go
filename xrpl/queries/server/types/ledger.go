@@ -1,4 +1,6 @@
 // Package types provides data structures for server query responses.
+//
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"

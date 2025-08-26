@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // TransferRate returns a pointer to a uint32 representing the TransferRate field (optional).

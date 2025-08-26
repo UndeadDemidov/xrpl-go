@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // OfferResultFlags defines the bit flags associated with an offer result.

@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // NFToken represents a non-fungible token with its ID and URI.
