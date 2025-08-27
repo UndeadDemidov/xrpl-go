@@ -1,3 +1,6 @@
+// Package types contains data structures for binary codec operations.
+//
+// revive:disable:var-naming
 package types
 
 // Hash192 struct represents a 192-bit hash.

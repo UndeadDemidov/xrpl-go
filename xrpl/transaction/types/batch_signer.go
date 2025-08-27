@@ -1,3 +1,5 @@
+// Package types provides core transaction types and helpers for the XRPL Go library.
+// revive:disable:var-naming
 package types
 
 import (
