@@ -676,7 +676,8 @@ func TestNewBigDecimal(t *testing.T) {
 			got, err := NewBigDecimal(tc.input)
 
 			if tc.expErr != nil {
-				require.EqualError(t, tc.expErr, err.Error())
+				require.Error(t, err)
+				require.ErrorIs(t, err, tc.expErr)
 			} else {
 				require.NoError(t, err)
 				require.Equal(t, tc.expBigDec, got)

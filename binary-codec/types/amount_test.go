@@ -427,7 +427,7 @@ func TestSerializeIssuedCurrencyAmount(t *testing.T) {
 			inputCurrency: "USD",
 			inputIssuer:   "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
 			expected:      nil,
-			expectedErr:   bigdecimal.ErrInvalidCharacter,
+			expectedErr:   fmt.Errorf("%w: only the following are allowed: %q", bigdecimal.ErrInvalidCharacter, bigdecimal.AllowedCharacters),
 		},
 		{
 			name:          "fail - invalid currency code",

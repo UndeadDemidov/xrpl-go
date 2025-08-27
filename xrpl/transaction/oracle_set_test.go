@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"errors"
 	"strings"
 	"testing"
 
@@ -196,7 +197,7 @@ func TestOracleSet_Validate(t *testing.T) {
 		t.Run(testcase.name, func(t *testing.T) {
 			ok, err := testcase.tx.Validate()
 			assert.Equal(t, ok, testcase.expected == nil)
-			assert.Equal(t, err, testcase.expected)
+			assert.True(t, errors.Is(err, testcase.expected), "expected %v, got %v", testcase.expected, err)
 		})
 	}
 }

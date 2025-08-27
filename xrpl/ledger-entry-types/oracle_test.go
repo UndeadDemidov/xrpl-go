@@ -98,7 +98,12 @@ func TestPriceData_Validate(t *testing.T) {
 
 	for _, testcase := range testcases {
 		t.Run(testcase.name, func(t *testing.T) {
-			assert.Equal(t, testcase.priceData.Validate(), testcase.expected)
+			err := testcase.priceData.Validate()
+			if testcase.expected == nil {
+				assert.NoError(t, err)
+			} else {
+				assert.ErrorIs(t, err, testcase.expected)
+			}
 		})
 	}
 }
