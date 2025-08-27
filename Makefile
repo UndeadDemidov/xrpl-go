@@ -8,6 +8,9 @@ INTEGRATION_TEST_PACKAGES = ./xrpl/transaction/integration
 PARALLEL_TESTS = 4
 TEST_TIMEOUT = 5m
 
+GOLANGCI_LINT_MAJOR_VERSION = 2
+GOLANGCI_LINT_VERSION = v2.2.2
+
 RIPPLED_IMAGE = rippleci/rippled:2.3.0
 
 ################################################################################
@@ -16,11 +19,13 @@ RIPPLED_IMAGE = rippleci/rippled:2.3.0
 
 lint:
 	@echo "Linting Go code..."
+	@go install github.com/golangci/golangci-lint/v$(GOLANGCI_LINT_MAJOR_VERSION)/cmd/golangci-lint@$(GOLANGCI_LINT_VERSION)
 	@golangci-lint run
 	@echo "Linting complete!"
 
 lint-fix:
 	@echo "Fixing Go code..."
+	@go install github.com/golangci/golangci-lint/v$(GOLANGCI_LINT_MAJOR_VERSION)/cmd/golangci-lint@$(GOLANGCI_LINT_VERSION)
 	@gofmt -w -s .
 	@echo "Fixing complete!"
 
