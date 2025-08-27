@@ -3,6 +3,8 @@ package wallet
 import "errors"
 
 var (
+	// address
+
 	// ErrAddressTagNotZero is returned when the address tag is not zero.
 	ErrAddressTagNotZero = errors.New("address tag is not zero")
 

@@ -42,9 +42,9 @@ var (
 	// xchain
 
 	// ErrInvalidDestinationAddress is returned when the destination address is invalid.
-	ErrInvalidDestinationAddress = errors.New("xchainClaim: invalid destination address")
+	ErrInvalidDestinationAddress = errors.New("xchain claim: invalid destination address")
 	// ErrMissingXChainClaimID is returned when the XChainClaimID is missing.
-	ErrMissingXChainClaimID = errors.New("xchainClaim: missing XChainClaimID")
+	ErrMissingXChainClaimID = errors.New("xchain claim: missing XChainClaimID")
 
 	// ErrInvalidXChainClaimID is returned when the XChainClaimID is invalid or missing.
 	ErrInvalidXChainClaimID = errors.New("invalid XChainClaimID")
@@ -132,7 +132,7 @@ var (
 	// ErrInvalidSignerEntries is returned when the number of signer entries is outside the allowed range.
 	ErrInvalidSignerEntries = errors.New("invalid number of signer entries")
 	// ErrInvalidWalletLocator is returned when a SignerEntry's WalletLocator is not a valid hexadecimal string.
-	ErrInvalidWalletLocator = errors.New("invalid WalletLocator in SignerEntry, must be an hexadecimal string")
+	ErrInvalidWalletLocator = errors.New("invalid WalletLocator in SignerEntry, must be a hexadecimal string")
 	// ErrSignerQuorumGreaterThanSumOfSignerWeights is returned when SignerQuorum exceeds sum of all SignerWeights.
 	ErrSignerQuorumGreaterThanSumOfSignerWeights = errors.New("signerQuorum must be less than or equal to the sum of all SignerWeights")
 	// ErrInvalidQuorumAndEntries is returned when SignerEntries is non-empty while SignerQuorum is zero.
@@ -193,8 +193,8 @@ var (
 	// ErrEmptyNFTokenOffers is returned when the NFTokenOffers array contains no entries.
 	ErrEmptyNFTokenOffers = errors.New("the NFTokenOffers array must have at least one entry")
 
-	// ErrInvalidNFTokenID is returned when the NFTokenID is not an hexadecimal.
-	ErrInvalidNFTokenID = errors.New("invalid NFTokenID, must be an hexadecimal string")
+	// ErrInvalidNFTokenID is returned when the NFTokenID is not a hexadecimal.
+	ErrInvalidNFTokenID = errors.New("invalid NFTokenID, must be a hexadecimal string")
 
 	// ErrNFTokenBrokerFeeZero is returned when NFTokenBrokerFee is zero.
 	ErrNFTokenBrokerFeeZero = errors.New("nftoken accept offer: NFTokenBrokerFee cannot be zero")
@@ -296,9 +296,9 @@ var (
 	// check
 
 	// ErrAmountOrDeliverMinNotProvided is returned when neither Amount nor DeliverMin is provided.
-	ErrAmountOrDeliverMinNotProvided = errors.New("checkCash - either Amount or DeliverMin must be provided")
+	ErrAmountOrDeliverMinNotProvided = errors.New("check cash: either Amount or DeliverMin must be provided")
 	// ErrMutuallyExclusiveAmountDeliverMin is returned when both Amount and DeliverMin are provided.
-	ErrMutuallyExclusiveAmountDeliverMin = errors.New("checkCash - both Amount and DeliverMin cannot be provided")
+	ErrMutuallyExclusiveAmountDeliverMin = errors.New("check cash: both Amount and DeliverMin cannot be provided")
 
 	// batch
 
@@ -314,25 +314,9 @@ var (
 	// Each element in the RawTransactions array must be a valid transaction object.
 	ErrBatchRawTransactionNotObject = errors.New("batch RawTransaction element is not an object")
 
-	// ErrBatchRawTransactionMissing is returned when the RawTransaction field is missing from an array element.
-	// Each RawTransactions array element must contain a RawTransaction field.
-	ErrBatchRawTransactionMissing = errors.New("batch RawTransaction field is missing")
-
 	// ErrBatchRawTransactionFieldNotObject is returned when the RawTransaction field is not an object.
 	// The RawTransaction field must contain a valid transaction object structure.
 	ErrBatchRawTransactionFieldNotObject = errors.New("batch RawTransaction field is not an object")
-
-	// ErrBatchNestedTransaction is returned when trying to include a Batch transaction within another Batch.
-	// Nested batch transactions are not allowed to prevent infinite recursion and complexity.
-	ErrBatchNestedTransaction = errors.New("batch cannot contain nested Batch transactions")
-
-	// ErrBatchMissingInnerFlag is returned when an inner transaction lacks the TfInnerBatchTxn flag.
-	// All transactions within a batch must have the TfInnerBatchTxn flag set to indicate they are inner transactions.
-	ErrBatchMissingInnerFlag = errors.New("batch RawTransaction must contain the TfInnerBatchTxn flag")
-
-	// ErrBatchInnerTransactionInvalid is returned when an inner transaction fails its own validation.
-	// Each inner transaction must pass its individual validation rules.
-	ErrBatchInnerTransactionInvalid = errors.New("batch inner transaction validation failed")
 
 	// ErrBatchSignerNotObject is returned when a BatchSigner array element is not an object.
 	// Each element in the BatchSigners array must be a valid signer object.
@@ -345,10 +329,6 @@ var (
 	// ErrBatchSignerFieldNotObject is returned when the BatchSigner field is not an object.
 	// The BatchSigner field must contain a valid signer object structure.
 	ErrBatchSignerFieldNotObject = errors.New("batch BatchSigner field is not an object")
-
-	// ErrBatchSignerAccountMissing is returned when a BatchSigner lacks the required Account field.
-	// Each BatchSigner must specify an Account for the signing operation.
-	ErrBatchSignerAccountMissing = errors.New("batch BatchSigner Account is missing")
 
 	// ErrBatchSignerAccountNotString is returned when a BatchSigner Account field is not a string.
 	// The Account field must be a valid string representing an XRPL account address.
@@ -393,7 +373,7 @@ var (
 	// account
 
 	// ErrAccountSetInvalidSetFlag is returned when SetFlag is outside the valid range (1 to 16).
-	ErrAccountSetInvalidSetFlag = errors.New("accountSet: SetFlag must be an integer between asfRequireDest (1) and asfAllowTrustLineClawback (16)")
+	ErrAccountSetInvalidSetFlag = errors.New("account set: SetFlag must be an integer between asfRequireDest (1) and asfAllowTrustLineClawback (16)")
 	// ErrAccountSetInvalidTickSize is returned when TickSize is outside the valid range (0 to 15 inclusive).
-	ErrAccountSetInvalidTickSize = errors.New("accountSet: TickSize must be an integer between 0 and 15 inclusive")
+	ErrAccountSetInvalidTickSize = errors.New("account set: TickSize must be an integer between 0 and 15 inclusive")
 )

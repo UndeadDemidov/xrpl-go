@@ -6,28 +6,24 @@ var (
 	// xchain bridge
 
 	// ErrInvalidIssuingChainDoorAddress is returned when the issuing chain door address is invalid.
-	ErrInvalidIssuingChainDoorAddress = errors.New("xchainBridge: invalid issuing chain door address")
+	ErrInvalidIssuingChainDoorAddress = errors.New("xchain bridge: invalid issuing chain door address")
 	// ErrInvalidIssuingChainIssueAddress is returned when the issuing chain issue address is invalid.
-	ErrInvalidIssuingChainIssueAddress = errors.New("xchainBridge: invalid issuing chain issue address")
+	ErrInvalidIssuingChainIssueAddress = errors.New("xchain bridge: invalid issuing chain issue address")
 	// ErrInvalidLockingChainDoorAddress is returned when the locking chain door address is invalid.
-	ErrInvalidLockingChainDoorAddress = errors.New("xchainBridge: invalid locking chain door address")
+	ErrInvalidLockingChainDoorAddress = errors.New("xchain bridge: invalid locking chain door address")
 	// ErrInvalidLockingChainIssueAddress is returned when the locking chain issue address is invalid.
-	ErrInvalidLockingChainIssueAddress = errors.New("xchainBridge: invalid locking chain issue address")
+	ErrInvalidLockingChainIssueAddress = errors.New("xchain bridge: invalid locking chain issue address")
 
 	// raw tx
 
 	// ErrBatchRawTransactionMissing is returned when the RawTransaction field is missing from an array element.
 	ErrBatchRawTransactionMissing = errors.New("batch RawTransaction field is missing")
-
 	// ErrBatchRawTransactionFieldNotObject is returned when the RawTransaction field is not an object.
 	ErrBatchRawTransactionFieldNotObject = errors.New("batch RawTransaction field is not an object")
-
 	// ErrBatchNestedTransaction is returned when trying to include a Batch transaction within another Batch.
 	ErrBatchNestedTransaction = errors.New("batch cannot contain nested Batch transactions")
-
 	// ErrBatchMissingInnerFlag is returned when an inner transaction lacks the TfInnerBatchTxn flag.
 	ErrBatchMissingInnerFlag = errors.New("batch RawTransaction must contain the TfInnerBatchTxn flag")
-
 	// ErrBatchInnerTransactionInvalid is returned when an inner transaction fails its own validation.
 	ErrBatchInnerTransactionInvalid = errors.New("batch inner transaction validation failed")
 
@@ -40,10 +36,8 @@ var (
 
 	// ErrBatchSignerAccountMissing is returned when a BatchSigner lacks the required Account field.
 	ErrBatchSignerAccountMissing = errors.New("batch BatchSigner Account is missing")
-
 	// ErrBatchSignerSigningPubKeyMissing is returned when a BatchSigner lacks the required SigningPubKey field.
 	ErrBatchSignerSigningPubKeyMissing = errors.New("batch BatchSigner SigningPubKey is missing")
-
 	// ErrBatchSignerInvalidTxnSignature is returned when a BatchSigner has an invalid TxnSignature field.
 	ErrBatchSignerInvalidTxnSignature = errors.New("batch BatchSigner TxnSignature is invalid")
 
@@ -51,7 +45,6 @@ var (
 
 	// ErrInvalidCredentialType is returned when the credential type is invalid; it must be a hexadecimal string between 1 and 64 bytes.
 	ErrInvalidCredentialType = errors.New("invalid credential type, must be a hexadecimal string between 1 and 64 bytes")
-
 	// ErrInvalidCredentialIssuer is returned when the credential Issuer field is missing.
 	ErrInvalidCredentialIssuer = errors.New("credential type: missing field Issuer")
 
