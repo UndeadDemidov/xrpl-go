@@ -35,4 +35,365 @@ var (
 	ErrInvalidURI = errors.New("invalid URI, must be a valid hexadecimal string")
 	// ErrOwnerAccountConflict is returned when the owner is the same as the account.
 	ErrOwnerAccountConflict = errors.New("owner must be different from the account")
+
+	// ErrInvalidFlags is returned when provided flags for XChainModifyBridge are invalid.
+	ErrInvalidFlags = errors.New("invalid flags")
+
+	// xchain
+
+	// ErrInvalidDestinationAddress is returned when the destination address is invalid.
+	ErrInvalidDestinationAddress = errors.New("xchainClaim: invalid destination address")
+	// ErrMissingXChainClaimID is returned when the XChainClaimID is missing.
+	ErrMissingXChainClaimID = errors.New("xchainClaim: missing XChainClaimID")
+
+	// ErrInvalidXChainClaimID is returned when the XChainClaimID is invalid or missing.
+	ErrInvalidXChainClaimID = errors.New("invalid XChainClaimID")
+
+	// ErrInvalidAttestationRewardAccount is returned when the AttestationRewardAccount is not a valid address.
+	ErrInvalidAttestationRewardAccount = errors.New("invalid attestation reward account")
+	// ErrInvalidAttestationSignerAccount is returned when the AttestationSignerAccount is not a valid address.
+	ErrInvalidAttestationSignerAccount = errors.New("invalid attestation signer account")
+	// ErrInvalidOtherChainSource is returned when OtherChainSource is not a valid address.
+	ErrInvalidOtherChainSource = errors.New("invalid other chain source")
+	// ErrInvalidPublicKey is returned when the PublicKey field is empty or invalid.
+	ErrInvalidPublicKey = errors.New("invalid public key")
+	// ErrInvalidWasLockingChainSend is returned when WasLockingChainSend is not 0 or 1.
+	ErrInvalidWasLockingChainSend = errors.New("invalid was locking chain send")
+	// ErrInvalidXChainAccountCreateCount is returned when XChainAccountCreateCount is not a valid unsigned integer.
+	ErrInvalidXChainAccountCreateCount = errors.New("invalid x chain account create count")
+
+	// validations
+
+	// ErrEmptyPath is returned when the path is empty.
+	ErrEmptyPath = errors.New("path(s) should have at least one path")
+	// ErrInvalidTokenCurrency is returned when the token currency is XRP.
+	ErrInvalidTokenCurrency = errors.New("invalid or missing token currency, it also cannot have a similar standard code as XRP")
+	// ErrInvalidTokenFields is returned when the issued currency object does not have the required fields (currency, issuer and value).
+	ErrInvalidTokenFields = errors.New("issued currency object should have 3 fields: currency, issuer, value")
+	// ErrInvalidPathStepCombination is returned when the path step is invalid. The fields combination is invalid.
+	ErrInvalidPathStepCombination = errors.New("invalid path step, check the valid fields combination at https://xrpl.org/docs/concepts/tokens/fungible-tokens/paths#path-specifications")
+	// ErrInvalidTokenValue is returned when the value field is not a valid positive number.
+	ErrInvalidTokenValue = errors.New("value field should be a valid positive number")
+	// ErrInvalidTokenType is returned when an issued currency is of type XRP.
+	ErrInvalidTokenType = errors.New("an issued currency cannot be of type XRP")
+	// ErrMissingTokenCurrency is returned when the currency field is missing for an issued currency.
+	ErrMissingTokenCurrency = errors.New("currency field is missing for the issued currency")
+	// ErrInvalidAssetFields is returned when the asset object does not have the required fields (currency, or currency and issuer).
+	ErrInvalidAssetFields = errors.New("asset object should have at least one field 'currency', or two fields 'currency' and 'issuer'")
+	// ErrMissingAssetCurrency is returned when the currency field is missing for an asset.
+	ErrMissingAssetCurrency = errors.New("currency field is required for an asset")
+	// ErrInvalidAssetIssuer is returned when the issuer field is invalid for an asset.
+	ErrInvalidAssetIssuer = errors.New("issuer field must be a valid XRPL classic address")
+
+	// validations_commons
+
+	// ErrFieldMissing is returned when a required field is missing from a transaction.
+	ErrFieldMissing = errors.New("field is missing")
+	// ErrInvalidField is returned when a field has an invalid value.
+	ErrInvalidField = errors.New("invalid field")
+
+	// validations_xrpl_objects
+
+	// ErrMemoShouldHaveAtLeastOneField is returned when a memo object is empty.
+	ErrMemoShouldHaveAtLeastOneField = errors.New("memo object should have at least one field, MemoData, MemoFormat or MemoType")
+	// ErrMemoDataShouldBeHex is returned when MemoData is not a hexadecimal string.
+	ErrMemoDataShouldBeHex = errors.New("memoData should be a hexadecimal string")
+	// ErrMemoFormatShouldBeHex is returned when MemoFormat is not a hexadecimal string.
+	ErrMemoFormatShouldBeHex = errors.New("memoFormat should be a hexadecimal string")
+	// ErrMemoTypeShouldBeHex is returned when MemoType is not a hexadecimal string.
+	ErrMemoTypeShouldBeHex = errors.New("memoType should be a hexadecimal string")
+	// ErrSignerShouldHaveThreeFields is returned when a Signer object doesn't have exactly 3 fields.
+	ErrSignerShouldHaveThreeFields = errors.New("signers: Signer should have 3 fields: Account, TxnSignature, SigningPubKey")
+	// ErrSignerAccountShouldBeString is returned when the Account field in a Signer is not a valid string.
+	ErrSignerAccountShouldBeString = errors.New("signers: Account should be a string")
+	// ErrSignerTxnSignatureShouldBeNonEmpty is returned when TxnSignature in a Signer is empty.
+	ErrSignerTxnSignatureShouldBeNonEmpty = errors.New("signers: TxnSignature should be a non-empty string")
+	// ErrSignerSigningPubKeyShouldBeNonEmpty is returned when SigningPubKey in a Signer is empty.
+	ErrSignerSigningPubKeyShouldBeNonEmpty = errors.New("signers: SigningPubKey should be a non-empty string")
+	// ErrMissingField is returned when a required field is missing.
+	ErrMissingField = errors.New("missing required field")
+
+	// trust set
+
+	// ErrTrustSetMissingLimitAmount is returned when the LimitAmount field is not set on a TrustSet transaction.
+	ErrTrustSetMissingLimitAmount = errors.New("missing field LimitAmount")
+	// ErrTrustSetQualityInNotNumber is returned when QualityIn is not a valid number.
+	ErrTrustSetQualityInNotNumber = errors.New("QualityIn must be a number")
+	// ErrTrustSetQualityOutNotNumber is returned when QualityOut is not a valid number.
+	ErrTrustSetQualityOutNotNumber = errors.New("QualityOut must be a number")
+
+	// ticket create
+
+	// ErrTicketCreateInvalidTicketCount is returned when the ticket count is outside the valid range.
+	ErrTicketCreateInvalidTicketCount = errors.New("invalid ticket count")
+
+	// signer list set
+
+	// ErrInvalidSignerEntries is returned when the number of signer entries is outside the allowed range.
+	ErrInvalidSignerEntries = errors.New("invalid number of signer entries")
+	// ErrInvalidWalletLocator is returned when a SignerEntry's WalletLocator is not a valid hexadecimal string.
+	ErrInvalidWalletLocator = errors.New("invalid WalletLocator in SignerEntry, must be an hexadecimal string")
+	// ErrSignerQuorumGreaterThanSumOfSignerWeights is returned when SignerQuorum exceeds sum of all SignerWeights.
+	ErrSignerQuorumGreaterThanSumOfSignerWeights = errors.New("signerQuorum must be less than or equal to the sum of all SignerWeights")
+	// ErrInvalidQuorumAndEntries is returned when SignerEntries is non-empty while SignerQuorum is zero.
+	ErrInvalidQuorumAndEntries = errors.New("signerEntries must be empty when the SignerQuorum is set to 0 to delete a signer list")
+
+	// ErrInvalidRegularKey is returned when the RegularKey field contains an invalid XRPL address.
+	ErrInvalidRegularKey = errors.New("invalid xrpl address for the RegularKey field")
+	// ErrRegularKeyMatchesAccount is returned when the regular key address matches the account address.
+	ErrRegularKeyMatchesAccount = errors.New("regular key must not match the account address")
+
+	// permissioned domain
+
+	// ErrMissingDomainID is returned when the required DomainID field is missing.
+	ErrMissingDomainID = errors.New("missing required field: DomainID")
+
+	// payment
+
+	// ErrPartialPaymentFlagRequired is returned when the tfPartialPayment flag is required but not set.
+	ErrPartialPaymentFlagRequired = errors.New("tfPartialPayment flag required with DeliverMin")
+
+	// ErrInvalidExpiration indicates the expiration time must be either later than the current time plus the SettleDelay of the channel, or the existing Expiration of the channel.
+	ErrInvalidExpiration = errors.New("expiration time must be either later than the current time plus the SettleDelay of the channel, or the existing Expiration of the channel")
+
+	// ErrInvalidChannel is returned when the Channel is not a valid 64-character hexadecimal string.
+	ErrInvalidChannel = errors.New("invalid Channel, must be a valid 64-character hexadecimal string")
+	// ErrInvalidSignature is returned when the Signature is not a valid hexadecimal string.
+	ErrInvalidSignature = errors.New("invalid Signature, must be a valid hexadecimal string")
+
+	// oracle
+
+	// ErrProviderLength is returned when the Provider field exceeds OracleSetProviderMaxLength bytes.
+	ErrProviderLength = errors.New("provider length exceeds maximum")
+
+	// ErrPriceDataSeriesItems is returned when the number of PriceDataSeries items exceeds the maximum allowed.
+	ErrPriceDataSeriesItems = errors.New("price data series items exceed maximum allowed")
+
+	// offer
+
+	// ErrOfferCancelMissingOfferSequence is returned when the offer sequence is missing.
+	ErrOfferCancelMissingOfferSequence = errors.New("missing offer sequence")
+
+	// nft
+
+	// ErrInvalidTransferFee is returned when the transferFee is not between 0 and 50000 inclusive.
+	ErrInvalidTransferFee = errors.New("transferFee must be between 0 and 50000 inclusive")
+	// ErrIssuerAccountConflict is returned when the issuer is the same as the account.
+	ErrIssuerAccountConflict = errors.New("issuer cannot be the same as the account")
+	// ErrTransferFeeRequiresTransferableFlag is returned when the transferFee is set without the tfTransferable flag.
+	ErrTransferFeeRequiresTransferableFlag = errors.New("transferFee can only be set if the tfTransferable flag is enabled")
+	// ErrAmountRequiredWithExpirationOrDestination is returned when Expiration or Destination is set without Amount.
+	ErrAmountRequiredWithExpirationOrDestination = errors.New("amount is required when Expiration or Destination is present")
+
+	// ErrOwnerPresentForSellOffer is returned when the owner is present for a sell offer.
+	ErrOwnerPresentForSellOffer = errors.New("owner must not be present for a sell offer")
+	// ErrOwnerNotPresentForBuyOffer is returned when the owner is not present for a buy offer.
+	ErrOwnerNotPresentForBuyOffer = errors.New("owner must be present for a buy offer")
+
+	// ErrEmptyNFTokenOffers is returned when the NFTokenOffers array contains no entries.
+	ErrEmptyNFTokenOffers = errors.New("the NFTokenOffers array must have at least one entry")
+
+	// ErrInvalidNFTokenID is returned when the NFTokenID is not an hexadecimal.
+	ErrInvalidNFTokenID = errors.New("invalid NFTokenID, must be an hexadecimal string")
+
+	// ErrNFTokenBrokerFeeZero is returned when NFTokenBrokerFee is zero.
+	ErrNFTokenBrokerFeeZero = errors.New("nftoken accept offer: NFTokenBrokerFee cannot be zero")
+	// ErrMissingOffer is returned when at least one of NFTokenSellOffer or NFTokenBuyOffer is not set.
+	ErrMissingOffer = errors.New("at least one of NFTokenSellOffer or NFTokenBuyOffer must be set")
+	// ErrMissingBothOffers is returned when NFTokenBrokerFee is set but neither NFTokenSellOffer nor NFTokenBuyOffer are set (brokered mode).
+	ErrMissingBothOffers = errors.New("when NFTokenBrokerFee is set (brokered mode), both NFTokenSellOffer and NFTokenBuyOffer must be set")
+
+	// mpt
+
+	// ErrMPTokenIssuanceSetFlags is returned when both tfMPTLock and tfMPTUnlock flags are enabled simultaneously.
+	ErrMPTokenIssuanceSetFlags = errors.New("mptoken issuance set: tfMPTLock and tfMPTUnlock flags cannot both be enabled")
+
+	// ErrInvalidMPTokenIssuanceID is returned when the MPTokenIssuanceID is empty or invalid.
+	ErrInvalidMPTokenIssuanceID = errors.New("mptoken issuance destroy: invalid MPTokenIssuanceID")
+
+	// ErrTransferFeeRequiresCanTransfer is returned when TransferFee is set without enabling tfMPTCanTransfer flag.
+	ErrTransferFeeRequiresCanTransfer = errors.New("mptoken issuance create: TransferFee cannot be provided without enabling tfMPTCanTransfer flag")
+	// ErrInvalidMaximumAmount is returned when the MaximumAmount is not a valid unsigned 64-bit integer.
+	ErrInvalidMaximumAmount = errors.New("mptoken issuance create: invalid MaximumAmount, must be a valid unsigned 64-bit integer")
+	// ErrInvalidMPTokenMetadata is returned when MPTokenMetadata is not a valid hex string or exceeds size limit.
+	ErrInvalidMPTokenMetadata = errors.New("mptoken issuance create: MPTokenMetadata must be a valid hex string and at most 1024 bytes")
+	// ErrInvalidMPTokenIssuanceCreateTransferFee is returned when the TransferFee is outside the allowed range.
+	ErrInvalidMPTokenIssuanceCreateTransferFee = errors.New("mptoken issuance create: TransferFee must be between 0 and 50000")
+
+	// ErrHolderAccountConflict is returned when the holder account is the same as the issuing account.
+	ErrHolderAccountConflict = errors.New("holder must be different from the account")
+
+	// escrow
+
+	// ErrEscrowFinishMissingOwner is returned when the Owner field is missing in an EscrowFinish transaction.
+	ErrEscrowFinishMissingOwner = errors.New("escrow finish: missing owner")
+	// ErrEscrowFinishMissingOfferSequence is returned when the OfferSequence is zero in an EscrowFinish transaction.
+	ErrEscrowFinishMissingOfferSequence = errors.New("escrow finish: missing offer sequence")
+
+	// ErrEscrowCreateInvalidDestinationAddress is returned when the destination address for EscrowCreate is invalid.
+	ErrEscrowCreateInvalidDestinationAddress = errors.New("escrow create: invalid destination address")
+	// ErrEscrowCreateNoCancelOrFinishAfterSet is returned when neither CancelAfter nor FinishAfter is set.
+	ErrEscrowCreateNoCancelOrFinishAfterSet = errors.New("escrow create: either CancelAfter or FinishAfter must be set")
+	// ErrEscrowCreateNoConditionOrFinishAfterSet is returned when both Condition and FinishAfter are unset.
+	ErrEscrowCreateNoConditionOrFinishAfterSet = errors.New("escrow create: either Condition or FinishAfter must be specified")
+
+	// ErrEscrowCancelMissingOwner indicates the Owner field is missing when canceling an escrow.
+	ErrEscrowCancelMissingOwner = errors.New("escrow cancel: missing owner")
+	// ErrEscrowCancelMissingOfferSequence indicates the OfferSequence field is missing when canceling an escrow.
+	ErrEscrowCancelMissingOfferSequence = errors.New("escrow cancel: missing offer sequence")
+
+	// did
+
+	// ErrDIDSetMustSetEitherDataOrDIDDocumentOrURI is returned when Data, DIDDocument, and URI are all unset in a DIDSet transaction.
+	ErrDIDSetMustSetEitherDataOrDIDDocumentOrURI = errors.New("did set: must set either Data, DIDDocument, or URI")
+
+	// deposit preauth
+
+	// ErrDepositPreauthInvalidAuthorize is returned when the Authorize address is invalid.
+	ErrDepositPreauthInvalidAuthorize = errors.New("deposit preauth: invalid Authorize")
+	// ErrDepositPreauthInvalidUnauthorize is returned when the Unauthorize address is invalid.
+	ErrDepositPreauthInvalidUnauthorize = errors.New("deposit preauth: invalid Unauthorize")
+	// ErrDepositPreauthInvalidAuthorizeCredentials is returned when an AuthorizeCredentials entry is invalid.
+	ErrDepositPreauthInvalidAuthorizeCredentials = errors.New("deposit preauth: invalid AuthorizeCredentials")
+	// ErrDepositPreauthInvalidUnauthorizeCredentials is returned when an UnauthorizeCredentials entry is invalid.
+	ErrDepositPreauthInvalidUnauthorizeCredentials = errors.New("deposit preauth: invalid UnauthorizeCredentials")
+	// ErrDepositPreauthMustSetOnlyOneField is returned when more than one preauth field is set.
+	ErrDepositPreauthMustSetOnlyOneField = errors.New("deposit preauth: must set only one field (Authorize or AuthorizeCredentials or Unauthorize or UnauthorizeCredentials)")
+	// ErrDepositPreauthAuthorizeCannotBeSender is returned when Authorize equals the sender's account.
+	ErrDepositPreauthAuthorizeCannotBeSender = errors.New("deposit preauth: Authorize cannot be the same as the sender's account")
+	// ErrDepositPreauthUnauthorizeCannotBeSender is returned when Unauthorize equals the sender's account.
+	ErrDepositPreauthUnauthorizeCannotBeSender = errors.New("deposit preauth: Unauthorize cannot be the same as the sender's account")
+
+	// delegate set
+
+	// ErrDelegateSetAuthorizeAccountConflict is returned when the Authorize account matches the Account.
+	ErrDelegateSetAuthorizeAccountConflict = errors.New("authorize account cannot be the same as the Account")
+	// ErrDelegateSetPermissionMalformed is returned when the Permissions array is empty or malformed.
+	ErrDelegateSetPermissionMalformed = errors.New("permissions array is required and cannot be empty")
+	// ErrDelegateSetPermissionsMaxLength is returned when the Permissions array exceeds the maximum length.
+	ErrDelegateSetPermissionsMaxLength = errors.New("permissions array cannot exceed maximum length")
+	// ErrDelegateSetEmptyPermissionValue is returned when a permission value is empty or undefined.
+	ErrDelegateSetEmptyPermissionValue = errors.New("permission value cannot be empty")
+	// ErrDelegateSetNonDelegatableTransaction is returned when trying to delegate a non-delegatable transaction type.
+	ErrDelegateSetNonDelegatableTransaction = errors.New("cannot delegate non-delegatable transaction types")
+	// ErrDelegateSetDuplicatePermissions is returned when the same permission is specified multiple times.
+	ErrDelegateSetDuplicatePermissions = errors.New("duplicate permissions are not allowed")
+
+	// credential
+
+	// ErrInvalidCredentialURI is returned when the URI field does not meet the maximum allowed hex-encoded length of 512 characters (256 bytes).
+	ErrInvalidCredentialURI = errors.New("credential create: invalid URI, must have a maximum hex string length of 512 characters (256 bytes)")
+
+	// clawback
+
+	// ErrClawbackMissingAmount is returned when the Amount field is not set.
+	ErrClawbackMissingAmount = errors.New("clawback: missing field Amount")
+	// ErrClawbackInvalidAmount is returned when the Amount is not a valid issued currency.
+	ErrClawbackInvalidAmount = errors.New("clawback: invalid Amount")
+	// ErrClawbackSameAccount is returned when the clawback account and the token issuer are the same.
+	ErrClawbackSameAccount = errors.New("clawback: Account and Amount.issuer cannot be the same")
+
+	// check
+
+	// ErrAmountOrDeliverMinNotProvided is returned when neither Amount nor DeliverMin is provided.
+	ErrAmountOrDeliverMinNotProvided = errors.New("checkCash - either Amount or DeliverMin must be provided")
+	// ErrMutuallyExclusiveAmountDeliverMin is returned when both Amount and DeliverMin are provided.
+	ErrMutuallyExclusiveAmountDeliverMin = errors.New("checkCash - both Amount and DeliverMin cannot be provided")
+
+	// batch
+
+	// ErrBatchRawTransactionsEmpty is returned when the RawTransactions array is empty or nil.
+	// This validates that a batch transaction contains at least one inner transaction to execute.
+	ErrBatchRawTransactionsEmpty = errors.New("RawTransactions must be a non-empty array")
+
+	// ErrBatchSignersNotArray is returned when BatchSigners field is present but not an array type.
+	// BatchSigners must be an array of signer objects for multi-signing validation.
+	ErrBatchSignersNotArray = errors.New("BatchSigners must be an array")
+
+	// ErrBatchRawTransactionNotObject is returned when a RawTransaction array element is not an object.
+	// Each element in the RawTransactions array must be a valid transaction object.
+	ErrBatchRawTransactionNotObject = errors.New("batch RawTransaction element is not an object")
+
+	// ErrBatchRawTransactionMissing is returned when the RawTransaction field is missing from an array element.
+	// Each RawTransactions array element must contain a RawTransaction field.
+	ErrBatchRawTransactionMissing = errors.New("batch RawTransaction field is missing")
+
+	// ErrBatchRawTransactionFieldNotObject is returned when the RawTransaction field is not an object.
+	// The RawTransaction field must contain a valid transaction object structure.
+	ErrBatchRawTransactionFieldNotObject = errors.New("batch RawTransaction field is not an object")
+
+	// ErrBatchNestedTransaction is returned when trying to include a Batch transaction within another Batch.
+	// Nested batch transactions are not allowed to prevent infinite recursion and complexity.
+	ErrBatchNestedTransaction = errors.New("batch cannot contain nested Batch transactions")
+
+	// ErrBatchMissingInnerFlag is returned when an inner transaction lacks the TfInnerBatchTxn flag.
+	// All transactions within a batch must have the TfInnerBatchTxn flag set to indicate they are inner transactions.
+	ErrBatchMissingInnerFlag = errors.New("batch RawTransaction must contain the TfInnerBatchTxn flag")
+
+	// ErrBatchInnerTransactionInvalid is returned when an inner transaction fails its own validation.
+	// Each inner transaction must pass its individual validation rules.
+	ErrBatchInnerTransactionInvalid = errors.New("batch inner transaction validation failed")
+
+	// ErrBatchSignerNotObject is returned when a BatchSigner array element is not an object.
+	// Each element in the BatchSigners array must be a valid signer object.
+	ErrBatchSignerNotObject = errors.New("batch BatchSigner element is not an object")
+
+	// ErrBatchSignerMissing is returned when the BatchSigner field is missing from an array element.
+	// Each BatchSigners array element must contain a BatchSigner field.
+	ErrBatchSignerMissing = errors.New("batch BatchSigner field is missing")
+
+	// ErrBatchSignerFieldNotObject is returned when the BatchSigner field is not an object.
+	// The BatchSigner field must contain a valid signer object structure.
+	ErrBatchSignerFieldNotObject = errors.New("batch BatchSigner field is not an object")
+
+	// ErrBatchSignerAccountMissing is returned when a BatchSigner lacks the required Account field.
+	// Each BatchSigner must specify an Account for the signing operation.
+	ErrBatchSignerAccountMissing = errors.New("batch BatchSigner Account is missing")
+
+	// ErrBatchSignerAccountNotString is returned when a BatchSigner Account field is not a string.
+	// The Account field must be a valid string representing an XRPL account address.
+	ErrBatchSignerAccountNotString = errors.New("batch BatchSigner Account must be a string")
+
+	// ErrBatchSignerInvalid is returned when a BatchSigner fails its validation rules.
+	// Each BatchSigner must pass its individual validation requirements.
+	ErrBatchSignerInvalid = errors.New("batch signer validation failed")
+
+	// balance
+
+	errLowLimitIssuerNotFound        = errors.New("low limit issuer not found")
+	errHighLimitIssuerNotFound       = errors.New("high limit issuer not found")
+	errBalanceCurrencyNotFound       = errors.New("balance currency not found")
+	errInvalidBalanceValue           = errors.New("invalid balance value")
+	errBalanceNotFound               = errors.New("balance not found")
+	errAccountNotFoundForXRPQuantity = errors.New("account not found for XRP quantity")
+
+	// amm
+
+	// ErrAMMAtLeastOneAssetMustBeSet is returned when no deposit asset is specified in the AMM deposit.
+	ErrAMMAtLeastOneAssetMustBeSet = errors.New("at least one of the assets must be set")
+
+	// ErrAMMTradingFeeTooHigh is returned when the AMM trading fee exceeds the maximum allowed.
+	ErrAMMTradingFeeTooHigh = errors.New("AMM trading fee exceeds maximum allowed")
+
+	// ErrAMMMustSetAmountWithAmount2 is returned when Amount2 is set without Amount.
+	ErrAMMMustSetAmountWithAmount2 = errors.New("must set Amount with Amount2")
+	// ErrAMMMustSetAmountWithEPrice is returned when EPrice is set without Amount.
+	ErrAMMMustSetAmountWithEPrice = errors.New("must set Amount with EPrice")
+
+	// ErrInvalidHolder is returned when the holder is invalid.
+	ErrInvalidHolder = errors.New("invalid holder")
+	// ErrInvalidAmountIssuer is returned when the amount issuer is invalid.
+	ErrInvalidAmountIssuer = errors.New("invalid amount issuer")
+
+	// ErrAMMAtLeastOneAssetMustBeNonXRP is returned when both assets are XRP; at least one asset must be non-XRP.
+	ErrAMMAtLeastOneAssetMustBeNonXRP = errors.New("at least one of the assets must be non-XRP")
+	// ErrAMMAuthAccountsTooMany is returned when more than four AuthAccount objects are provided.
+	ErrAMMAuthAccountsTooMany = errors.New("authAccounts should have at most 4 AuthAccount objects")
+
+	// account
+
+	// ErrAccountSetInvalidSetFlag is returned when SetFlag is outside the valid range (1 to 16).
+	ErrAccountSetInvalidSetFlag = errors.New("accountSet: SetFlag must be an integer between asfRequireDest (1) and asfAllowTrustLineClawback (16)")
+	// ErrAccountSetInvalidTickSize is returned when TickSize is outside the valid range (0 to 15 inclusive).
+	ErrAccountSetInvalidTickSize = errors.New("accountSet: TickSize must be an integer between 0 and 15 inclusive")
 )

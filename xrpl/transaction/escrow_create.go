@@ -1,19 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrEscrowCreateInvalidDestinationAddress is returned when the destination address for EscrowCreate is invalid.
-	ErrEscrowCreateInvalidDestinationAddress = errors.New("escrow create: invalid destination address")
-	// ErrEscrowCreateNoCancelOrFinishAfterSet is returned when neither CancelAfter nor FinishAfter is set.
-	ErrEscrowCreateNoCancelOrFinishAfterSet = errors.New("escrow create: either CancelAfter or FinishAfter must be set")
-	// ErrEscrowCreateNoConditionOrFinishAfterSet is returned when both Condition and FinishAfter are unset.
-	ErrEscrowCreateNoConditionOrFinishAfterSet = errors.New("escrow create: either Condition or FinishAfter must be specified")
 )
 
 // EscrowCreate sequesters XRP until the escrow process either finishes or is canceled.

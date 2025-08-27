@@ -1,17 +1,8 @@
 package keypairs
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/keypairs/interfaces"
-)
-
-var (
-	// Static errors
-
-	// ErrInvalidSignature is returned when the derived keypair did not generate a verifiable signature.
-	ErrInvalidSignature = errors.New("derived keypair did not generate verifiable signature")
 )
 
 const (

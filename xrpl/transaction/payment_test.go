@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
@@ -146,7 +147,7 @@ func TestPayment_Validate(t *testing.T) {
 			},
 			wantValid:   false,
 			wantErr:     true,
-			expectedErr: ErrMissingAmount("Amount"),
+			expectedErr: fmt.Errorf("%w: %q", ErrMissingField, "Amount"),
 		},
 		{
 			name: "fail - invalid Amount",

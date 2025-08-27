@@ -1,6 +1,8 @@
 package transaction
 
 import (
+	"fmt"
+
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
@@ -81,7 +83,8 @@ func (a *AMMCreate) Validate() (bool, error) {
 	}
 
 	if a.TradingFee > AmmMaxTradingFee {
-		return false, ErrAMMTradingFeeTooHigh
+		return false, fmt.Errorf("%w: got %d, must be ≤ %d",
+			ErrAMMTradingFeeTooHigh, a.TradingFee, AmmMaxTradingFee)
 	}
 
 	return true, nil

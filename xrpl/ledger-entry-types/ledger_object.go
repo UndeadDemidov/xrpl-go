@@ -105,7 +105,7 @@ func EmptyLedgerObject(t string) (Object, error) {
 	case XChainOwnedCreateAccountClaimIDEntry:
 		return &XChainOwnedCreateAccountClaimID{}, nil
 	}
-	return nil, fmt.Errorf("unrecognized LedgerObject type \"%s\"", t)
+	return nil, fmt.Errorf("%w: %q", ErrUnrecognizedLedgerObjectType, t)
 }
 
 // UnmarshalLedgerObject parses the provided JSON data into the correct ledger entry object based on its LedgerEntryType.
@@ -171,7 +171,7 @@ func UnmarshalLedgerObject(data []byte) (Object, error) {
 	case XChainOwnedCreateAccountClaimIDEntry:
 		o = &XChainOwnedCreateAccountClaimID{}
 	default:
-		return nil, fmt.Errorf("unsupported ledger object of type %s", h.LedgerEntryType)
+		return nil, fmt.Errorf("%w: %s", ErrUnsupportedLedgerObjectType, h.LedgerEntryType)
 	}
 	if err := json.Unmarshal(data, o); err != nil {
 		return nil, err

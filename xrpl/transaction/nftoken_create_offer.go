@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -14,17 +12,6 @@ import (
 const (
 	// If enabled, indicates that the offer is a sell offer. Otherwise, it is a buy offer.
 	tfSellNFToken uint32 = 1
-)
-
-// **********************************
-// Errors
-// **********************************
-
-var (
-	// ErrOwnerPresentForSellOffer is returned when the owner is present for a sell offer.
-	ErrOwnerPresentForSellOffer = errors.New("owner must not be present for a sell offer")
-	// ErrOwnerNotPresentForBuyOffer is returned when the owner is not present for a buy offer.
-	ErrOwnerNotPresentForBuyOffer = errors.New("owner must be present for a buy offer")
 )
 
 // NFTokenCreateOffer creates either a new Sell offer for an NFToken owned by the account executing the transaction, or a new Buy offer for an NFToken owned by another account.

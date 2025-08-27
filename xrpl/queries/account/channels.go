@@ -1,17 +1,10 @@
 package account
 
 import (
-	"errors"
-
 	accounttypes "github.com/Peersyst/xrpl-go/xrpl/queries/account/types"
 	"github.com/Peersyst/xrpl-go/xrpl/queries/common"
 	"github.com/Peersyst/xrpl-go/xrpl/queries/version"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-// ErrNoAccountID is returned when no account ID is specified in a request.
-var (
-	ErrNoAccountID = errors.New("no account ID specified")
 )
 
 // ############################################################################

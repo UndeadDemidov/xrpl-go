@@ -4,7 +4,6 @@ package wallet
 
 import (
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -17,11 +16,6 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 	"github.com/tyler-smith/go-bip32"
 	"github.com/tyler-smith/go-bip39"
-)
-
-var (
-	// ErrAddressTagNotZero is returned when the address tag is not zero.
-	ErrAddressTagNotZero = errors.New("address tag is not zero")
 )
 
 // Wallet is a utility for deriving a wallet composed of a keypair (publicKey/privateKey).
@@ -82,7 +76,7 @@ func FromSecret(seed string) (Wallet, error) {
 func FromMnemonic(mnemonic string) (*Wallet, error) {
 	// Validate the mnemonic
 	if !bip39.IsMnemonicValid(mnemonic) {
-		return nil, errors.New("invalid mnemonic")
+		return nil, bip39.ErrInvalidMnemonic
 	}
 
 	// Generate seed from mnemonic

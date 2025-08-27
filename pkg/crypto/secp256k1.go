@@ -3,7 +3,6 @@ package crypto
 import (
 	"crypto/sha512"
 	"encoding/hex"
-	"errors"
 	"math/big"
 	"strings"
 
@@ -21,13 +20,6 @@ const (
 
 var (
 	_ Algorithm = SECP256K1CryptoAlgorithm{}
-
-	// ErrValidatorKeypairDerivation is returned when a validator keypair is attempted to be derived
-	ErrValidatorKeypairDerivation = errors.New("validator keypair derivation not supported")
-	// ErrInvalidPrivateKey is returned when a private key is invalid
-	ErrInvalidPrivateKey = errors.New("invalid private key")
-	// ErrInvalidMessage is returned when a message is required but not provided
-	ErrInvalidMessage = errors.New("message is required")
 )
 
 // SECP256K1CryptoAlgorithm is the implementation of the SECP256K1 algorithm.

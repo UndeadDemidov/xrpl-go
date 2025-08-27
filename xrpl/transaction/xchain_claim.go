@@ -1,18 +1,9 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrInvalidDestinationAddress is returned when the destination address is invalid.
-	ErrInvalidDestinationAddress = errors.New("xchainClaim: invalid destination address")
-	// ErrMissingXChainClaimID is returned when the XChainClaimID is missing.
-	ErrMissingXChainClaimID = errors.New("xchainClaim: missing XChainClaimID")
 )
 
 // XChainClaim completes a cross-chain transfer of value on the destination chain. It allows a user to claim the value on the

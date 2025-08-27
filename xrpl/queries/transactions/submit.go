@@ -2,16 +2,9 @@
 package transactions
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/queries/common"
 	"github.com/Peersyst/xrpl-go/xrpl/queries/version"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
-)
-
-// ErrNoTxBlob is returned when no TxBlob is defined in the SubmitRequest.
-var (
-	ErrNoTxBlob = errors.New("no TxBlob defined")
 )
 
 // ############################################################################

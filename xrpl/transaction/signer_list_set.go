@@ -1,23 +1,11 @@
 package transaction
 
 import (
-	"errors"
 	"fmt"
 
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
-)
-
-var (
-	// ErrInvalidSignerEntries is returned when the number of signer entries is outside the allowed range.
-	ErrInvalidSignerEntries = fmt.Errorf("signerEntries must have at least %d entry and no more than %d entries", MinSigners, MaxSigners)
-	// ErrInvalidWalletLocator is returned when a SignerEntry's WalletLocator is not a valid hexadecimal string.
-	ErrInvalidWalletLocator = errors.New("invalid WalletLocator in SignerEntry, must be an hexadecimal string")
-	// ErrSignerQuorumGreaterThanSumOfSignerWeights is returned when SignerQuorum exceeds sum of all SignerWeights.
-	ErrSignerQuorumGreaterThanSumOfSignerWeights = errors.New("signerQuorum must be less than or equal to the sum of all SignerWeights")
-	// ErrInvalidQuorumAndEntries is returned when SignerEntries is non-empty while SignerQuorum is zero.
-	ErrInvalidQuorumAndEntries = errors.New("signerEntries must be empty when the SignerQuorum is set to 0 to delete a signer list")
 )
 
 const (
@@ -125,7 +113,8 @@ func (s *SignerListSet) Validate() (bool, error) {
 
 	// Check if SignerEntries has at least 1 entry and no more than 32 entries
 	if len(s.SignerEntries) < MinSigners || len(s.SignerEntries) > MaxSigners {
-		return false, ErrInvalidSignerEntries
+		return false, fmt.Errorf("%w: must have at least %d entry and no more than %d entries",
+			ErrInvalidSignerEntries, MinSigners, MaxSigners)
 	}
 
 	for _, signerEntry := range s.SignerEntries {

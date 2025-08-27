@@ -1,15 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrAMMAtLeastOneAssetMustBeSet is returned when no deposit asset is specified in the AMM deposit.
-	ErrAMMAtLeastOneAssetMustBeSet = errors.New("at least one of the assets must be set")
 )
 
 // AMMDeposit deposits funds into an Automated Market Maker (AMM) and receives liquidity provider tokens (LP Tokens) in exchange.

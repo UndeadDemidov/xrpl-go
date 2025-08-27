@@ -1,17 +1,10 @@
-// Package xrpl provides utilities for working with the XRP Ledger, including
-// offline transaction signing (multisign).
+// Package xrpl provides utilities for working with the XRP Ledger.
 package xrpl
 
 import (
-	"errors"
 	"sort"
 
 	binarycodec "github.com/Peersyst/xrpl-go/binary-codec"
-)
-
-// ErrNoTxToMultisign is returned when no transaction blobs are provided to Multisign.
-var (
-	ErrNoTxToMultisign = errors.New("no transaction to multisign")
 )
 
 // Multisign is a utility for signing a transaction offline.

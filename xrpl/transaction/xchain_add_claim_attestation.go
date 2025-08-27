@@ -1,16 +1,9 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-// ErrInvalidXChainClaimID is returned when the XChainClaimID is invalid or missing.
-var (
-	ErrInvalidXChainClaimID = errors.New("invalid XChainClaimID")
 )
 
 // XChainAddClaimAttestation transaction provides proof from a witness server,

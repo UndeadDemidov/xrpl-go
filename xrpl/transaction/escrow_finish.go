@@ -1,17 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrEscrowFinishMissingOwner is returned when the Owner field is missing in an EscrowFinish transaction.
-	ErrEscrowFinishMissingOwner = errors.New("escrow finish: missing owner")
-	// ErrEscrowFinishMissingOfferSequence is returned when the OfferSequence is zero in an EscrowFinish transaction.
-	ErrEscrowFinishMissingOfferSequence = errors.New("escrow finish: missing offer sequence")
 )
 
 // EscrowFinish delivers XRP from a held payment to the recipient.

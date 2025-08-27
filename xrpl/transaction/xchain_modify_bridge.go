@@ -1,14 +1,7 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-// ErrInvalidFlags is returned when provided flags for XChainModifyBridge are invalid.
-var (
-	ErrInvalidFlags = errors.New("invalid flags")
 )
 
 const (

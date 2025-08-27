@@ -1,16 +1,9 @@
 package integration
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 	"github.com/Peersyst/xrpl-go/xrpl/wallet"
-)
-
-var (
-	// ErrFailedToFundWallet is returned when funding a wallet fails after exceeding retry limit.
-	ErrFailedToFundWallet = errors.New("failed to fund wallet")
 )
 
 const (

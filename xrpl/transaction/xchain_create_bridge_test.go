@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
@@ -103,7 +104,7 @@ func TestXChainCreateBridge_Validate(t *testing.T) {
 				},
 			},
 			expected:    false,
-			expectedErr: ErrMissingAmount("SignatureReward"),
+			expectedErr: fmt.Errorf("%w: %q", ErrMissingField, "SignatureReward"),
 		},
 		{
 			name: "fail - missing xchain bridge",

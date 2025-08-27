@@ -1,16 +1,9 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrInvalidNFTokenID is returned when the NFTokenID is not an hexadecimal.
-	ErrInvalidNFTokenID = errors.New("invalid NFTokenID, must be an hexadecimal string")
 )
 
 // The NFTokenBurn transaction is used to remove a NFToken object from the NFTokenPage in which it is being held, effectively removing the token from the ledger (burning it).

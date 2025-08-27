@@ -1,14 +1,5 @@
 package transaction
 
-import (
-	"errors"
-)
-
-var (
-	// ErrMissingDomainID is returned when the required DomainID field is missing.
-	ErrMissingDomainID = errors.New("missing required field: DomainID")
-)
-
 // PermissionedDomainDelete deletes a permissioned domain that you own.
 // (Requires the PermissionedDomains amendment)
 //

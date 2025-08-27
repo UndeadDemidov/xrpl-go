@@ -1,16 +1,12 @@
 package rpc
 
 import (
-	"errors"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/Peersyst/xrpl-go/xrpl/common"
 )
-
-// ErrEmptyURL is returned when the provided URL is empty (no port or IP specified).
-var ErrEmptyURL = errors.New("empty port and IP provided")
 
 // HTTPClient defines the interface for sending HTTP requests.
 type HTTPClient interface {

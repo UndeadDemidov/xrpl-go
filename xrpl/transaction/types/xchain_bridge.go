@@ -2,20 +2,7 @@
 package types
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
-)
-
-var (
-	// ErrInvalidIssuingChainDoorAddress is returned when the issuing chain door address is invalid.
-	ErrInvalidIssuingChainDoorAddress = errors.New("xchainBridge: invalid issuing chain door address")
-	// ErrInvalidIssuingChainIssueAddress is returned when the issuing chain issue address is invalid.
-	ErrInvalidIssuingChainIssueAddress = errors.New("xchainBridge: invalid issuing chain issue address")
-	// ErrInvalidLockingChainDoorAddress is returned when the locking chain door address is invalid.
-	ErrInvalidLockingChainDoorAddress = errors.New("xchainBridge: invalid locking chain door address")
-	// ErrInvalidLockingChainIssueAddress is returned when the locking chain issue address is invalid.
-	ErrInvalidLockingChainIssueAddress = errors.New("xchainBridge: invalid locking chain issue address")
 )
 
 // XChainBridge represents the bridge configuration for cross-chain transfers, including door accounts and assets.

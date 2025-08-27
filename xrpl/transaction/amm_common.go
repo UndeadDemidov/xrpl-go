@@ -1,10 +1,5 @@
 package transaction
 
-import (
-	"errors"
-	"fmt"
-)
-
 // Common flags for AMM transactions (Deposit and Withdraw).
 const (
 	// Perform a double-asset withdrawal/deposit and receive the specified amount of LP Tokens.
@@ -20,13 +15,4 @@ const (
 
 	// AmmMaxTradingFee is the maximum trading fee; a value of 1000 corresponds to a 1% fee.
 	AmmMaxTradingFee = 1000
-)
-
-var (
-	// ErrAMMTradingFeeTooHigh is returned when the specified trading fee exceeds AmmMaxTradingFee.
-	ErrAMMTradingFeeTooHigh = fmt.Errorf("trading fee is too high, max value is %d", AmmMaxTradingFee)
-	// ErrAMMMustSetAmountWithAmount2 is returned when Amount2 is set without Amount.
-	ErrAMMMustSetAmountWithAmount2 = errors.New("must set Amount with Amount2")
-	// ErrAMMMustSetAmountWithEPrice is returned when EPrice is set without Amount.
-	ErrAMMMustSetAmountWithEPrice = errors.New("must set Amount with EPrice")
 )

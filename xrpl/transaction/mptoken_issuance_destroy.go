@@ -1,12 +1,5 @@
 package transaction
 
-import "errors"
-
-// ErrInvalidMPTokenIssuanceID is returned when the MPTokenIssuanceID is empty or invalid.
-var (
-	ErrInvalidMPTokenIssuanceID = errors.New("mptoken issuance destroy: invalid MPTokenIssuanceID")
-)
-
 // MPTokenIssuanceDestroy transaction is used to remove an MPTokenIssuance object from the directory node
 // in which it is being held, effectively removing the token from the ledger ("destroying" it).
 //

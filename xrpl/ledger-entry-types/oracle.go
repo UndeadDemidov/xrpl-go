@@ -1,7 +1,6 @@
 package ledger
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
@@ -10,17 +9,6 @@ import (
 const (
 	// PriceDataScaleMax is the maximum scale for a price data.
 	PriceDataScaleMax uint8 = 10
-)
-
-var (
-	// ErrPriceDataScale is returned when the scale is greater than the maximum allowed.
-	ErrPriceDataScale = fmt.Errorf("scale must be less than %d", PriceDataScaleMax)
-	// ErrPriceDataAssetPriceAndScale is returned when the asset price and scale are not set together.
-	ErrPriceDataAssetPriceAndScale = fmt.Errorf("asset price and scale must be set together")
-	// ErrPriceDataBaseAsset is returned when the base asset is required but not set.
-	ErrPriceDataBaseAsset = errors.New("base asset is required")
-	// ErrPriceDataQuoteAsset is returned when the quote asset is required but not set.
-	ErrPriceDataQuoteAsset = errors.New("quote asset is required")
 )
 
 // A PriceData object represents the price information for a token pair.
@@ -53,7 +41,8 @@ func (priceData *PriceData) Validate() error {
 	}
 
 	if priceData.Scale > PriceDataScaleMax {
-		return ErrPriceDataScale
+		return fmt.Errorf("%w: got %d, must be less than %d",
+			ErrPriceDataScale, priceData.Scale, PriceDataScaleMax)
 	}
 
 	if (priceData.AssetPrice == 0) != (priceData.Scale == 0) {
@@ -91,7 +80,7 @@ func (priceData *PriceData) Flatten() FlatPriceData {
 	return flattened
 }
 
-// An Oracle ledger entry holds data associated with a single price oracle object.
+// Oracle ledger entry holds data associated with a single price oracle object.
 // Requires PriceOracle amendment.
 // Example:
 // ```json

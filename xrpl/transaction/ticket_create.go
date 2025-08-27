@@ -11,11 +11,6 @@ const (
 	MaxTicketCount = 250
 )
 
-var (
-	// ErrTicketCreateInvalidTicketCount is returned when the ticket count is outside the valid range.
-	ErrTicketCreateInvalidTicketCount = fmt.Errorf("ticket count must be between %d and %d", MinTicketCount, MaxTicketCount)
-)
-
 // TicketCreate transaction sets aside one or more sequence numbers as Tickets.
 //
 // Example:
@@ -65,7 +60,7 @@ func (t *TicketCreate) Validate() (bool, error) {
 	}
 
 	if t.TicketCount < MinTicketCount || t.TicketCount > MaxTicketCount {
-		return false, ErrTicketCreateInvalidTicketCount
+		return false, fmt.Errorf("%w: must be between %d and %d", ErrTicketCreateInvalidTicketCount, MinTicketCount, MaxTicketCount)
 	}
 
 	return true, nil

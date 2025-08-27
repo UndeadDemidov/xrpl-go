@@ -1,6 +1,8 @@
 package transaction
 
 import (
+	"fmt"
+
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 )
 
@@ -72,8 +74,9 @@ func (a *AMMVote) Validate() (bool, error) {
 		return false, err
 	}
 
-	if a.TradingFee > 1000 {
-		return false, ErrAMMTradingFeeTooHigh
+	if a.TradingFee > AmmMaxTradingFee {
+		return false, fmt.Errorf("%w: got %d, must be ≤ %d",
+			ErrAMMTradingFeeTooHigh, a.TradingFee, AmmMaxTradingFee)
 	}
 
 	return true, nil

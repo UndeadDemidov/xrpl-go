@@ -16,7 +16,7 @@ const (
 	lsfSell uint32 = 0x00020000
 )
 
-// The Offer ledger entry describes an Offer to exchange currencies in the XRP Ledger's
+// Offer ledger entry describes an Offer to exchange currencies in the XRP Ledger's
 // decentralized exchange. (In finance, this is more traditionally known as an order.)
 // An OfferCreate transaction only creates an Offer entry in the ledger when the Offer
 // cannot be fully executed immediately by consuming other Offers already in the ledger.

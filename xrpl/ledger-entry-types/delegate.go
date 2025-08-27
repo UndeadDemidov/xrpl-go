@@ -2,7 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// A Delegate entry type represents a set of permissions that an account has delegated to another account.
+// Delegate entry type represents a set of permissions that an account has delegated to another account.
 // This allows one account to authorize another account to perform specific transactions on its behalf.
 // (Requires the AccountPermissionDelegation amendment)
 //

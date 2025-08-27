@@ -1,22 +1,9 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrInvalidTransferFee is returned when the transferFee is not between 0 and 50000 inclusive.
-	ErrInvalidTransferFee = errors.New("transferFee must be between 0 and 50000 inclusive")
-	// ErrIssuerAccountConflict is returned when the issuer is the same as the account.
-	ErrIssuerAccountConflict = errors.New("issuer cannot be the same as the account")
-	// ErrTransferFeeRequiresTransferableFlag is returned when the transferFee is set without the tfTransferable flag.
-	ErrTransferFeeRequiresTransferableFlag = errors.New("transferFee can only be set if the tfTransferable flag is enabled")
-	// ErrAmountRequiredWithExpirationOrDestination is returned when Expiration or Destination is set without Amount.
-	ErrAmountRequiredWithExpirationOrDestination = errors.New("amount is required when Expiration or Destination is present")
 )
 
 // NFTokenMint transaction creates a non-fungible token and adds it to the relevant NFTokenPage object of the NFTokenMinter as an NFToken object.

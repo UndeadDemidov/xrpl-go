@@ -1,17 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrEscrowCancelMissingOwner indicates the Owner field is missing when canceling an escrow.
-	ErrEscrowCancelMissingOwner = errors.New("escrow cancel: missing owner")
-	// ErrEscrowCancelMissingOfferSequence indicates the OfferSequence field is missing when canceling an escrow.
-	ErrEscrowCancelMissingOfferSequence = errors.New("escrow cancel: missing offer sequence")
 )
 
 // EscrowCancel returns escrowed XRP to the sender.

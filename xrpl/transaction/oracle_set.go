@@ -13,13 +13,6 @@ const (
 	OracleSetProviderMaxLength int = 256
 )
 
-var (
-	// ErrProviderLength is returned when the Provider field exceeds OracleSetProviderMaxLength.
-	ErrProviderLength = fmt.Errorf("provider length must be less than %d bytes", OracleSetProviderMaxLength)
-	// ErrPriceDataSeriesItems is returned when the number of PriceDataSeries items exceeds OracleSetMaxPriceDataSeriesItems.
-	ErrPriceDataSeriesItems = fmt.Errorf("price data series items must be less than %d", OracleSetMaxPriceDataSeriesItems)
-)
-
 // OracleSet creates a new Oracle ledger entry or updates the fields of an existing one using the Oracle ID.
 //
 // The oracle provider must complete these steps before submitting this transaction:
@@ -116,11 +109,11 @@ func (tx *OracleSet) Validate() (bool, error) {
 	}
 
 	if len([]byte(tx.Provider)) > OracleSetProviderMaxLength {
-		return false, ErrProviderLength
+		return false, fmt.Errorf("%w: got %d bytes, max %d", ErrProviderLength, len([]byte(tx.Provider)), OracleSetProviderMaxLength)
 	}
 
 	if len(tx.PriceDataSeries) > OracleSetMaxPriceDataSeriesItems {
-		return false, ErrPriceDataSeriesItems
+		return false, fmt.Errorf("%w: got %d, max %d", ErrPriceDataSeriesItems, len(tx.PriceDataSeries), OracleSetMaxPriceDataSeriesItems)
 	}
 
 	for _, priceData := range tx.PriceDataSeries {

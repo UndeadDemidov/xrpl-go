@@ -1,18 +1,7 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrTrustSetMissingLimitAmount is returned when the LimitAmount field is not set on a TrustSet transaction.
-	ErrTrustSetMissingLimitAmount = errors.New("missing field LimitAmount")
-	// ErrTrustSetQualityInNotNumber is returned when QualityIn is not a valid number.
-	ErrTrustSetQualityInNotNumber = errors.New("QualityIn must be a number")
-	// ErrTrustSetQualityOutNotNumber is returned when QualityOut is not a valid number.
-	ErrTrustSetQualityOutNotNumber = errors.New("QualityOut must be a number")
 )
 
 const (

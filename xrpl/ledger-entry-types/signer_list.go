@@ -9,7 +9,7 @@ const (
 	lsfOneOwnerCount uint32 = 0x00010000
 )
 
-// A SignerList entry represents a list of parties that, as a group, are authorized to sign a transaction in place of an individual account.
+// SignerList entry represents a list of parties that, as a group, are authorized to sign a transaction in place of an individual account.
 // You can create, replace, or remove a signer list using a SignerListSet transaction.
 //
 // Example:
