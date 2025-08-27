@@ -1,3 +1,5 @@
+// Package types contains data structures for wallet operations and batch signing.
+// revive:disable:var-naming
 package types
 
 import "errors"
