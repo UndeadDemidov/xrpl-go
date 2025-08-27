@@ -8,11 +8,13 @@ import (
 )
 
 var (
-	ErrEscrowCancelMissingOwner         = errors.New("escrow cancel: missing owner")
+	// ErrEscrowCancelMissingOwner indicates the Owner field is missing when canceling an escrow.
+	ErrEscrowCancelMissingOwner = errors.New("escrow cancel: missing owner")
+	// ErrEscrowCancelMissingOfferSequence indicates the OfferSequence field is missing when canceling an escrow.
 	ErrEscrowCancelMissingOfferSequence = errors.New("escrow cancel: missing offer sequence")
 )
 
-// Return escrowed XRP to the sender.
+// EscrowCancel returns escrowed XRP to the sender.
 //
 // Example:
 //

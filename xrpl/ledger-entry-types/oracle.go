@@ -63,6 +63,7 @@ func (priceData *PriceData) Validate() error {
 	return nil
 }
 
+// FlatPriceData represents a flattened map of PriceData fields for JSON serialization.
 type FlatPriceData map[string]interface{}
 
 // Flatten flattens the price data.

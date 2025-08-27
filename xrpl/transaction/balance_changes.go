@@ -19,6 +19,7 @@ var (
 	errAccountNotFoundForXRPQuantity = errors.New("account not found for XRP quantity")
 )
 
+// Balance represents a balance change with its amount, currency, and optional issuer.
 type Balance struct {
 	Value    string `json:"amount"`
 	Currency string `json:"currency"`
@@ -30,6 +31,7 @@ type balanceChange struct {
 	Balance `json:"balance"`
 }
 
+// AccountBalanceChanges contains the account and its associated balance changes.
 type AccountBalanceChanges struct {
 	Account  types.Address `json:"account"`
 	Balances []Balance     `json:"balances"`
@@ -82,6 +84,7 @@ func newNormalizedNode(node AffectedNode) *normalizedNode {
 	}
 }
 
+// GetBalanceChanges returns the balance changes for each account based on transaction metadata.
 func GetBalanceChanges(meta *TxObjMeta) ([]AccountBalanceChanges, error) {
 	nodes := normalizeNodes(meta.AffectedNodes)
 
@@ -218,10 +221,10 @@ func getTrustlineQuantity(node *normalizedNode) ([]balanceChange, error) {
 	negatedValue := new(big.Float).Neg(bigFloatValue)
 
 	flippedResult := balanceChange{
-		Account: types.Address(result.Balance.Issuer),
+		Account: types.Address(result.Issuer),
 		Balance: Balance{
 			Issuer:   result.Account.String(),
-			Currency: result.Balance.Currency,
+			Currency: result.Currency,
 			Value:    negatedValue.String(),
 		},
 	}

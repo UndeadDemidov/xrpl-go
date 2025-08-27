@@ -5,7 +5,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// Cancels an unredeemed Check, removing it from the ledger without sending any money.
+// CheckCancel cancels an unredeemed Check, removing it from the ledger without sending any money.
 // The source or the destination of the check can cancel a Check at any time using this transaction type.
 // If the Check has expired, any address can cancel it.
 //

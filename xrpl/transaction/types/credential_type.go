@@ -3,13 +3,14 @@ package types
 import "github.com/Peersyst/xrpl-go/pkg/typecheck"
 
 const (
-	// Minimum length of a credential type is 1 byte (1 byte = 2 hex characters).
+	// MinCredentialTypeLength is the minimum length of a credential type in hex characters (1 byte = 2 hex characters).
 	MinCredentialTypeLength = 2
 
-	// Maximum length of a credential type is 64 bytes (1 byte = 2 hex characters).
+	// MaxCredentialTypeLength is the maximum length of a credential type in hex characters (64 bytes = 128 hex characters).
 	MaxCredentialTypeLength = 128
 )
 
+// CredentialType represents a credential type encoded as a hexadecimal string.
 type CredentialType string
 
 // String returns the string representation of a CredentialType.
@@ -17,10 +18,7 @@ func (c *CredentialType) String() string {
 	return string(*c)
 }
 
-// IsValidCredentialType checks if a credential type meets all the requirements:
-// - Not empty
-// - Valid hex string
-// - Length between MinCredentialTypeLength and MaxCredentialTypeLength
+// IsValid checks if the credential type meets all requirements: not empty, valid hex string, and length between MinCredentialTypeLength and MaxCredentialTypeLength.
 func (c *CredentialType) IsValid() bool {
 	if c.String() == "" {
 		return false

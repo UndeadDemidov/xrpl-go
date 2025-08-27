@@ -6,6 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// ErrInvalidFlags is returned when provided flags for XChainModifyBridge are invalid.
 var (
 	ErrInvalidFlags = errors.New("invalid flags")
 )
@@ -14,18 +15,10 @@ const (
 	tfClearAccountCreateAmount uint32 = 0x00010000
 )
 
-// (Requires the XChainBridge amendment )
+// XChainModifyBridge modifies an existing Bridge ledger object, updating its flags, minimum account create amount, and signature reward.
+// (Requires the XChainBridge amendment)
 //
-// The XChainCreateClaimID transaction creates a new cross-chain claim ID that is used
-// for a cross-chain transfer. A cross-chain claim ID represents one cross-chain transfer
-// of value.
-//
-// This transaction is the first step of a cross-chain transfer of value and is submitted
-// on the destination chain, not the source chain.
-//
-// It also includes the account on the source chain that locks or burns the funds on the
-// source chain.
-//
+// Example:
 // ```json
 //
 //	{
@@ -61,17 +54,17 @@ type XChainModifyBridge struct {
 	XChainBridge types.XChainBridge
 }
 
-// Returns the type of the transaction.
+// TxType returns the transaction type identifier for XChainModifyBridge.
 func (x *XChainModifyBridge) TxType() TxType {
 	return XChainModifyBridgeTx
 }
 
-// Sets the clear account create amount flag.
+// SetClearAccountCreateAmount enables the flag to clear the minimum account create amount.
 func (x *XChainModifyBridge) SetClearAccountCreateAmount() {
 	x.Flags |= tfClearAccountCreateAmount
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a flat map representation of the XChainModifyBridge transaction.
 func (x *XChainModifyBridge) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -96,7 +89,7 @@ func (x *XChainModifyBridge) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate checks the XChainModifyBridge fields for correctness and returns an error if invalid.
 func (x *XChainModifyBridge) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

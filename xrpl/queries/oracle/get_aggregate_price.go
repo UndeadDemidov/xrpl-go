@@ -1,3 +1,4 @@
+// Package oracle contains oracle-related queries for XRPL.
 package oracle
 
 import (
@@ -10,9 +11,8 @@ import (
 // Request
 // ############################################################################
 
-// The `get_aggregate_price` method retrieves the aggregate price of specified Oracle objects,
-// returning three price statistics: mean, median, and trimmed mean.
-// Returns an GetAggregatePriceResponse.
+// GetAggregatePriceRequest is a request to retrieve the aggregate price of specified Oracle objects,
+// returning mean, median, and trimmed mean statistics.
 type GetAggregatePriceRequest struct {
 	common.BaseRequest
 	// The currency code of the asset to be priced.
@@ -29,14 +29,17 @@ type GetAggregatePriceRequest struct {
 	TrimThreshold uint32 `json:"trim_threshold,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for GetAggregatePriceRequest.
 func (r *GetAggregatePriceRequest) Method() string {
 	return "get_aggregate_price"
 }
 
+// APIVersion returns the Rippled JSON-RPC API version for GetAggregatePriceRequest.
 func (r *GetAggregatePriceRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
+// Validate ensures the GetAggregatePriceRequest contains valid fields.
 func (r *GetAggregatePriceRequest) Validate() error {
 	return nil
 }
@@ -45,7 +48,8 @@ func (r *GetAggregatePriceRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the get_aggregate_price method.
+// GetAggregatePriceResponse is the response returned by the get_aggregate_price method,
+// containing aggregate price statistics from the queried oracles.
 type GetAggregatePriceResponse struct {
 	// The statistics from the collected oracle prices.
 	EntireSet types.Set `json:"entire_set"`

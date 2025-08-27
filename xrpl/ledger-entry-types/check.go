@@ -2,9 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// (Added by the Checks amendment.)
-// A Check entry describes a check, similar to a paper personal check,
-// which can be cashed by its destination to get money from its sender.
+// Check represents a check ledger entry, similar to a paper personal check, which can be cashed by its destination to debit the sender's balance. (Added by the Checks amendment.)
 type Check struct {
 	// The unique ID for this ledger entry.
 	// In JSON, this field is represented with different names depending on the context and API method.
@@ -45,6 +43,7 @@ type Check struct {
 	SourceTag uint32 `json:",omitempty"`
 }
 
+// EntryType returns the ledger entry type for Check.
 func (*Check) EntryType() EntryType {
 	return CheckEntry
 }

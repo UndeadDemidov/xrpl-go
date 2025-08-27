@@ -86,17 +86,17 @@ func (*Offer) EntryType() EntryType {
 	return OfferEntry
 }
 
-// Sets the offer as passive.
+// SetLsfPassive sets the offer as passive.
 func (o *Offer) SetLsfPassive() {
 	o.Flags |= lsfPassive
 }
 
-// Sets the offer as a sell offer.
+// SetLsfSell sets the offer as a sell offer.
 func (o *Offer) SetLsfSell() {
 	o.Flags |= lsfSell
 }
 
-// Unmarshals the offer from a JSON byte slice.
+// UnmarshalJSON unmarshals the offer from a JSON byte slice.
 func (o *Offer) UnmarshalJSON(data []byte) error {
 	type offerHelper struct {
 		Account           types.Address

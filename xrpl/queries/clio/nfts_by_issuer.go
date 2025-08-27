@@ -11,8 +11,8 @@ import (
 // Request
 // ############################################################################
 
-// The nfts_by_issuer method returns a list of NFTokens issued by the account.
-// The order of the NFTs is not associated with the date the NFTs were minted.
+// NFTsByIssuerRequest returns a list of NFToken objects issued by the specified account.
+// The order of the NFTs is not associated with their mint date.
 type NFTsByIssuerRequest struct {
 	common.BaseRequest
 	Issuer   types.Address `json:"issuer"`
@@ -21,15 +21,18 @@ type NFTsByIssuerRequest struct {
 	NftTaxon uint32        `json:"nft_taxon,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for NFTsByIssuerRequest.
 func (*NFTsByIssuerRequest) Method() string {
 	return "nfts_by_issuer"
 }
 
+// APIVersion returns the Rippled API version for NFTsByIssuerRequest.
 func (*NFTsByIssuerRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement V2
+// Validate checks the NFTsByIssuerRequest for valid parameters.
+// TODO implement V2
 func (*NFTsByIssuerRequest) Validate() error {
 	return nil
 }
@@ -38,7 +41,7 @@ func (*NFTsByIssuerRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the nfts_by_issuer method.
+// NFTsByIssuerResponse is the response returned by the nfts_by_issuer method, containing issued NFToken data.
 type NFTsByIssuerResponse struct {
 	Issuer       types.Address       `json:"issuer"`
 	NFTs         []cliotypes.NFToken `json:"nfts"`

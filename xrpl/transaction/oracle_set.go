@@ -7,17 +7,20 @@ import (
 )
 
 const (
-	// The maximum number of PriceData objects that can be included in a PriceDataSeries array.
+	// OracleSetMaxPriceDataSeriesItems is the maximum number of PriceData objects allowed in a PriceDataSeries array.
 	OracleSetMaxPriceDataSeriesItems int = 10
-	OracleSetProviderMaxLength       int = 256
+	// OracleSetProviderMaxLength is the maximum length in bytes for the Provider field.
+	OracleSetProviderMaxLength int = 256
 )
 
 var (
-	ErrProviderLength       = fmt.Errorf("provider length must be less than %d bytes", OracleSetProviderMaxLength)
+	// ErrProviderLength is returned when the Provider field exceeds OracleSetProviderMaxLength.
+	ErrProviderLength = fmt.Errorf("provider length must be less than %d bytes", OracleSetProviderMaxLength)
+	// ErrPriceDataSeriesItems is returned when the number of PriceDataSeries items exceeds OracleSetMaxPriceDataSeriesItems.
 	ErrPriceDataSeriesItems = fmt.Errorf("price data series items must be less than %d", OracleSetMaxPriceDataSeriesItems)
 )
 
-// Creates a new Oracle ledger entry or updates the fields of an existing one, using the Oracle ID.
+// OracleSet creates a new Oracle ledger entry or updates the fields of an existing one using the Oracle ID.
 //
 // The oracle provider must complete these steps before submitting this transaction:
 // 1. Create or own the XRPL account in the Owner field and have enough XRP to meet the reserve and transaction fee requirements.
@@ -65,12 +68,12 @@ type OracleSet struct {
 	PriceDataSeries []ledger.PriceData
 }
 
-// Returns the type of the transaction.
+// TxType returns the TxType for OracleSet transactions.
 func (tx *OracleSet) TxType() TxType {
 	return OracleSetTx
 }
 
-// Returns a flattened transaction.
+// Flatten returns a map representation of the OracleSet transaction for JSON-RPC submission.
 func (tx *OracleSet) Flatten() map[string]interface{} {
 	flattened := tx.BaseTx.Flatten()
 
@@ -106,7 +109,7 @@ func (tx *OracleSet) Flatten() map[string]interface{} {
 	return flattened
 }
 
-// Validates the transaction.
+// Validate checks OracleSet transaction fields and returns false with an error if invalid.
 func (tx *OracleSet) Validate() (bool, error) {
 	if ok, err := tx.BaseTx.Validate(); !ok {
 		return false, err

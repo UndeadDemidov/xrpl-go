@@ -6,6 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// ValidateRequiredField validates that a required field exists in the transaction and passes the validity check.
 func ValidateRequiredField(tx FlatTransaction, field string, checkValidity func(interface{}) bool) error {
 	// Check if the field is present in the transaction map.
 	if _, ok := tx[field]; !ok {

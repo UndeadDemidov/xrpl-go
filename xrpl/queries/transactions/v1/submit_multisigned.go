@@ -10,22 +10,26 @@ import (
 // Request
 // ############################################################################
 
-// The submit_multisigned command applies a multi-signed transaction and sends
-// it to the network to be included in future ledgers.
+// SubmitMultisignedRequest is the request type for the submit_multisigned command.
+// It applies a multi-signed transaction and sends it to the network for inclusion in future ledgers.
 type SubmitMultisignedRequest struct {
 	common.BaseRequest
 	Tx       transaction.FlatTransaction `json:"tx_json"`
 	FailHard bool                        `json:"fail_hard"`
 }
 
+// Method returns the JSON-RPC method name for the SubmitMultisignedRequest.
 func (*SubmitMultisignedRequest) Method() string {
 	return "submit_multisigned"
 }
 
+// APIVersion returns the API version required by the SubmitMultisignedRequest.
 func (*SubmitMultisignedRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
+// Validate verifies the SubmitMultisignedRequest parameters.
+// TODO: implement validation logic.
 func (*SubmitMultisignedRequest) Validate() error {
 	return nil
 }
@@ -34,7 +38,7 @@ func (*SubmitMultisignedRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the submit_multisigned method.
+// SubmitMultisignedResponse is the response type returned by the submit_multisigned command.
 type SubmitMultisignedResponse struct {
 	EngineResult        string                      `json:"engine_result"`
 	EngineResultCode    int                         `json:"engine_result_code"`

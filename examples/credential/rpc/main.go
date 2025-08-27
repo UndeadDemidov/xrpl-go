@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/Peersyst/xrpl-go/examples/clients"
@@ -15,7 +16,7 @@ import (
 
 func main() {
 	// As of February 2025, Credential is only available on Devnet.
-	client := clients.GetDevnetRpcClient()
+	client := clients.GetDevnetRPCClient()
 
 	// Configure wallets
 
@@ -64,6 +65,13 @@ func main() {
 		return
 	}
 
+	if expiration < 0 || expiration > int64(math.MaxUint32) {
+		fmt.Printf(
+			"❌ Expiration %d is out of uint32 range [0…%d]\n",
+			expiration, math.MaxUint32,
+		)
+		return
+	}
 	txn := &transaction.CredentialCreate{
 		BaseTx: transaction.BaseTx{
 			Account: types.Address(issuer.ClassicAddress),

@@ -33,7 +33,8 @@ var (
 	ErrInvalidSignature = errors.New("invalid Signature, must be a valid hexadecimal string")
 )
 
-// Claim XRP from a payment channel, adjust the payment channel's expiration, or both. This transaction can be used differently depending on the transaction sender's role in the specified channel:
+// PaymentChannelClaim claims XRP from a payment channel, adjusts the payment channel's expiration, or both.
+// This transaction can be used differently depending on the transaction sender's role in the specified channel:
 //
 // The source address of a channel can:
 //

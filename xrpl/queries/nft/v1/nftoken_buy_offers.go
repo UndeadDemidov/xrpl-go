@@ -1,3 +1,4 @@
+// Package v1 provides version 1 types and methods for NFT buy offers queries.
 package v1
 
 import (
@@ -12,8 +13,7 @@ import (
 // Request
 // ############################################################################
 
-// The nft_buy_offers method retrieves all of buy offers for the specified
-// NFToken.
+// NFTokenBuyOffersRequest represents a request to retrieve all buy offers for a specified NFToken.
 type NFTokenBuyOffersRequest struct {
 	common.BaseRequest
 	NFTokenID   types.NFTokenID        `json:"nft_id"`
@@ -21,15 +21,18 @@ type NFTokenBuyOffersRequest struct {
 	LedgerIndex common.LedgerSpecifier `json:"ledger_index,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the NFTokenBuyOffersRequest.
 func (*NFTokenBuyOffersRequest) Method() string {
 	return "nft_buy_offers"
 }
 
+// APIVersion returns the supported API version for the NFTokenBuyOffersRequest.
 func (*NFTokenBuyOffersRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate checks that the NFTokenBuyOffersRequest is correctly formed.
+// TODO implement V2
 func (*NFTokenBuyOffersRequest) Validate() error {
 	return nil
 }
@@ -38,7 +41,7 @@ func (*NFTokenBuyOffersRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the nft_buy_offers method.
+// NFTokenBuyOffersResponse contains the buy offers returned for a specified NFToken.
 type NFTokenBuyOffersResponse struct {
 	NFTokenID types.NFTokenID         `json:"nft_id"`
 	Offers    []nfttypes.NFTokenOffer `json:"offers"`

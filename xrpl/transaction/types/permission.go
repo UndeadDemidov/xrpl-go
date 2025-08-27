@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import "errors"
@@ -25,7 +26,7 @@ func (p *Permission) Flatten() map[string]interface{} {
 	return flattened
 }
 
-// Validate validates the Permission structure.
+// IsValid checks if the Permission structure is valid.
 func (p *Permission) IsValid() bool {
 	return p.Permission.IsValid()
 }

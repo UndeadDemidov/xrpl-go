@@ -1,5 +1,7 @@
+//revive:disable:var-naming
 package types
 
+// JobType holds statistics for a server job type, including throughput and timing metrics.
 type JobType struct {
 	JobType    string `json:"job_type"`
 	PerSecond  int    `json:"per_second"`

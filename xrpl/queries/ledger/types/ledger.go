@@ -1,3 +1,6 @@
+// Package types contains types for ledger query responses.
+//
+//revive:disable:var-naming
 package types
 
 import (
@@ -7,6 +10,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// BaseLedger represents the basic ledger data returned by ledger requests.
 type BaseLedger struct {
 	AccountHash         string                    `json:"account_hash"`
 	AccountState        []ledger.FlatLedgerObject `json:"accountState,omitempty"`
@@ -24,6 +28,7 @@ type BaseLedger struct {
 	Transactions        []interface{}             `json:"transactions,omitempty"`
 }
 
+// QueueData represents queued transaction details in ledger queue information.
 type QueueData struct {
 	Account          types.Address               `json:"account"`
 	Tx               transaction.FlatTransaction `json:"tx"`

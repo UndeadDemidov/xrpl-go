@@ -1,5 +1,6 @@
 package transaction
 
+// TxType represents the type of an XRPL transaction.
 type TxType string
 
 // nolint // otherwise issues with the Credential transaction types

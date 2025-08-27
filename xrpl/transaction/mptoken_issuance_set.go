@@ -7,6 +7,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// ErrMPTokenIssuanceSetFlags is returned when both tfMPTLock and tfMPTUnlock flags are enabled simultaneously.
 var (
 	ErrMPTokenIssuanceSetFlags = errors.New("mptoken issuance set: tfMPTLock and tfMPTUnlock flags cannot both be enabled")
 )
@@ -19,7 +20,7 @@ const (
 	tfMPTUnlock uint32 = 0x00000002
 )
 
-// The MPTokenIssuanceSet transaction is used to globally lock/unlock a MPTokenIssuance,
+// MPTokenIssuanceSet transaction is used to globally lock/unlock a MPTokenIssuance,
 // or lock/unlock an individual's MPToken.
 //
 // ```json

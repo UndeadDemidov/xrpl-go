@@ -91,14 +91,13 @@ type AMM struct {
 // Asset Object
 // ---------------------------------------------
 
-// The definition for one of the two assets the AMM holds.
-// In JSON, this is an object with currency and issuer fields.
+// Asset defines one of the two assets held by the AMM, with currency and optional issuer fields.
 type Asset struct {
 	Currency string        `json:"currency"`
 	Issuer   types.Address `json:"issuer,omitempty"`
 }
 
-// Returns the flattened representation of the Asset object.
+// Flatten returns the flattened representation of the Asset.
 func (a *Asset) Flatten() map[string]interface{} {
 	flattened := make(map[string]interface{})
 
@@ -113,8 +112,7 @@ func (a *Asset) Flatten() map[string]interface{} {
 	return flattened
 }
 
-// A liquidity provider can bid LP Tokens to claim the auction slot to receive a discount on the trading fee for a 24-hour period.
-// The LP tokens that were bid are returned to the AMM.
+// AuctionSlot represents the auction slot details for AMM fee discounts, including account, auth accounts, fee, price, and expiration.
 type AuctionSlot struct {
 	// The current owner of this auction slot.
 	Account types.Address
@@ -132,26 +130,25 @@ type AuctionSlot struct {
 // AuthAccounts Object
 // ---------------------------------------------
 
-// A list of up to 4 additional accounts that you allow to trade at the discounted fee.
-// This cannot include the address of the transaction sender.
+// AuthAccounts represents a list of accounts authorized to trade at the discounted fee.
 type AuthAccounts struct {
 	AuthAccount AuthAccount
 }
 
-// Returns the flattened representation of the AuthAccounts object.
+// Flatten returns the flattened representation of AuthAccounts.
 func (a *AuthAccounts) Flatten() map[string]interface{} {
 	flattened := make(map[string]interface{})
 	flattened["AuthAccount"] = a.AuthAccount.Flatten()
 	return flattened
 }
 
-// An additional account that you allow to trade at the discounted fee.
+// AuthAccount represents an account authorized to trade at the discounted fee for an AMM instance.
 type AuthAccount struct {
 	// Authorized account to trade at the discounted fee for this AMM instance.
 	Account types.Address
 }
 
-// Returns the flattened representation of the AuthAccount object.
+// Flatten returns the flattened representation of AuthAccount.
 func (a *AuthAccount) Flatten() map[string]interface{} {
 	flattened := make(map[string]interface{})
 	flattened["Account"] = a.Account
@@ -162,12 +159,12 @@ func (a *AuthAccount) Flatten() map[string]interface{} {
 // VoteSlots / Vote Entry Objects
 // ---------------------------------------------
 
-// Each entry in the vote_slots array represents one liquidity provider's vote to set the trading fee.
+// VoteSlots represents one liquidity provider's vote entry in the AMM voting list.
 type VoteSlots struct {
 	VoteEntry VoteEntry
 }
 
-// Represents one liquidity provider's vote to set the trading fee.
+// VoteEntry represents a liquidity provider's vote for setting the AMM trading fee, including account, fee, and weight.
 type VoteEntry struct {
 	// The account that cast the vote.
 	Account types.Address
@@ -178,7 +175,7 @@ type VoteEntry struct {
 	VoteWeight uint32
 }
 
-// Returns the type of the ledger entry.
+// EntryType returns the ledger entry type for AMM.
 func (*AMM) EntryType() EntryType {
 	return AMMEntry
 }

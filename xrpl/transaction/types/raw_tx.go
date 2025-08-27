@@ -24,7 +24,7 @@ var (
 	ErrBatchInnerTransactionInvalid = errors.New("batch inner transaction validation failed")
 )
 
-// RawTransactionWrapper represents the wrapper structure for transactions within a Batch.
+// RawTransaction represents the wrapper structure for transactions within a Batch.
 type RawTransaction struct {
 	RawTransaction map[string]any `json:"RawTransaction"`
 }

@@ -1,3 +1,4 @@
+// Package websocket provides a client for connecting to an XRPL WebSocket server.
 package websocket
 
 import (
@@ -31,23 +32,31 @@ import (
 )
 
 const (
+	// DefaultFeeCushion is the default cushion factor for fee calculations.
 	DefaultFeeCushion float32 = 1.2
-	DefaultMaxFeeXRP  float32 = 2
+	// DefaultMaxFeeXRP is the default maximum fee in XRP.
+	DefaultMaxFeeXRP float32 = 2
 
+	// RestrictedNetworks is the minimum network ID above which networks are considered restricted.
 	// Sidechains are expected to have network IDs above this.
-	// Networks with ID above this restricted number are expected specify an accurate NetworkID field
+	// Networks with ID above this restricted number are expected to specify an accurate NetworkID field
 	// in every transaction to that chain to prevent replay attacks.
 	// Mainnet and testnet are exceptions. More context: https://github.com/XRPLF/rippled/pull/4370
-	RestrictedNetworks       = 1024
+	RestrictedNetworks = 1024
+	// RequiredNetworkIDVersion is the minimum XRPL server build version after which specifying NetworkID is required for restricted networks.
 	RequiredNetworkIDVersion = "1.11.0"
 )
 
 var (
-	ErrIncorrectID          = errors.New("incorrect id")
+	// ErrIncorrectID indicates that a response contains an incorrect request ID.
+	ErrIncorrectID = errors.New("incorrect id")
+	// ErrNotConnectedToServer indicates that the client is not connected to a WebSocket server.
 	ErrNotConnectedToServer = errors.New("not connected to server")
-	ErrRequestTimedOut      = errors.New("request timed out")
+	// ErrRequestTimedOut indicates that a request to the server timed out.
+	ErrRequestTimedOut = errors.New("request timed out")
 )
 
+// Client is a WebSocket client for interacting with an XRPL server.
 type Client struct {
 	cfg  ClientConfig
 	conn *Connection
@@ -67,7 +76,7 @@ type Client struct {
 	NetworkID uint32
 }
 
-// Creates a new websocket client with cfg.
+// NewClient creates a new WebSocket client using the provided ClientConfig.
 // This client will open and close a websocket connection for each request.
 func NewClient(cfg ClientConfig) *Client {
 	return &Client{
@@ -98,6 +107,7 @@ func (c *Client) IsConnected() bool {
 	return c.conn.IsConnected()
 }
 
+// FaucetProvider returns the configured faucet provider for the client.
 func (c *Client) FaucetProvider() commonconstants.FaucetProvider {
 	return c.cfg.faucetProvider
 }

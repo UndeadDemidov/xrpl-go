@@ -77,6 +77,11 @@ func main() {
 		return
 	}
 
+	if expiration < 0 || expiration > 0xFFFFFFFF {
+		fmt.Printf("❌ Expiration time %d is out of uint32 range\n", expiration)
+		return
+	}
+
 	txn := &transaction.CredentialCreate{
 		BaseTx: transaction.BaseTx{
 			Account: types.Address(issuer.ClassicAddress),

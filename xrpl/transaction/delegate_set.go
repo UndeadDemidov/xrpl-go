@@ -24,11 +24,11 @@ var (
 )
 
 const (
-	// Maximum number of permissions that can be delegated in a single transaction
+	// PermissionsMaxLength is the maximum number of permissions that can be delegated in a single transaction.
 	PermissionsMaxLength = 10
 )
 
-// Set of transaction types that cannot be delegated
+// NonDelegatableTransactionsMap defines the set of transaction types that cannot be delegated.
 var NonDelegatableTransactionsMap = map[string]uint8{
 	string(AccountSetTx):    0,
 	string(SetRegularKeyTx): 0,

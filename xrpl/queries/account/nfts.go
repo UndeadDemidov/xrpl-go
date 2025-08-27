@@ -11,8 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The `account_nfts` method retrieves all of the NFTs currently owned by the
-// specified account.
+// NFTsRequest retrieves all NFTs currently owned by the specified account for a given ledger version.
 type NFTsRequest struct {
 	common.BaseRequest
 	Account     types.Address          `json:"account"`
@@ -22,15 +21,18 @@ type NFTsRequest struct {
 	Marker      any                    `json:"marker,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for NFTsRequest.
 func (*NFTsRequest) Method() string {
 	return "account_nfts"
 }
 
+// APIVersion returns the API version supported by NFTsRequest.
 func (*NFTsRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement (V2)
+// Validate performs validation on NFTsRequest.
+// TODO: implement V2.
 func (*NFTsRequest) Validate() error {
 	return nil
 }
@@ -39,7 +41,7 @@ func (*NFTsRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_nfts method.
+// NFTsResponse represents the response from account_nfts, including pagination and NFT list.
 type NFTsResponse struct {
 	Account            types.Address      `json:"account"`
 	AccountNFTs        []accounttypes.NFT `json:"account_nfts"`

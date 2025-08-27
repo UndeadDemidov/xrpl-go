@@ -16,13 +16,13 @@ const (
 	currencyCode = "USDA"
 )
 
-type SubmittableTransaction interface {
+type submittableTransaction interface {
 	TxType() transactions.TxType
 	Flatten() transactions.FlatTransaction // Ensures all transactions can be flattened
 }
 
 func main() {
-	client := getRpcClient()
+	client := getRPCClient()
 
 	// Configure wallets
 
@@ -300,8 +300,8 @@ func main() {
 	submitAndWait(client, payment, holderWallet2)
 }
 
-// getRpcClient returns a new rpc client
-func getRpcClient() *rpc.Client {
+// getRPCClient returns a new rpc client
+func getRPCClient() *rpc.Client {
 	cfg, err := rpc.NewClientConfig(
 		// DeepFreeze only available on Devnet as of February 2025, change to testnet/mainnet once the amendment passes.
 		"https://s.devnet.rippletest.net:51234",
@@ -315,7 +315,7 @@ func getRpcClient() *rpc.Client {
 }
 
 // submitAndWait submits a transaction and waits for it to be included in a validated ledger
-func submitAndWait(client *rpc.Client, txn SubmittableTransaction, wallet wallet.Wallet) {
+func submitAndWait(client *rpc.Client, txn submittableTransaction, wallet wallet.Wallet) {
 	fmt.Printf("⏳ Submitting %s transaction...\n", txn.TxType())
 
 	flattenedTx := txn.Flatten()

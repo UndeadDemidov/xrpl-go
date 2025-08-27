@@ -10,8 +10,8 @@ import (
 // Request
 // ############################################################################
 
-// The deposit_authorized command indicates whether one account is authorized to
-// send payments directly to another.
+// DepositAuthorizedRequest is the request type for the deposit_authorized command.
+// It indicates whether one account is authorized to send payments directly to another.
 type DepositAuthorizedRequest struct {
 	common.BaseRequest
 	SourceAccount      types.Address          `json:"source_account"`
@@ -20,15 +20,18 @@ type DepositAuthorizedRequest struct {
 	LedgerIndex        common.LedgerSpecifier `json:"ledger_index,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the DepositAuthorizedRequest.
 func (*DepositAuthorizedRequest) Method() string {
 	return "deposit_authorized"
 }
 
+// APIVersion returns the API version required by the DepositAuthorizedRequest.
 func (*DepositAuthorizedRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate verifies the DepositAuthorizedRequest parameters.
+// TODO: implement V2.
 func (*DepositAuthorizedRequest) Validate() error {
 	return nil
 }
@@ -37,7 +40,8 @@ func (*DepositAuthorizedRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the deposit_authorized method.
+// DepositAuthorizedResponse is the response type returned by the deposit_authorized command.
+// It indicates whether deposit is authorized along with ledger and account details.
 type DepositAuthorizedResponse struct {
 	DepositAuthorized  bool               `json:"deposit_authorized"`
 	DestinationAccount types.Address      `json:"destination_account"`

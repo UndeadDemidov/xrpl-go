@@ -4,8 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// (Added by the Escrow amendment.)
-// An Escrow ledger entry represents an escrow, which holds XRP until specific conditions are met.
+// Escrow represents an escrow ledger entry that holds XRP until specified conditions are met. (Added by the Escrow amendment.)
 //
 // ```json
 //
@@ -70,7 +69,7 @@ type Escrow struct {
 	SourceTag uint32 `json:",omitempty"`
 }
 
-// Returns the type of the ledger entry.
+// EntryType returns the ledger entry type for Escrow.
 func (*Escrow) EntryType() EntryType {
 	return EscrowEntry
 }

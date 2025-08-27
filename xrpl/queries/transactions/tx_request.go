@@ -11,8 +11,8 @@ import (
 // Request
 // ############################################################################
 
-// The tx method retrieves information on a single transaction, by its
-// identifying hash.
+// TxRequest is the request type for the tx command.
+// It retrieves information on a single transaction by its identifying hash.
 type TxRequest struct {
 	common.BaseRequest
 	Transaction string             `json:"transaction"`
@@ -21,15 +21,18 @@ type TxRequest struct {
 	MaxLedger   common.LedgerIndex `json:"max_ledger,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the TxRequest.
 func (*TxRequest) Method() string {
 	return "tx"
 }
 
+// APIVersion returns the API version for the TxRequest.
 func (*TxRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement V2
+// Validate verifies the TxRequest parameters.
+// TODO: implement V2 validation logic.
 func (*TxRequest) Validate() error {
 	return nil
 }
@@ -38,7 +41,8 @@ func (*TxRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the tx method.
+// TxResponse is the response type returned by the tx command.
+// It includes transaction details, metadata, and validation status.
 type TxResponse struct {
 	Date        uint               `json:"date"`
 	Hash        types.Hash256      `json:"hash"`

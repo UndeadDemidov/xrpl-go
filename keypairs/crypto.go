@@ -1,3 +1,4 @@
+// Package keypairs provides cryptographic key pair generation and management for XRPL.
 package keypairs
 
 import (

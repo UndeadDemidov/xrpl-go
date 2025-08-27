@@ -9,10 +9,11 @@ import (
 )
 
 var (
+	// ErrInvalidExpiration indicates the expiration time must be either later than the current time plus the SettleDelay of the channel, or the existing Expiration of the channel.
 	ErrInvalidExpiration = errors.New("expiration time must be either later than the current time plus the SettleDelay of the channel, or the existing Expiration of the channel")
 )
 
-// Add additional XRP to an open payment channel, and optionally update the expiration time of the channel. Only the source address of the channel can use this transaction.
+// PaymentChannelFund adds additional XRP to an open payment channel, and optionally updates the expiration time of the channel. Only the source address of the channel can use this transaction.
 //
 // Example:
 //

@@ -13,14 +13,14 @@ var (
 )
 
 const (
-	// Minimum length of a credential type is 1 byte (1 byte = 2 hex characters).
+	// MinURILength is the minimum length of the URI field in hex characters (1 byte = 2 hex characters).
 	MinURILength = 2
 
-	// Maximum of 256 bytes for the URI field (1 byte = 2 hex characters)
+	// MaxURILength is the maximum length of the URI field in hex characters (256 bytes = 512 characters).
 	MaxURILength = 512
 )
 
-// A CredentialCreate transaction creates a credential in the ledger.
+// CredentialCreate transaction creates a credential in the ledger.
 // The issuer of the credential uses this transaction to provisionally issue a credential.
 // The credential is not valid until the subject of the credential accepts it with a CredentialAccept transaction.
 type CredentialCreate struct {

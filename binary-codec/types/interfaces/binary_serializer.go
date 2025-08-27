@@ -1,3 +1,6 @@
+// Package interfaces defines the BinarySerializer interface for binary codec serialization operations.
+//
+//revive:disable:var-naming
 package interfaces
 
 import "github.com/Peersyst/xrpl-go/binary-codec/definitions"

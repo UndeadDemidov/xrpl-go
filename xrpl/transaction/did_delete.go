@@ -1,5 +1,8 @@
 package transaction
 
+// DIDDelete deletes a DID ledger entry.
+//
+// Example:
 // ```json
 //
 //	{

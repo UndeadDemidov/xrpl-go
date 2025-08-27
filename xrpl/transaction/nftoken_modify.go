@@ -62,6 +62,7 @@ func (n *NFTokenModify) Flatten() FlatTransaction {
 	return flattened
 }
 
+// Validate checks the NFTokenModify fields for correctness and returns an error if invalid.
 func (n *NFTokenModify) Validate() (bool, error) {
 	// Validate the base transaction
 	_, err := n.BaseTx.Validate()

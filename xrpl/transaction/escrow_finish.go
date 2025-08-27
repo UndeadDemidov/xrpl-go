@@ -8,11 +8,13 @@ import (
 )
 
 var (
-	ErrEscrowFinishMissingOwner         = errors.New("escrow finish: missing owner")
+	// ErrEscrowFinishMissingOwner is returned when the Owner field is missing in an EscrowFinish transaction.
+	ErrEscrowFinishMissingOwner = errors.New("escrow finish: missing owner")
+	// ErrEscrowFinishMissingOfferSequence is returned when the OfferSequence is zero in an EscrowFinish transaction.
 	ErrEscrowFinishMissingOfferSequence = errors.New("escrow finish: missing offer sequence")
 )
 
-// Deliver XRP from a held payment to the recipient.
+// EscrowFinish delivers XRP from a held payment to the recipient.
 //
 // Example:
 //

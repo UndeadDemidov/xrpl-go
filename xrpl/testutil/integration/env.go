@@ -8,12 +8,15 @@ import (
 type EnvKey string
 
 const (
+	// LocalnetEnv is the environment key for a local XRPL network.
 	LocalnetEnv EnvKey = "localnet"
-	TestnetEnv  EnvKey = "testnet"
-	DevnetEnv   EnvKey = "devnet"
+	// TestnetEnv is the environment key for the public testnet.
+	TestnetEnv EnvKey = "testnet"
+	// DevnetEnv is the environment key for the developer network.
+	DevnetEnv EnvKey = "devnet"
 )
 
-// IntegrationWebsocketEnvs is the map of integration environments.
+// IntegrationWebsocketEnvs is the map of websocket integration environments.
 var IntegrationWebsocketEnvs = map[EnvKey]Env{
 	LocalnetEnv: {
 		Host:           "ws://0.0.0.0:6006",
@@ -29,6 +32,7 @@ var IntegrationWebsocketEnvs = map[EnvKey]Env{
 	},
 }
 
+// IntegrationRPCEnvs is the map of RPC integration environments.
 var IntegrationRPCEnvs = map[EnvKey]Env{
 	LocalnetEnv: {
 		Host:           "http://0.0.0.0:5005",

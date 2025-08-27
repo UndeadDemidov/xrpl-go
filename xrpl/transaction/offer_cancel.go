@@ -3,10 +3,11 @@ package transaction
 import "errors"
 
 var (
+	// ErrOfferCancelMissingOfferSequence is returned when the offer sequence is missing.
 	ErrOfferCancelMissingOfferSequence = errors.New("missing offer sequence")
 )
 
-// An OfferCancel transaction removes an Offer object from the XRP Ledger.
+// OfferCancel transaction removes an Offer object from the XRP Ledger.
 //
 // Example:
 //
@@ -30,6 +31,7 @@ type OfferCancel struct {
 	OfferSequence uint32
 }
 
+// TxType returns the transaction type for OfferCancel.
 func (*OfferCancel) TxType() TxType {
 	return OfferCancelTx
 }
@@ -44,7 +46,7 @@ func (o *OfferCancel) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the OfferCancel struct and makes sure all fields are correct.
+// Validate checks the OfferCancel transaction for correctness.
 func (o *OfferCancel) Validate() (bool, error) {
 	return o.BaseTx.Validate()
 }

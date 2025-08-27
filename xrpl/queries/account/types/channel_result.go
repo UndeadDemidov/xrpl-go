@@ -1,9 +1,15 @@
+// Package types contains data structures for account query types.
+//
+//revive:disable:var-naming
 package types
 
 import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// ChannelResult represents a payment channel between two accounts on the XRPL.
+// It contains channel configuration, state information, and account details
+// for both the source and destination of the channel.
 type ChannelResult struct {
 	Account            types.Address `json:"account,omitempty"`
 	Amount             string        `json:"amount,omitempty"`

@@ -6,7 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// An NFTokenOffer entry represents an offer to buy, sell or transfer an NFT.
+// NFTokenOffer entry represents an offer to buy, sell or transfer an NFT.
 // (Added by the NonFungibleTokensV1_1 amendment.)
 //
 // ```json
@@ -69,6 +69,7 @@ func (*NFTokenOffer) EntryType() EntryType {
 
 }
 
+// UnmarshalJSON implements custom JSON unmarshalling for NFTokenOffer.
 func (n *NFTokenOffer) UnmarshalJSON(data []byte) error {
 	type nftHelper struct {
 		Amount            json.RawMessage

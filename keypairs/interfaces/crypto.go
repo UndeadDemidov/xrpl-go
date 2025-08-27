@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package interfaces
 
 // KeypairCryptoAlg is an interface that defines the methods for a keypair crypto algorithm.

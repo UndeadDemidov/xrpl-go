@@ -10,7 +10,7 @@ import (
 // Request
 // ############################################################################
 
-// The nft_info method retrieves information about an NFToken.
+// NFTInfoRequest retrieves information about an NFToken via the nft_info method.
 type NFTInfoRequest struct {
 	common.BaseRequest
 	NFTokenID   types.NFTokenID        `json:"nft_id"`
@@ -18,14 +18,17 @@ type NFTInfoRequest struct {
 	LedgerIndex common.LedgerSpecifier `json:"ledger_index,omitempty"`
 }
 
+// Method returns the RPC method name for the NFTInfoRequest.
 func (*NFTInfoRequest) Method() string {
 	return "nft_info"
 }
 
+// APIVersion returns the API version for the NFTInfoRequest.
 func (*NFTInfoRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
+// Validate checks the NFTInfoRequest for correctness.
 // TODO: Implement V2
 func (*NFTInfoRequest) Validate() error {
 	return nil
@@ -35,7 +38,7 @@ func (*NFTInfoRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the nft_info method.
+// NFTInfoResponse represents the response returned by the nft_info method.
 type NFTInfoResponse struct {
 	NFTokenID       types.NFTokenID    `json:"nft_id"`
 	LedgerIndex     common.LedgerIndex `json:"ledger_index"`

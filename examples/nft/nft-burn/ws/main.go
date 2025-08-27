@@ -20,7 +20,12 @@ func main() {
 			WithHost("wss://s.devnet.rippletest.net:51233").
 			WithFaucetProvider(faucet.NewDevnetFaucetProvider()),
 	)
-	defer client.Disconnect()
+
+	defer func() {
+		if err := client.Disconnect(); err != nil {
+			fmt.Println("Error disconnecting:", err)
+		}
+	}()
 
 	if err := client.Connect(); err != nil {
 		fmt.Println("❌ Error connecting to devnet:", err)

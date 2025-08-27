@@ -2,16 +2,12 @@ package transaction
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// (Requires the XChainBridge amendment )
+// XChainCreateBridge creates a new Bridge ledger object and defines a new cross-chain bridge entrance on the chain that the transaction is submitted on.
+// It includes information about door accounts and assets for the bridge.
+// (Requires the XChainBridge amendment)
 //
-// The XChainCreateBridge transaction creates a new Bridge ledger object and defines a new cross-chain bridge entrance on
-// the chain that the transaction is submitted on. It includes information about door accounts and assets for the bridge.
-//
-// The transaction must be submitted first by the locking chain door account. To set up a valid bridge, door accounts on
-// both chains must submit this transaction, in addition to setting up witness servers.
-//
-// The complete production-grade setup would also include a SignerListSet transaction on the two door accounts for the
-// witnesses’ signing keys, as well as disabling the door accounts’ master key. This ensures that the witness servers are truly in control of the funds.
+// The transaction must be submitted first by the locking chain door account. To set up a valid bridge, door accounts on both chains must submit this transaction, in addition to setting up witness servers.
+// The complete production-grade setup would also include a SignerListSet transaction on the two door accounts for the witnesses’ signing keys, as well as disabling the door accounts’ master key. This ensures that the witness servers are truly in control of the funds.
 //
 // ```json
 //
@@ -45,12 +41,12 @@ type XChainCreateBridge struct {
 	XChainBridge types.XChainBridge
 }
 
-// Returns the type of the transaction.
+// TxType returns the type of the transaction.
 func (x *XChainCreateBridge) TxType() TxType {
 	return XChainCreateBridgeTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a flattened version of the transaction.
 func (x *XChainCreateBridge) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -71,7 +67,7 @@ func (x *XChainCreateBridge) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate validates the transaction.
 func (x *XChainCreateBridge) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

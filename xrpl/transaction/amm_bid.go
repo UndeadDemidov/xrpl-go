@@ -9,11 +9,13 @@ import (
 )
 
 var (
+	// ErrAMMAtLeastOneAssetMustBeNonXRP is returned when both assets are XRP; at least one asset must be non-XRP.
 	ErrAMMAtLeastOneAssetMustBeNonXRP = errors.New("at least one of the assets must be non-XRP")
-	ErrAMMAuthAccountsTooMany         = errors.New("authAccounts should have at most 4 AuthAccount objects")
+	// ErrAMMAuthAccountsTooMany is returned when more than four AuthAccount objects are provided.
+	ErrAMMAuthAccountsTooMany = errors.New("authAccounts should have at most 4 AuthAccount objects")
 )
 
-// Bid on an Automated Market Maker's (AMM's) auction slot. If you win, you can trade against the AMM at a discounted fee until you are outbid or 24 hours have passed.
+// AMMBid bids on an Automated Market Maker's (AMM's) auction slot. If you win, you can trade against the AMM at a discounted fee until you are outbid or 24 hours have passed.
 // If you are outbid before 24 hours have passed, you are refunded part of the cost of your bid based on how much time remains.
 // If the AMM's trading fee is zero, you can still bid, but the auction slot provides no benefit unless the trading fee changes.
 // You bid using the AMM's LP Tokens; the amount of a winning bid is returned to the AMM, decreasing the outstanding balance of LP Tokens.

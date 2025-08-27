@@ -19,30 +19,51 @@ import (
 )
 
 const (
-	MinIOUExponent  = -96
-	MaxIOUExponent  = 80
+	// MinIOUExponent is the minimum allowed exponent for IOU amounts.
+	MinIOUExponent = -96
+	// MaxIOUExponent is the maximum allowed exponent for IOU amounts.
+	MaxIOUExponent = 80
+	// MaxIOUPrecision is the maximum precision (significant digits) for IOU amounts.
 	MaxIOUPrecision = 16
-	MinIOUMantissa  = 1000000000000000
-	MaxIOUMantissa  = 9999999999999999
+	// MinIOUMantissa is the minimum mantissa value for IOU amounts.
+	MinIOUMantissa = 1000000000000000
+	// MaxIOUMantissa is the maximum mantissa value for IOU amounts.
+	MaxIOUMantissa = 9999999999999999
 
-	NotXRPBitMask            = 0x80
-	PosSignBitMask           = 0x4000000000000000
-	ZeroCurrencyAmountHex    = 0x8000000000000000
-	NativeAmountByteLength   = 8
+	// NotXRPBitMask is the bit mask used to indicate non-XRP currency amounts.
+	NotXRPBitMask = 0x80
+	// PosSignBitMask is the bit mask used to indicate positive amounts.
+	PosSignBitMask = 0x4000000000000000
+	// ZeroCurrencyAmountHex is the hex representation of a zero currency amount.
+	ZeroCurrencyAmountHex = 0x8000000000000000
+	// NativeAmountByteLength is the byte length for native XRP amounts.
+	NativeAmountByteLength = 8
+	// CurrencyAmountByteLength is the byte length for currency amounts.
 	CurrencyAmountByteLength = 48
 
-	MPTAmountByteLength      = 33
-	MPTMarkerByte            = 0x60
-	MPTIssuanceIDByteLength  = 24
-	MPTValueByteLength       = 8
+	// MPTAmountByteLength is the byte length for MPToken amounts.
+	MPTAmountByteLength = 33
+	// MPTMarkerByte is the marker byte used to identify MPToken amounts.
+	MPTMarkerByte = 0x60
+	// MPTIssuanceIDByteLength is the byte length for MPToken issuance IDs.
+	MPTIssuanceIDByteLength = 24
+	// MPTValueByteLength is the byte length for MPToken values.
+	MPTValueByteLength = 8
+	// MPTValueWithHeaderLength is the byte length for MPToken values including header.
 	MPTValueWithHeaderLength = 9
-	MPTSignBitMask           = 0x40
-	MPTHighBitMask           = 0x80
-	MPTAmountFlag            = 0x20
+	// MPTSignBitMask is the bit mask for MPToken sign bits.
+	MPTSignBitMask = 0x40
+	// MPTHighBitMask is the high bit mask for MPToken amounts.
+	MPTHighBitMask = 0x80
+	// MPTAmountFlag is the flag used to identify MPToken amounts.
+	MPTAmountFlag = 0x20
 
-	MinXRP   = 1e-6
+	// MinXRP is the minimum XRP amount in XRP units.
+	MinXRP = 1e-6
+	// MaxDrops is the maximum number of drops (100 billion XRP in drops).
 	MaxDrops = 1e17 // 100 billion XRP in drops aka 10^17
 
+	// IOUCodeRegex is the regular expression pattern for IOU currency codes.
 	IOUCodeRegex = `[0-9A-Za-z?!@#$%^&*<>(){}\[\]|]{3}`
 )
 

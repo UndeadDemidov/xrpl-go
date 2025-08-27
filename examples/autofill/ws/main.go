@@ -16,7 +16,12 @@ func main() {
 		websocket.NewClientConfig().
 			WithHost("wss://s.altnet.rippletest.net:51233"),
 	)
-	defer wsClient.Disconnect()
+
+	defer func() {
+		if err := wsClient.Disconnect(); err != nil {
+			fmt.Println("Error disconnecting:", err)
+		}
+	}()
 
 	fmt.Println("Connecting to server...")
 	if err := wsClient.Connect(); err != nil {

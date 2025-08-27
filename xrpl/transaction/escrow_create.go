@@ -8,12 +8,15 @@ import (
 )
 
 var (
-	ErrEscrowCreateInvalidDestinationAddress   = errors.New("escrow create: invalid destination address")
-	ErrEscrowCreateNoCancelOrFinishAfterSet    = errors.New("escrow create: either CancelAfter or FinishAfter must be set")
+	// ErrEscrowCreateInvalidDestinationAddress is returned when the destination address for EscrowCreate is invalid.
+	ErrEscrowCreateInvalidDestinationAddress = errors.New("escrow create: invalid destination address")
+	// ErrEscrowCreateNoCancelOrFinishAfterSet is returned when neither CancelAfter nor FinishAfter is set.
+	ErrEscrowCreateNoCancelOrFinishAfterSet = errors.New("escrow create: either CancelAfter or FinishAfter must be set")
+	// ErrEscrowCreateNoConditionOrFinishAfterSet is returned when both Condition and FinishAfter are unset.
 	ErrEscrowCreateNoConditionOrFinishAfterSet = errors.New("escrow create: either Condition or FinishAfter must be specified")
 )
 
-// Sequester XRP until the escrow process either finishes or is canceled.
+// EscrowCreate sequesters XRP until the escrow process either finishes or is canceled.
 //
 // Example:
 //
@@ -80,7 +83,7 @@ func (e *EscrowCreate) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the EscrowCreate transaction and makes sure all the fields are correct.
+// Validate checks the EscrowCreate transaction fields for correctness.
 func (e *EscrowCreate) Validate() (bool, error) {
 	ok, err := e.BaseTx.Validate()
 	if err != nil || !ok {
@@ -88,7 +91,7 @@ func (e *EscrowCreate) Validate() (bool, error) {
 	}
 
 	if !addresscodec.IsValidAddress(e.Destination.String()) {
-		return false, ErrInvalidDestinationAddress
+		return false, ErrEscrowCreateInvalidDestinationAddress
 	}
 
 	if (e.FinishAfter == 0 && e.CancelAfter == 0) || (e.Condition == "" && e.FinishAfter == 0) {

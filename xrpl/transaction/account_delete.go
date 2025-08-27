@@ -1,3 +1,4 @@
+// Package transaction contains XRPL transaction types and related functionality.
 package transaction
 
 import (
@@ -5,9 +6,9 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// Added by the DeletableAccounts amendment
-// An AccountDelete transaction deletes an account and any objects it owns in the XRP Ledger, if possible,
+// AccountDelete transaction deletes an account and any objects it owns in the XRP Ledger, if possible,
 // sending the account's remaining XRP to a specified destination account. See Deleting Accounts for the requirements to delete an account.
+// Added by the DeletableAccounts amendment
 //
 // ```json
 //

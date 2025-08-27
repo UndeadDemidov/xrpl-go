@@ -5,11 +5,11 @@ import (
 )
 
 var (
-	// Credential-specific errors
+	// ErrMissingDomainID is returned when the required DomainID field is missing.
 	ErrMissingDomainID = errors.New("missing required field: DomainID")
 )
 
-// Delete a permissioned domain that you own.
+// PermissionedDomainDelete deletes a permissioned domain that you own.
 // (Requires the PermissionedDomains amendment)
 //
 // ```json

@@ -1,3 +1,4 @@
+// Package crypto provides cryptographic utilities for DER encoding and decoding.
 package crypto
 
 import (

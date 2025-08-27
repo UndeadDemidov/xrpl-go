@@ -14,7 +14,7 @@ var (
 	ErrMutuallyExclusiveAmountDeliverMin = errors.New("checkCash - both Amount and DeliverMin cannot be provided")
 )
 
-// Attempts to redeem a Check object in the ledger to receive up to the amount authorized by the corresponding CheckCreate transaction.
+// CheckCash transaction attempts to redeem a Check object in the ledger to receive up to the amount authorized by the corresponding CheckCreate transaction.
 // Only the Destination address of a Check can cash it with a CheckCash transaction.
 // Cashing a check this way is similar to executing a Payment initiated by the destination.
 //

@@ -2,9 +2,9 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// (Added by the TicketBatch amendment.)
-// A Ticket entry type represents a Ticket, which tracks an account sequence number that has
-// been set aside for future use. You can create new tickets with a TicketCreate transaction.
+// Ticket represents a ledger entry type that tracks an account sequence number reserved for future use.
+// You can create new tickets with a TicketCreate transaction.
+// Added by the TicketBatch amendment.
 //
 // ```json
 //

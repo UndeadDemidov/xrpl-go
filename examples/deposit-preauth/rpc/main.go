@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	client := clients.GetDevnetRpcClient()
+	client := clients.GetDevnetRPCClient()
 
 	// Configure wallets
 
@@ -78,6 +78,10 @@ func main() {
 	}
 	credentialType := types.CredentialType("6D795F63726564656E7469616C") // my_credential
 
+	if expiration < 0 || expiration > 0xFFFFFFFF {
+		fmt.Printf("❌ Expiration time %d is out of uint32 range\n", expiration)
+		return
+	}
 	credentialCreateTx := &transaction.CredentialCreate{
 		BaseTx: transaction.BaseTx{
 			Account:         issuer.ClassicAddress,

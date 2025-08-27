@@ -7,27 +7,35 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// ObjectType defines the type of ledger object for the account_objects request.
 type ObjectType string
 
 const (
-	CheckObject          ObjectType = "check"
+	// CheckObject represents a ledger object of type 'check'.
+	CheckObject ObjectType = "check"
+	// DepositPreauthObject represents a ledger object of type 'deposit_preauth'.
 	DepositPreauthObject ObjectType = "deposit_preauth"
-	EscrowObject         ObjectType = "escrow"
-	NFTOfferObject       ObjectType = "nft_offer"
-	OfferObject          ObjectType = "offer"
+	// EscrowObject represents a ledger object of type 'escrow'.
+	EscrowObject ObjectType = "escrow"
+	// NFTOfferObject represents a ledger object of type 'nft_offer'.
+	NFTOfferObject ObjectType = "nft_offer"
+	// OfferObject represents a ledger object of type 'offer'.
+	OfferObject ObjectType = "offer"
+	// PaymentChannelObject represents a ledger object of type 'payment_channel'.
 	PaymentChannelObject ObjectType = "payment_channel"
-	SignerListObject     ObjectType = "signer_list"
-	StateObject          ObjectType = "state"
-	TicketObject         ObjectType = "ticket"
+	// SignerListObject represents a ledger object of type 'signer_list'.
+	SignerListObject ObjectType = "signer_list"
+	// StateObject represents a ledger object of type 'state'.
+	StateObject ObjectType = "state"
+	// TicketObject represents a ledger object of type 'ticket'.
+	TicketObject ObjectType = "ticket"
 )
 
 // ############################################################################
 // Request
 // ############################################################################
 
-// The account_objects command returns the raw ledger format for all objects
-// owned by an account. For a higher-level view of an account's trust lines and
-// balances, see the account_lines method instead.
+// ObjectsRequest returns raw ledger objects owned by an account.
 type ObjectsRequest struct {
 	common.BaseRequest
 	Account              types.Address          `json:"account"`
@@ -39,15 +47,18 @@ type ObjectsRequest struct {
 	Marker               any                    `json:"marker,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for ObjectsRequest.
 func (*ObjectsRequest) Method() string {
 	return "account_objects"
 }
 
+// APIVersion returns the Rippled API version for ObjectsRequest.
 func (*ObjectsRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement (V2)
+// Validate checks the ObjectsRequest parameters for validity.
+// TODO implement v2
 func (*ObjectsRequest) Validate() error {
 	return nil
 }
@@ -56,7 +67,7 @@ func (*ObjectsRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_objects method.
+// ObjectsResponse is the response returned by the account_objects method.
 type ObjectsResponse struct {
 	Account            types.Address             `json:"account"`
 	AccountObjects     []ledger.FlatLedgerObject `json:"account_objects"`

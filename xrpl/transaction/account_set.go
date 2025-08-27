@@ -8,7 +8,9 @@ import (
 )
 
 var (
-	ErrAccountSetInvalidSetFlag  = errors.New("accountSet: SetFlag must be an integer between asfRequireDest (1) and asfAllowTrustLineClawback (16)")
+	// ErrAccountSetInvalidSetFlag is returned when SetFlag is outside the valid range (1 to 16).
+	ErrAccountSetInvalidSetFlag = errors.New("accountSet: SetFlag must be an integer between asfRequireDest (1) and asfAllowTrustLineClawback (16)")
+	// ErrAccountSetInvalidTickSize is returned when TickSize is outside the valid range (0 to 15 inclusive).
 	ErrAccountSetInvalidTickSize = errors.New("accountSet: TickSize must be an integer between 0 and 15 inclusive")
 )
 
@@ -70,10 +72,12 @@ const (
 	// The same as ClearFlag: asfDisallowXRP.
 	tfAllowXRP uint32 = 2097152 // 0x00200000
 
-	// Tick size to use for offers involving a currency issued by this address.
-	// The exchange rates of those offers is rounded to this many significant digits.
+	// MinTickSize is the minimum tick size to use for offers involving a currency issued by this address.
 	// Valid values are 3 to 15 inclusive, or 0 to disable.
 	MinTickSize = 3
+
+	// MaxTickSize is the maximum tick size to use for offers involving a currency issued by this address.
+	// Valid values are 3 to 15 inclusive, or 0 to disable.
 	MaxTickSize = 15
 )
 

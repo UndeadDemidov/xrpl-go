@@ -27,7 +27,7 @@ var (
 	ErrOwnerNotPresentForBuyOffer = errors.New("owner must be present for a buy offer")
 )
 
-// Creates either a new Sell offer for an NFToken owned by the account executing the transaction, or a new Buy offer for an NFToken owned by another account.
+// NFTokenCreateOffer creates either a new Sell offer for an NFToken owned by the account executing the transaction, or a new Buy offer for an NFToken owned by another account.
 //
 // If successful, the transaction creates a NFTokenOffer object. Each offer counts as one object towards the owner reserve of the account that placed the offer.
 //
@@ -61,7 +61,7 @@ type NFTokenCreateOffer struct {
 	Destination types.Address `json:",omitempty"`
 }
 
-// If enabled, indicates that the offer is a sell offer. Otherwise, it is a buy offer.
+// SetSellNFTokenFlag sets the flag indicating the offer is a sell offer.
 func (n *NFTokenCreateOffer) SetSellNFTokenFlag() {
 	n.Flags |= tfSellNFToken
 }

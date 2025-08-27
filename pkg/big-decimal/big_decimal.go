@@ -1,3 +1,4 @@
+// Package bigdecimal provides arbitrary-precision decimal arithmetic operations for financial calculations.
 package bigdecimal
 
 import (
@@ -10,17 +11,24 @@ import (
 )
 
 const (
+	// AllowedCharacters defines the set of characters permitted in a BigDecimal string.
 	AllowedCharacters = "0123456789.-eE"
-	BigDecRegEx       = "-?(?:[0|1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?"
-	Precision         = 512
+	// BigDecRegEx is the regular expression that a valid BigDecimal string must match.
+	BigDecRegEx = "-?(?:[0|1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?"
+	// Precision specifies the bit precision used for internal big.Float calculations.
+	Precision = 512
 )
 
 var (
+	// ErrInvalidCharacter indicates the input string contains disallowed characters.
 	ErrInvalidCharacter = fmt.Errorf("value contains invalid characters. Only the following are allowed: %q", AllowedCharacters)
+	// ErrInvalidZeroValue indicates the value string represents zero or is invalid zero.
 	ErrInvalidZeroValue = errors.New("value cannot be zero")
-	ErrInvalidScale     = errors.New("scale too large")
+	// ErrInvalidScale indicates the scale derived from the input is too large.
+	ErrInvalidScale = errors.New("scale too large")
 )
 
+// BigDecimal represents a high-precision decimal value with scale, precision, and sign.
 type BigDecimal struct {
 	Scale         int
 	Precision     int
@@ -28,6 +36,7 @@ type BigDecimal struct {
 	Sign          int // 1 for negative, 0 for positive
 }
 
+// GetScaledValue returns the decimal as a string without scientific notation, scaled by its Scale.
 func (bd *BigDecimal) GetScaledValue() string {
 	if bd.UnscaledValue == "" {
 		return "0"
@@ -64,7 +73,7 @@ func abs(x int) int {
 	return x
 }
 
-// Creates a new custom BigDecimal object from a value string
+// NewBigDecimal creates a BigDecimal from the given string, validating format and scale.
 func NewBigDecimal(value string) (bd *BigDecimal, err error) {
 
 	// check if the value string contains only allowed characters

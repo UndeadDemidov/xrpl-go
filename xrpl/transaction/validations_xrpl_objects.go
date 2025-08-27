@@ -15,14 +15,13 @@ import (
 )
 
 const (
-	// The Memos field includes arbitrary messaging data with the transaction.
-	// It is presented as an array of objects. Each object has only one field, Memo,
-	// which in turn contains another object with one or more of the following fields:
-	// MemoData, MemoFormat, and MemoType. https://xrpl.org/docs/references/protocol/transactions/common-fields#memos-field
-	MemoSize   = 3
+	// MemoSize is the expected number of fields in a Memo object (MemoData, MemoFormat, MemoType).
+	MemoSize = 3
+	// SignerSize is the expected number of fields in a Signer object (Account, TxnSignature, SigningPubKey).
 	SignerSize = 3
-	// For a token, must have the following fields: currency, issuer, value. https://xrpl.org/docs/references/protocol/data-types/basic-data-types#specifying-currency-amounts
-	IssuedCurrencySize      = 3
+	// IssuedCurrencySize is the expected number of fields in an IssuedCurrency object (currency, issuer, value).
+	IssuedCurrencySize = 3
+	// StandardCurrencyCodeLen is the required length of a standard three-character currency code.
 	StandardCurrencyCodeLen = 3
 )
 

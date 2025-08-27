@@ -8,6 +8,7 @@ import (
 )
 
 var (
+	// ErrNotConnected is returned when attempting to perform operations on a connection that is not established.
 	ErrNotConnected = errors.New("connection is not connected")
 )
 

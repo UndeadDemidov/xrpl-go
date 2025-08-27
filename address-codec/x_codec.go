@@ -5,9 +5,11 @@ import (
 )
 
 var (
+	// MainnetXAddressPrefix is the prefix for mainnet X-address encoding.
 	MainnetXAddressPrefix = []byte{0x05, 0x44}
+	// TestnetXAddressPrefix is the prefix for testnet X-address encoding.
 	TestnetXAddressPrefix = []byte{0x04, 0x93}
-	// X-address length - value is 35
+	// XAddressLength is the length of an X-address (35 bytes).
 	XAddressLength = 35
 )
 

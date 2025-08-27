@@ -11,10 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The `noripple_check` command provides a quick way to check the status of the
-// default ripple field for an account and the No Ripple flag of its trust
-// lines, compared with the recommended settings. Expects a response in the form
-// of an NoRippleCheckResponse.
+// NoRippleCheckRequest provides a quick way to check the status of the default ripple field for an account and its trust lines No Ripple flag compared with recommended settings.
 type NoRippleCheckRequest struct {
 	common.BaseRequest
 	Account      types.Address          `json:"account"`
@@ -25,14 +22,17 @@ type NoRippleCheckRequest struct {
 	LedgerIndex  common.LedgerSpecifier `json:"ledger_index,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for NoRippleCheckRequest.
 func (*NoRippleCheckRequest) Method() string {
 	return "noripple_check"
 }
 
+// APIVersion returns the API version supported by NoRippleCheckRequest.
 func (*NoRippleCheckRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
+// Validate performs validation on NoRippleCheckRequest.
 func (*NoRippleCheckRequest) Validate() error {
 	return nil
 }
@@ -41,7 +41,7 @@ func (*NoRippleCheckRequest) Validate() error {
 // Response
 // ############################################################################
 
-// Response expected by a NoRippleCheckRequest
+// NoRippleCheckResponse represents the response for a NoRippleCheckRequest.
 type NoRippleCheckResponse struct {
 	LedgerCurrentIndex common.LedgerIndex            `json:"ledger_current_index"`
 	Problems           []string                      `json:"problems"`

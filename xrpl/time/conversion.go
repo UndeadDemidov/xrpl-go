@@ -1,3 +1,4 @@
+// Package time provides time conversion utilities for XRPL timestamps.
 package time
 
 import (

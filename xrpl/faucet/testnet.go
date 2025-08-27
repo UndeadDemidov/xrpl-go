@@ -10,7 +10,9 @@ import (
 )
 
 const (
+	// TestnetFaucetHost is the hostname for the XRPL Testnet faucet service.
 	TestnetFaucetHost = "faucet.altnet.rippletest.net"
+	// TestnetFaucetPath is the API path for account operations on the Testnet faucet.
 	TestnetFaucetPath = "/accounts"
 )
 
@@ -51,8 +53,9 @@ func (fp *TestnetFaucetProvider) FundWallet(address types.Address) error {
 	if err != nil {
 		return fmt.Errorf("error sending POST request: %v", err)
 	}
-	defer resp.Body.Close()
-
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}

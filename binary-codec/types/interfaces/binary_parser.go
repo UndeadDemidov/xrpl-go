@@ -1,3 +1,6 @@
+// Package interfaces defines the BinaryParser interface for binary codec parsing operations.
+//
+//revive:disable:var-naming
 package interfaces
 
 import "github.com/Peersyst/xrpl-go/binary-codec/definitions"
