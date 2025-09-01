@@ -1,8 +1,6 @@
 package ledger
 
 import (
-	"fmt"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
@@ -41,8 +39,10 @@ func (priceData *PriceData) Validate() error {
 	}
 
 	if priceData.Scale > PriceDataScaleMax {
-		return fmt.Errorf("%w: got %d, must be less than %d",
-			ErrPriceDataScale, priceData.Scale, PriceDataScaleMax)
+		return ErrPriceDataScale{
+			Value: priceData.Scale,
+			Limit: PriceDataScaleMax,
+		}
 	}
 
 	if (priceData.AssetPrice == 0) != (priceData.Scale == 0) {

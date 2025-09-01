@@ -650,25 +650,25 @@ func TestNewBigDecimal(t *testing.T) {
 			name:      "contains invalid chars",
 			input:     "12345678r90.1234567890a",
 			expBigDec: nil,
-			expErr:    ErrInvalidCharacter,
+			expErr:    ErrInvalidCharacter{Allowed: AllowedCharacters},
 		},
 		{
 			name:      "contains multiple decimal points",
 			input:     "12345678.90.1234567890",
 			expBigDec: nil,
-			expErr:    ErrInvalidCharacter,
+			expErr:    ErrInvalidCharacter{Allowed: AllowedCharacters},
 		},
 		{
 			name:      "contains multiple 'e' or 'E'",
 			input:     "12345678e90E1234567890",
 			expBigDec: nil,
-			expErr:    ErrInvalidCharacter,
+			expErr:    ErrInvalidCharacter{Allowed: AllowedCharacters},
 		},
 		{
 			name:      "contains multiple '-' signs:  excluding the exponent sign",
 			input:     "-1234-567890.1234567890e-9",
 			expBigDec: nil,
-			expErr:    ErrInvalidCharacter,
+			expErr:    ErrInvalidCharacter{Allowed: AllowedCharacters},
 		},
 	}
 	for _, tc := range tt {

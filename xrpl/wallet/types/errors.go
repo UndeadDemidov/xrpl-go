@@ -2,7 +2,10 @@
 // revive:disable:var-naming
 package types
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var (
 	// batch
@@ -18,9 +21,14 @@ var (
 	ErrRawTransactionsFieldIsNotAnArray = errors.New("raw transactions field is not an array")
 	// ErrRawTransactionFieldIsNotAnObject is returned when the raw transaction field is not an object.
 	ErrRawTransactionFieldIsNotAnObject = errors.New("raw transaction field is not an object")
-
-	// transaction id
-
-	// ErrFailedToGetTxIDFromRawTransaction is returned when getting txID from raw transaction fails.
-	ErrFailedToGetTxIDFromRawTransaction = errors.New("failed to get txID from raw transaction")
 )
+
+// ErrFailedToGetTxIDFromRawTransaction is returned when getting txID from raw transaction fails.
+type ErrFailedToGetTxIDFromRawTransaction struct {
+	Err error
+}
+
+// Error implements the error interface for ErrFailedToGetTxIDFromRawTransaction
+func (e ErrFailedToGetTxIDFromRawTransaction) Error() string {
+	return fmt.Sprintf("failed to get txID from raw transaction: %v", e.Err)
+}

@@ -40,24 +40,28 @@ func (fp *DevnetFaucetProvider) FundWallet(address types.Address) error {
 	jsonPayload, err := json.Marshal(payload)
 
 	if err != nil {
-		return fmt.Errorf("%w: %v", ErrMarshalPayload, err)
+		return ErrMarshalPayload{
+			Err: err,
+		}
 	}
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(jsonPayload))
 	if err != nil {
-		return fmt.Errorf("%w: %v", ErrCreateRequest, err)
+		return ErrCreateRequest{Err: err}
 	}
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return fmt.Errorf("%w: %v", ErrSendRequest, err)
+		return ErrSendRequest{Err: err}
 	}
 	defer func() {
 		_ = resp.Body.Close()
 	}()
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("%w: %d", ErrUnexpectedStatusCode, resp.StatusCode)
+		return ErrUnexpectedStatusCode{
+			Code: resp.StatusCode,
+		}
 	}
 
 	return nil

@@ -106,7 +106,10 @@ func TestOracleSet_Validate(t *testing.T) {
 				},
 				Provider: strings.Repeat("a", 257),
 			},
-			expected: ErrProviderLength,
+			expected: ErrOracleProviderLength{
+				Length: 257,
+				Limit:  OracleSetProviderMaxLength,
+			},
 		},
 		{
 			name: "fail - price data series items",
@@ -117,7 +120,10 @@ func TestOracleSet_Validate(t *testing.T) {
 				},
 				PriceDataSeries: make([]ledger.PriceData, 100),
 			},
-			expected: ErrPriceDataSeriesItems,
+			expected: ErrOraclePriceDataSeriesItems{
+				Length: 100,
+				Limit:  OracleSetMaxPriceDataSeriesItems,
+			},
 		},
 		{
 			name: "fail - price data series item invalid",
@@ -149,7 +155,10 @@ func TestOracleSet_Validate(t *testing.T) {
 					},
 				},
 			},
-			expected: ledger.ErrPriceDataScale,
+			expected: ledger.ErrPriceDataScale{
+				Value: 11,
+				Limit: ledger.PriceDataScaleMax,
+			},
 		},
 		{
 			name: "fail - price data series item asset price and scale",

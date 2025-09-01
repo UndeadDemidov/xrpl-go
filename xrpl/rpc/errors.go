@@ -1,6 +1,9 @@
 package rpc
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var (
 	// transaction
@@ -22,7 +25,6 @@ var (
 	// ErrInvalidFulfillmentLength is returned when the fulfillment length is invalid.
 	ErrInvalidFulfillmentLength = errors.New("invalid fulfillment length")
 	// ErrMismatchedTag is returned when a transaction tag field does not match the expected value.
-	ErrMismatchedTag = errors.New("transaction tag mismatch")
 
 	// fields
 
@@ -56,8 +58,6 @@ var (
 	ErrCouldNotGetBaseFeeXrp = errors.New("get fee xrp: could not get BaseFeeXrp from ServerInfo")
 	// ErrCouldNotFetchOwnerReserve is returned when the owner reserve fee cannot be fetched.
 	ErrCouldNotFetchOwnerReserve = errors.New("could not fetch Owner Reserve")
-	// ErrFailedToParseFee is returned when fee parsing fails.
-	ErrFailedToParseFee = errors.New("failed to parse fee")
 
 	// account
 
@@ -68,16 +68,6 @@ var (
 
 	// ErrAmountAndDeliverMaxMustBeIdentical is returned when Amount and DeliverMax fields are not identical.
 	ErrAmountAndDeliverMaxMustBeIdentical = errors.New("payment transaction: Amount and DeliverMax fields must be identical when both are provided")
-
-	// tags
-
-	// ErrTagMustEqualAddressTag is returned when a tag must equal the address tag.
-	ErrTagMustEqualAddressTag = errors.New("tag, if present, must be equal to the tag of the address")
-
-	// json rpc
-
-	// ErrFailedToMarshalJSONRPCRequest is returned when JSON-RPC request marshaling fails.
-	ErrFailedToMarshalJSONRPCRequest = errors.New("failed to marshal JSON-RPC request")
 
 	// config
 
@@ -95,4 +85,38 @@ type ClientError struct {
 // Error returns the error message string for ClientError.
 func (e *ClientError) Error() string {
 	return e.ErrorString
+}
+
+// ErrFailedToMarshalJSONRPCRequest is returned when JSON-RPC request marshaling fails.
+type ErrFailedToMarshalJSONRPCRequest struct {
+	Method string
+	Params interface{}
+	Err    error
+}
+
+// Error implements the error interface for ErrFailedToMarshalJSONRPCRequest
+func (e ErrFailedToMarshalJSONRPCRequest) Error() string {
+	return fmt.Sprintf("failed to marshal JSON-RPC request for method %s with parameters %+v: %v", e.Method, e.Params, e.Err)
+}
+
+// ErrMismatchedTag is returned when a transaction tag field does not match the expected value.
+type ErrMismatchedTag struct {
+	Expected string
+	Actual   string
+}
+
+// Error implements the error interface for ErrMismatchedTag
+func (e ErrMismatchedTag) Error() string {
+	return fmt.Sprintf("transaction tag mismatch: %q must equal %q", e.Actual, e.Expected)
+}
+
+// ErrFailedToParseFee is returned when fee parsing fails.
+type ErrFailedToParseFee struct {
+	Fee string
+	Err error
+}
+
+// Error implements the error interface for ErrFailedToParseFee
+func (e ErrFailedToParseFee) Error() string {
+	return fmt.Sprintf("failed to parse fee: %q: %v", e.Fee, e.Err)
 }

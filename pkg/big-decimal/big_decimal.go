@@ -2,7 +2,6 @@
 package bigdecimal
 
 import (
-	"fmt"
 	"math/big"
 	"regexp"
 	"strconv"
@@ -68,7 +67,9 @@ func NewBigDecimal(value string) (bd *BigDecimal, err error) {
 
 	// check if the value string contains only allowed characters
 	if !bigDecimalRegEx(value) {
-		return nil, fmt.Errorf("%w: only the following are allowed: %q", ErrInvalidCharacter, AllowedCharacters)
+		return nil, ErrInvalidCharacter{
+			Allowed: AllowedCharacters,
+		}
 
 	}
 

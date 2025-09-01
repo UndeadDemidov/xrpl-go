@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"errors"
+	"fmt"
 )
 
 var (
@@ -85,13 +86,6 @@ var (
 	// ErrInvalidAssetIssuer is returned when the issuer field is invalid for an asset.
 	ErrInvalidAssetIssuer = errors.New("issuer field must be a valid XRPL classic address")
 
-	// validations_commons
-
-	// ErrFieldMissing is returned when a required field is missing from a transaction.
-	ErrFieldMissing = errors.New("field is missing")
-	// ErrInvalidField is returned when a field has an invalid value.
-	ErrInvalidField = errors.New("invalid field")
-
 	// validations_xrpl_objects
 
 	// ErrMemoShouldHaveAtLeastOneField is returned when a memo object is empty.
@@ -110,8 +104,6 @@ var (
 	ErrSignerTxnSignatureShouldBeNonEmpty = errors.New("signers: TxnSignature should be a non-empty string")
 	// ErrSignerSigningPubKeyShouldBeNonEmpty is returned when SigningPubKey in a Signer is empty.
 	ErrSignerSigningPubKeyShouldBeNonEmpty = errors.New("signers: SigningPubKey should be a non-empty string")
-	// ErrMissingField is returned when a required field is missing.
-	ErrMissingField = errors.New("missing required field")
 
 	// trust set
 
@@ -121,11 +113,6 @@ var (
 	ErrTrustSetQualityInNotNumber = errors.New("QualityIn must be a number")
 	// ErrTrustSetQualityOutNotNumber is returned when QualityOut is not a valid number.
 	ErrTrustSetQualityOutNotNumber = errors.New("QualityOut must be a number")
-
-	// ticket create
-
-	// ErrTicketCreateInvalidTicketCount is returned when the ticket count is outside the valid range.
-	ErrTicketCreateInvalidTicketCount = errors.New("invalid ticket count")
 
 	// signer list set
 
@@ -160,14 +147,6 @@ var (
 	ErrInvalidChannel = errors.New("invalid Channel, must be a valid 64-character hexadecimal string")
 	// ErrInvalidSignature is returned when the Signature is not a valid hexadecimal string.
 	ErrInvalidSignature = errors.New("invalid Signature, must be a valid hexadecimal string")
-
-	// oracle
-
-	// ErrProviderLength is returned when the Provider field exceeds OracleSetProviderMaxLength bytes.
-	ErrProviderLength = errors.New("provider length exceeds maximum")
-
-	// ErrPriceDataSeriesItems is returned when the number of PriceDataSeries items exceeds the maximum allowed.
-	ErrPriceDataSeriesItems = errors.New("price data series items exceed maximum allowed")
 
 	// offer
 
@@ -352,9 +331,6 @@ var (
 	// ErrAMMAtLeastOneAssetMustBeSet is returned when no deposit asset is specified in the AMM deposit.
 	ErrAMMAtLeastOneAssetMustBeSet = errors.New("at least one of the assets must be set")
 
-	// ErrAMMTradingFeeTooHigh is returned when the AMM trading fee exceeds the maximum allowed.
-	ErrAMMTradingFeeTooHigh = errors.New("AMM trading fee exceeds maximum allowed")
-
 	// ErrAMMMustSetAmountWithAmount2 is returned when Amount2 is set without Amount.
 	ErrAMMMustSetAmountWithAmount2 = errors.New("must set Amount with Amount2")
 	// ErrAMMMustSetAmountWithEPrice is returned when EPrice is set without Amount.
@@ -377,3 +353,69 @@ var (
 	// ErrAccountSetInvalidTickSize is returned when TickSize is outside the valid range (0 to 15 inclusive).
 	ErrAccountSetInvalidTickSize = errors.New("account set: TickSize must be an integer between 0 and 15 inclusive")
 )
+
+// ErrAMMTradingFeeTooHigh is returned when the AMM trading fee exceeds the maximum allowed.
+type ErrAMMTradingFeeTooHigh struct {
+	Value uint16
+	Limit uint64
+}
+
+// Error implements the error interface for ErrAMMTradingFeeToHigh
+func (e ErrAMMTradingFeeTooHigh) Error() string {
+	return fmt.Sprintf("AMM trading fee exceeds maximum allowed: got %d, must be less or equal than %d", e.Value, e.Limit)
+}
+
+// ErrOracleProviderLength is returned when the Provider field exceeds OracleSetProviderMaxLength bytes.
+type ErrOracleProviderLength struct {
+	Length int
+	Limit  int
+}
+
+// Error implements the error interface for ErrOracleProviderLength
+func (e ErrOracleProviderLength) Error() string {
+	return fmt.Sprintf("provider length exceeds maximum: got %d bytes, max %d", e.Length, e.Limit)
+}
+
+// ErrOraclePriceDataSeriesItems is returned when the number of PriceDataSeries items exceeds the maximum allowed.
+type ErrOraclePriceDataSeriesItems struct {
+	Length int
+	Limit  int
+}
+
+// Error implements the error interface for ErrOraclePriceDataSeriesItems.
+func (e ErrOraclePriceDataSeriesItems) Error() string {
+	return fmt.Sprintf("oracle price data series items exceed maximum allowed: ot %d, max %d", e.Length, e.Limit)
+}
+
+// ErrTicketCreateInvalidTicketCount is returned when the ticket count is outside the valid range.
+type ErrTicketCreateInvalidTicketCount struct {
+	TicketCount    uint32
+	MinTicketCount uint32
+	MaxTicketCount uint32
+}
+
+// Error implements the error interface for ErrTicketCreateInvalidTicketCount.
+func (e ErrTicketCreateInvalidTicketCount) Error() string {
+	return fmt.Sprintf("invalid ticket count %d: must be between %d and %d", e.TicketCount, e.MinTicketCount, e.MaxTicketCount)
+}
+
+// ErrTransactionInvalidField is returned when a field has an invalid value.
+type ErrTransactionInvalidField struct {
+	Type  string
+	Field string
+}
+
+// Error implements the error interface for ErrTransactionInvalidField
+func (e ErrTransactionInvalidField) Error() string {
+	return fmt.Sprintf("%s invalid field: %s", e.Type, e.Field)
+}
+
+// ErrMissingField is returned when a required field is missing.
+type ErrMissingField struct {
+	Field string
+}
+
+// Error implements the error interface for ErrMissingField
+func (e ErrMissingField) Error() string {
+	return fmt.Sprintf("missing field required: %s", e.Field)
+}

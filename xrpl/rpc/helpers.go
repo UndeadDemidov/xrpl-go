@@ -191,7 +191,11 @@ func createRequest(reqParams XRPLRequest) ([]byte, error) {
 
 	jsonBytes, err := jsoniter.Marshal(body)
 	if err != nil {
-		return nil, fmt.Errorf("%w for method %s with parameters %+v: %v", ErrFailedToMarshalJSONRPCRequest, reqParams.Method(), reqParams, err)
+		return nil, ErrFailedToMarshalJSONRPCRequest{
+			Method: reqParams.Method(),
+			Params: reqParams,
+			Err:    err,
+		}
 	}
 
 	return jsonBytes, nil
@@ -269,7 +273,10 @@ func (c *Client) validateTransactionAddress(tx *transaction.FlatTransaction, add
 
 	if tag != uint32(0) {
 		if txTag, ok := (*tx)[tagField].(uint32); ok && txTag != tag {
-			return fmt.Errorf("%w: %q must equal %q", ErrMismatchedTag, addressField, tagField)
+			return ErrMismatchedTag{
+				Expected: addressField,
+				Actual:   tagField,
+			}
 		}
 		(*tx)[tagField] = tag
 	}
@@ -636,7 +643,10 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Convert fee string to uint64 and add to total
 		feeUint, err := strconv.ParseUint(feeStr, 10, 64)
 		if err != nil {
-			return 0, fmt.Errorf("%w: %q: %v", ErrFailedToParseFee, feeStr, err)
+			return 0, ErrFailedToParseFee{
+				Fee: feeStr,
+				Err: err,
+			}
 		}
 
 		totalFees += feeUint

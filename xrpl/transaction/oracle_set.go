@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"fmt"
-
 	ledger "github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 )
 
@@ -109,11 +107,17 @@ func (tx *OracleSet) Validate() (bool, error) {
 	}
 
 	if len([]byte(tx.Provider)) > OracleSetProviderMaxLength {
-		return false, fmt.Errorf("%w: got %d bytes, max %d", ErrProviderLength, len([]byte(tx.Provider)), OracleSetProviderMaxLength)
+		return false, ErrOracleProviderLength{
+			Length: len([]byte(tx.Provider)),
+			Limit:  OracleSetProviderMaxLength,
+		}
 	}
 
 	if len(tx.PriceDataSeries) > OracleSetMaxPriceDataSeriesItems {
-		return false, fmt.Errorf("%w: got %d, max %d", ErrPriceDataSeriesItems, len(tx.PriceDataSeries), OracleSetMaxPriceDataSeriesItems)
+		return false, ErrOraclePriceDataSeriesItems{
+			Length: len(tx.PriceDataSeries),
+			Limit:  OracleSetMaxPriceDataSeriesItems,
+		}
 	}
 
 	for _, priceData := range tx.PriceDataSeries {

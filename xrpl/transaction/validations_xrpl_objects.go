@@ -1,7 +1,6 @@
 package transaction
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -83,7 +82,9 @@ func IsSigner(signerData types.SignerData) (bool, error) {
 // It is a string for an XRP amount or a map for an IssuedCurrency amount.
 func IsAmount(field types.CurrencyAmount, fieldName string, isFieldRequired bool) (bool, error) {
 	if isFieldRequired && field == nil {
-		return false, fmt.Errorf("%w: %q", ErrMissingField, fieldName)
+		return false, ErrMissingField{
+			Field: fieldName,
+		}
 	}
 
 	if !isFieldRequired && field == nil {

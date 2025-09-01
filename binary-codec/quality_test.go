@@ -22,7 +22,7 @@ func TestQualityCodec_Encode(t *testing.T) {
 		{
 			name:        "fail - invalid quality - invalid character",
 			input:       "invalid",
-			expectedErr: bigdecimal.ErrInvalidCharacter,
+			expectedErr: bigdecimal.ErrInvalidCharacter{Allowed: bigdecimal.AllowedCharacters},
 		},
 		{
 			name:        "fail - invalid quality - overflow",

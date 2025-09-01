@@ -1,6 +1,9 @@
 package websocket
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var (
 	// transaction
@@ -51,10 +54,6 @@ var (
 	ErrRequestTimedOut = errors.New("request timed out")
 	// ErrSignerDataIsEmpty is returned when signer data is empty or missing.
 	ErrSignerDataIsEmpty = errors.New("signer data is empty")
-	// ErrUnknownStreamType is returned when an unknown stream type is encountered.
-	ErrUnknownStreamType = errors.New("unknown stream type")
-	// ErrMaxReconnectionAttemptsReached is returned when maximum reconnection attempts are reached.
-	ErrMaxReconnectionAttemptsReached = errors.New("max reconnection attempts reached")
 
 	// wallet
 
@@ -67,8 +66,6 @@ var (
 	ErrCouldNotGetBaseFeeXrp = errors.New("get fee xrp: could not get BaseFeeXrp from ServerInfo")
 	// ErrCouldNotFetchOwnerReserve is returned when the owner reserve fee cannot be fetched.
 	ErrCouldNotFetchOwnerReserve = errors.New("could not fetch Owner Reserve")
-	// ErrFailedToParseFee is returned when fee parsing fails.
-	ErrFailedToParseFee = errors.New("failed to parse fee")
 
 	// account
 
@@ -101,4 +98,35 @@ type ClientError struct {
 // Error returns the error message string for ClientError.
 func (e *ClientError) Error() string {
 	return e.ErrorString
+}
+
+// ErrUnknownStreamType is returned when an unknown stream type is encountered.
+type ErrUnknownStreamType struct {
+	Type interface{}
+}
+
+// Error implements the error interface for ErrUnknownStreamType
+func (e ErrUnknownStreamType) Error() string {
+	return fmt.Sprintf("unknown stream type: %v", e.Type)
+}
+
+// ErrMaxReconnectionAttemptsReached is returned when maximum reconnection attempts are reached.
+type ErrMaxReconnectionAttemptsReached struct {
+	Attempts int
+}
+
+// Error implements the error interface for ErrMaxReconnectionAttemptsReached
+func (e ErrMaxReconnectionAttemptsReached) Error() string {
+	return fmt.Sprintf("max reconnection attempts reached: %d", e.Attempts)
+}
+
+// ErrFailedToParseFee is returned when fee parsing fails.
+type ErrFailedToParseFee struct {
+	Fee string
+	Err error
+}
+
+// Error implements the error interface for ErrFailedToParseFee
+func (e ErrFailedToParseFee) Error() string {
+	return fmt.Sprintf("failed to parse fee %s: %v", e.Fee, e.Err)
 }

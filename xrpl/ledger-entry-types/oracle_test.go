@@ -73,7 +73,10 @@ func TestPriceData_Validate(t *testing.T) {
 				QuoteAsset: "USD",
 				Scale:      11,
 			},
-			expected: ErrPriceDataScale,
+			expected: ErrPriceDataScale{
+				Value: 11,
+				Limit: PriceDataScaleMax,
+			},
 		},
 		{
 			name: "fail - asset price and scale not set together",

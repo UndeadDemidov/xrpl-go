@@ -4,7 +4,6 @@
 package types
 
 import (
-	"fmt"
 	"slices"
 
 	"github.com/Peersyst/xrpl-go/xrpl/hash"
@@ -43,7 +42,10 @@ func FromFlatBatchTransaction(transaction *transaction.FlatTransaction) (*BatchS
 		}
 		txID, err := hash.SignTx(innerRawTx)
 		if err != nil {
-			return nil, fmt.Errorf("%w: %v", ErrFailedToGetTxIDFromRawTransaction, err)
+			return nil, ErrFailedToGetTxIDFromRawTransaction{
+				Err: err,
+			}
+
 		}
 		batchSignable.TxIDs[i] = txID
 	}
@@ -64,7 +66,9 @@ func FromBatchTransaction(transaction *transaction.Batch) (*BatchSignable, error
 	for i, rawTx := range rawTxs {
 		txID, err := hash.SignTx(rawTx.RawTransaction)
 		if err != nil {
-			return nil, fmt.Errorf("%w: %w", ErrFailedToGetTxIDFromRawTransaction, err)
+			return nil, ErrFailedToGetTxIDFromRawTransaction{
+				Err: err,
+			}
 		}
 		batchSignable.TxIDs[i] = txID
 	}

@@ -1,7 +1,6 @@
 package transaction
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
@@ -94,7 +93,7 @@ func TestXChainClaim_Validate(t *testing.T) {
 				},
 			},
 			expected:    false,
-			expectedErr: fmt.Errorf("%w: %q", ErrMissingField, "Amount"),
+			expectedErr: ErrMissingField{Field: "Amount"},
 		},
 		{
 			name: "fail - invalid destination",

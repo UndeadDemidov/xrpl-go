@@ -758,7 +758,9 @@ func (c *Client) handleStream(t streamtypes.Type, message []byte) {
 		if c.errChan == nil {
 			c.errChan = make(chan error)
 		}
-		c.errChan <- fmt.Errorf("%w: %v", ErrUnknownStreamType, t)
+		c.errChan <- ErrUnknownStreamType{
+			Type: t,
+		}
 	}
 }
 
@@ -777,7 +779,9 @@ func (c *Client) readMessages() {
 				if c.errChan == nil {
 					c.errChan = make(chan error)
 				}
-				c.errChan <- fmt.Errorf("%w: (%d)", ErrMaxReconnectionAttemptsReached, maxRetries)
+				c.errChan <- ErrMaxReconnectionAttemptsReached{
+					Attempts: maxRetries,
+				}
 				return
 			}
 			retryCount++
@@ -889,7 +893,10 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Convert fee string to uint64 and add to total
 		feeUint, err := strconv.ParseUint(feeStr, 10, 64)
 		if err != nil {
-			return 0, fmt.Errorf("%w %q: %w", ErrFailedToParseFee, feeStr, err)
+			return 0, ErrFailedToParseFee{
+				Fee: feeStr,
+				Err: err,
+			}
 		}
 
 		totalFees += feeUint
