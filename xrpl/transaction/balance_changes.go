@@ -1,22 +1,12 @@
 package transaction
 
 import (
-	"errors"
 	"math/big"
 	"strings"
 
 	"github.com/Peersyst/xrpl-go/xrpl/currency"
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	errLowLimitIssuerNotFound        = errors.New("low limit issuer not found")
-	errHighLimitIssuerNotFound       = errors.New("high limit issuer not found")
-	errBalanceCurrencyNotFound       = errors.New("balance currency not found")
-	errInvalidBalanceValue           = errors.New("invalid balance value")
-	errBalanceNotFound               = errors.New("balance not found")
-	errAccountNotFoundForXRPQuantity = errors.New("account not found for XRP quantity")
 )
 
 // Balance represents a balance change with its amount, currency, and optional issuer.

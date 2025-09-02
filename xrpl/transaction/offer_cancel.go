@@ -1,12 +1,5 @@
 package transaction
 
-import "errors"
-
-var (
-	// ErrOfferCancelMissingOfferSequence is returned when the offer sequence is missing.
-	ErrOfferCancelMissingOfferSequence = errors.New("missing offer sequence")
-)
-
 // OfferCancel transaction removes an Offer object from the XRP Ledger.
 //
 // Example:

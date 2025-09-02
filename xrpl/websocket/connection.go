@@ -1,15 +1,9 @@
 package websocket
 
 import (
-	"errors"
 	"sync"
 
 	"github.com/gorilla/websocket"
-)
-
-var (
-	// ErrNotConnected is returned when attempting to perform operations on a connection that is not established.
-	ErrNotConnected = errors.New("connection is not connected")
 )
 
 // Connection is a wrapper around a websocket connection.

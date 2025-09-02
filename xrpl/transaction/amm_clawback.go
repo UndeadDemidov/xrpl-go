@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -13,13 +11,6 @@ const (
 	// field. If this flag isn't enabled, the issuer claws back the specified amount of Asset,
 	// while a corresponding proportion of Asset2 goes back to the Holder.
 	tfClawTwoAssets uint32 = 0x00000001
-)
-
-var (
-	// ErrInvalidHolder is returned when the holder is invalid.
-	ErrInvalidHolder = errors.New("invalid holder")
-	// ErrInvalidAmountIssuer is returned when the amount issuer is invalid.
-	ErrInvalidAmountIssuer = errors.New("invalid amount issuer")
 )
 
 // AMMClawback claws back tokens from a holder who has deposited issued tokens into an AMM pool.

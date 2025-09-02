@@ -1,12 +1,5 @@
 package transaction
 
-import "errors"
-
-// ErrDIDSetMustSetEitherDataOrDIDDocumentOrURI is returned when Data, DIDDocument, and URI are all unset in a DIDSet transaction.
-var (
-	ErrDIDSetMustSetEitherDataOrDIDDocumentOrURI = errors.New("did set: must set either Data, DIDDocument, or URI")
-)
-
 // DIDSet creates or updates a DID ledger entry, setting Data, DIDDocument, or URI. (Requires the DID amendment)
 //
 // Example:

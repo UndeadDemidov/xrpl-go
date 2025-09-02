@@ -103,7 +103,7 @@ func TestXChainCreateBridge_Validate(t *testing.T) {
 				},
 			},
 			expected:    false,
-			expectedErr: ErrMissingAmount("SignatureReward"),
+			expectedErr: ErrMissingField{Field: "SignatureReward"},
 		},
 		{
 			name: "fail - missing xchain bridge",

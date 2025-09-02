@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -15,11 +13,6 @@ const (
 	// issuer wants to unauthorize the holder (only applicable for allow-listing),
 	// which would unset the lsfMPTAuthorized flag on the MPToken.
 	tfMPTUnauthorize uint32 = 1
-)
-
-// Error definitions for MPTokenAuthorize.
-var (
-	ErrHolderAccountConflict = errors.New("holder must be different from the account")
 )
 
 // MPTokenAuthorize transaction is used to globally lock/unlock a MPTokenIssuance,

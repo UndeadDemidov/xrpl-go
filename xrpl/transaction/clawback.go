@@ -1,18 +1,7 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrClawbackMissingAmount is returned when the Amount field is not set.
-	ErrClawbackMissingAmount = errors.New("clawback: missing field Amount")
-	// ErrClawbackInvalidAmount is returned when the Amount is not a valid issued currency.
-	ErrClawbackInvalidAmount = errors.New("clawback: invalid Amount")
-	// ErrClawbackSameAccount is returned when the clawback account and the token issuer are the same.
-	ErrClawbackSameAccount = errors.New("clawback: Account and Amount.issuer cannot be the same")
 )
 
 // Clawback reclaims tokens issued by the account. Requires the Clawback amendment.

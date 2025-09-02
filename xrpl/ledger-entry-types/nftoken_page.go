@@ -2,7 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// The NFTokenPage object represents a collection of NFTs owned by the same account.
+// NFTokenPage object represents a collection of NFTs owned by the same account.
 // An account can have multiple NFTokenPage entries, which form a doubly linked list.
 // (Added by the NonFungibleTokensV1_1 amendment.)
 //

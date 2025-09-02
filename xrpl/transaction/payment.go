@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -20,12 +18,6 @@ const (
 	// is equal or better than the ratio of Amount:SendMax. See Limit Quality for
 	// details.
 	tfLimitQuality uint32 = 262144
-)
-
-// Errors
-var (
-	// ErrPartialPaymentFlagRequired is returned when the tfPartialPayment flag is required but not set.
-	ErrPartialPaymentFlagRequired = errors.New("tfPartialPayment flag required with DeliverMin")
 )
 
 // A Payment transaction represents a transfer of value from one account to another.

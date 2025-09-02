@@ -1,26 +1,11 @@
-// Package crypto provides cryptographic utilities for DER encoding and decoding.
+// Package crypto provides cryptographic utilities.
 package crypto
 
 import (
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"math/big"
 	"strings"
-)
-
-var (
-	// ErrInvalidHexString is returned when the hex string is invalid.
-	ErrInvalidHexString = errors.New("invalid hex string")
-
-	// ErrInvalidDERNotEnoughData is returned when the DER data is not enough.
-	ErrInvalidDERNotEnoughData = errors.New("invalid DER: not enough data")
-	// ErrInvalidDERIntegerTag is returned when the DER integer tag is invalid.
-	ErrInvalidDERIntegerTag = errors.New("invalid DER: expected integer tag")
-	// ErrInvalidDERSignature is returned when the DER signature is invalid.
-	ErrInvalidDERSignature = errors.New("invalid signature: incorrect length")
-	// ErrLeftoverBytes is returned when there are leftover bytes after parsing the DER signature.
-	ErrLeftoverBytes = errors.New("invalid signature: left bytes after parsing")
 )
 
 // DERHexFromSig converts r and s hex strings to a DER-encoded signature hex string.

@@ -1,17 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrAmountOrDeliverMinNotProvided is returned when neither Amount nor DeliverMin is provided.
-	ErrAmountOrDeliverMinNotProvided = errors.New("checkCash - either Amount or DeliverMin must be provided")
-	// ErrMutuallyExclusiveAmountDeliverMin is returned when both Amount and DeliverMin are provided.
-	ErrMutuallyExclusiveAmountDeliverMin = errors.New("checkCash - both Amount and DeliverMin cannot be provided")
 )
 
 // CheckCash transaction attempts to redeem a Check object in the ledger to receive up to the amount authorized by the corresponding CheckCreate transaction.

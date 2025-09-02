@@ -1,15 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-// ErrMPTokenIssuanceSetFlags is returned when both tfMPTLock and tfMPTUnlock flags are enabled simultaneously.
-var (
-	ErrMPTokenIssuanceSetFlags = errors.New("mptoken issuance set: tfMPTLock and tfMPTUnlock flags cannot both be enabled")
 )
 
 // MPTokenIssuanceSet Flags

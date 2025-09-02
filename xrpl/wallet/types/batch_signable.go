@@ -4,23 +4,10 @@
 package types
 
 import (
-	"errors"
-	"fmt"
 	"slices"
 
 	"github.com/Peersyst/xrpl-go/xrpl/hash"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
-)
-
-var (
-	// ErrBatchSignableInvalid is returned when the batch signable is invalid.
-	ErrBatchSignableInvalid = errors.New("batch signable is invalid")
-	// ErrFlagsFieldIsNotAnUint32 is returned when the flags field is not an uint32.
-	ErrFlagsFieldIsNotAnUint32 = errors.New("flags field is not an uint32")
-	// ErrRawTransactionsFieldIsNotAnArray is returned when the raw transactions field is not an array.
-	ErrRawTransactionsFieldIsNotAnArray = errors.New("raw transactions field is not an array")
-	// ErrRawTransactionFieldIsNotAnObject is returned when the raw transaction field is not an object.
-	ErrRawTransactionFieldIsNotAnObject = errors.New("raw transaction field is not an object")
 )
 
 // BatchSignable contains the fields needed to perform a Batch transactions signature.
@@ -55,7 +42,10 @@ func FromFlatBatchTransaction(transaction *transaction.FlatTransaction) (*BatchS
 		}
 		txID, err := hash.SignTx(innerRawTx)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get txID from raw transaction: %w", ErrBatchSignableInvalid)
+			return nil, ErrFailedToGetTxIDFromRawTransaction{
+				Err: err,
+			}
+
 		}
 		batchSignable.TxIDs[i] = txID
 	}
@@ -76,7 +66,9 @@ func FromBatchTransaction(transaction *transaction.Batch) (*BatchSignable, error
 	for i, rawTx := range rawTxs {
 		txID, err := hash.SignTx(rawTx.RawTransaction)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get txID from raw transaction: %w", ErrBatchSignableInvalid)
+			return nil, ErrFailedToGetTxIDFromRawTransaction{
+				Err: err,
+			}
 		}
 		batchSignable.TxIDs[i] = txID
 	}

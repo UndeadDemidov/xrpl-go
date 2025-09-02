@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"fmt"
-
 	ledger "github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 )
 
@@ -11,13 +9,6 @@ const (
 	OracleSetMaxPriceDataSeriesItems int = 10
 	// OracleSetProviderMaxLength is the maximum length in bytes for the Provider field.
 	OracleSetProviderMaxLength int = 256
-)
-
-var (
-	// ErrProviderLength is returned when the Provider field exceeds OracleSetProviderMaxLength.
-	ErrProviderLength = fmt.Errorf("provider length must be less than %d bytes", OracleSetProviderMaxLength)
-	// ErrPriceDataSeriesItems is returned when the number of PriceDataSeries items exceeds OracleSetMaxPriceDataSeriesItems.
-	ErrPriceDataSeriesItems = fmt.Errorf("price data series items must be less than %d", OracleSetMaxPriceDataSeriesItems)
 )
 
 // OracleSet creates a new Oracle ledger entry or updates the fields of an existing one using the Oracle ID.
@@ -116,11 +107,17 @@ func (tx *OracleSet) Validate() (bool, error) {
 	}
 
 	if len([]byte(tx.Provider)) > OracleSetProviderMaxLength {
-		return false, ErrProviderLength
+		return false, ErrOracleProviderLength{
+			Length: len([]byte(tx.Provider)),
+			Limit:  OracleSetProviderMaxLength,
+		}
 	}
 
 	if len(tx.PriceDataSeries) > OracleSetMaxPriceDataSeriesItems {
-		return false, ErrPriceDataSeriesItems
+		return false, ErrOraclePriceDataSeriesItems{
+			Length: len(tx.PriceDataSeries),
+			Limit:  OracleSetMaxPriceDataSeriesItems,
+		}
 	}
 
 	for _, priceData := range tx.PriceDataSeries {

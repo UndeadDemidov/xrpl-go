@@ -1,27 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrDepositPreauthInvalidAuthorize is returned when the Authorize address is invalid.
-	ErrDepositPreauthInvalidAuthorize = errors.New("deposit preauth: invalid Authorize")
-	// ErrDepositPreauthInvalidUnauthorize is returned when the Unauthorize address is invalid.
-	ErrDepositPreauthInvalidUnauthorize = errors.New("deposit preauth: invalid Unauthorize")
-	// ErrDepositPreauthInvalidAuthorizeCredentials is returned when an AuthorizeCredentials entry is invalid.
-	ErrDepositPreauthInvalidAuthorizeCredentials = errors.New("deposit preauth: invalid AuthorizeCredentials")
-	// ErrDepositPreauthInvalidUnauthorizeCredentials is returned when an UnauthorizeCredentials entry is invalid.
-	ErrDepositPreauthInvalidUnauthorizeCredentials = errors.New("deposit preauth: invalid UnauthorizeCredentials")
-	// ErrDepositPreauthMustSetOnlyOneField is returned when more than one preauth field is set.
-	ErrDepositPreauthMustSetOnlyOneField = errors.New("deposit preauth: must set only one field (Authorize or AuthorizeCredentials or Unauthorize or UnauthorizeCredentials)")
-	// ErrDepositPreauthAuthorizeCannotBeSender is returned when Authorize equals the sender's account.
-	ErrDepositPreauthAuthorizeCannotBeSender = errors.New("deposit preauth: Authorize cannot be the same as the sender's account")
-	// ErrDepositPreauthUnauthorizeCannotBeSender is returned when Unauthorize equals the sender's account.
-	ErrDepositPreauthUnauthorizeCannotBeSender = errors.New("deposit preauth: Unauthorize cannot be the same as the sender's account")
 )
 
 // DepositPreauth gives pre-approval for another account to deliver payments to the sender. (Requires the DepositPreauth amendment)

@@ -1,17 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrInvalidRegularKey is returned when the RegularKey field contains an invalid XRPL address.
-	ErrInvalidRegularKey = errors.New("invalid xrpl address for the RegularKey field")
-	// ErrRegularKeyMatchesAccount is returned when the regular key address matches the account address.
-	ErrRegularKeyMatchesAccount = errors.New("regular key must not match the account address")
 )
 
 // SetRegularKey transaction assigns, changes, or removes the regular key pair associated with an account.

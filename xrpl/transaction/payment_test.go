@@ -146,7 +146,7 @@ func TestPayment_Validate(t *testing.T) {
 			},
 			wantValid:   false,
 			wantErr:     true,
-			expectedErr: ErrMissingAmount("Amount"),
+			expectedErr: ErrMissingField{Field: "Amount"},
 		},
 		{
 			name: "fail - invalid Amount",

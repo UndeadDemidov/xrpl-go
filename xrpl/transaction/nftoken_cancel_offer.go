@@ -1,14 +1,7 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrEmptyNFTokenOffers is returned when the NFTokenOffers array contains no entries.
-	ErrEmptyNFTokenOffers = errors.New("the NFTokenOffers array must have at least one entry")
 )
 
 // The NFTokenCancelOffer transaction can be used to cancel existing token offers created using NFTokenCreateOffer.

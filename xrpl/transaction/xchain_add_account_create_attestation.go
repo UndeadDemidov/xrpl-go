@@ -1,26 +1,10 @@
 package transaction
 
 import (
-	"errors"
 	"strconv"
 
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	// ErrInvalidAttestationRewardAccount is returned when the AttestationRewardAccount is not a valid address.
-	ErrInvalidAttestationRewardAccount = errors.New("invalid attestation reward account")
-	// ErrInvalidAttestationSignerAccount is returned when the AttestationSignerAccount is not a valid address.
-	ErrInvalidAttestationSignerAccount = errors.New("invalid attestation signer account")
-	// ErrInvalidOtherChainSource is returned when OtherChainSource is not a valid address.
-	ErrInvalidOtherChainSource = errors.New("invalid other chain source")
-	// ErrInvalidPublicKey is returned when the PublicKey field is empty or invalid.
-	ErrInvalidPublicKey = errors.New("invalid public key")
-	// ErrInvalidWasLockingChainSend is returned when WasLockingChainSend is not 0 or 1.
-	ErrInvalidWasLockingChainSend = errors.New("invalid was locking chain send")
-	// ErrInvalidXChainAccountCreateCount is returned when XChainAccountCreateCount is not a valid unsigned integer.
-	ErrInvalidXChainAccountCreateCount = errors.New("invalid x chain account create count")
 )
 
 // XChainAddAccountCreateAttestation provides an attestation that an XChainAccountCreateCommit transaction occurred on the other chain. (Requires the XChainBridge amendment)

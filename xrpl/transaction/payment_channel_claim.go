@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -24,13 +22,6 @@ const (
 	// holds XRP, any XRP that remains after processing the claim is returned to
 	// the source address.
 	tfClose uint32 = 131072 // 0x00020000
-)
-
-var (
-	// ErrInvalidChannel is returned when the Channel is not a valid 64-character hexadecimal string.
-	ErrInvalidChannel = errors.New("invalid Channel, must be a valid 64-character hexadecimal string")
-	// ErrInvalidSignature is returned when the Signature is not a valid hexadecimal string.
-	ErrInvalidSignature = errors.New("invalid Signature, must be a valid hexadecimal string")
 )
 
 // PaymentChannelClaim claims XRP from a payment channel, adjusts the payment channel's expiration, or both.

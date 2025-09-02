@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -25,17 +23,6 @@ const (
 	// If set, indicates that the issuer may use the Clawback transaction
 	// to clawback value from individual holders.
 	tfMPTCanClawback uint32 = 0x00000040
-)
-
-var (
-	// ErrTransferFeeRequiresCanTransfer is returned when TransferFee is set without enabling tfMPTCanTransfer flag.
-	ErrTransferFeeRequiresCanTransfer = errors.New("mptoken issuance create: TransferFee cannot be provided without enabling tfMPTCanTransfer flag")
-	// ErrInvalidMaximumAmount is returned when the MaximumAmount is not a valid unsigned 64-bit integer.
-	ErrInvalidMaximumAmount = errors.New("mptoken issuance create: invalid MaximumAmount, must be a valid unsigned 64-bit integer")
-	// ErrInvalidMPTokenMetadata is returned when MPTokenMetadata is not a valid hex string or exceeds size limit.
-	ErrInvalidMPTokenMetadata = errors.New("mptoken issuance create: MPTokenMetadata must be a valid hex string and at most 1024 bytes")
-	// ErrInvalidMPTokenIssuanceCreateTransferFee is returned when the TransferFee is outside the allowed range.
-	ErrInvalidMPTokenIssuanceCreateTransferFee = errors.New("mptoken issuance create: TransferFee must be between 0 and 50000")
 )
 
 // MPTokenIssuanceCreate represents a transaction to create a new MPTokenIssuance object.

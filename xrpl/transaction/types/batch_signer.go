@@ -1,21 +1,9 @@
+// Package types provides core transaction types and helpers for the XRPL Go library.
+// revive:disable:var-naming
 package types
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
-)
-
-var (
-
-	// ErrBatchSignerAccountMissing is returned when a BatchSigner lacks the required Account field.
-	ErrBatchSignerAccountMissing = errors.New("batch BatchSigner Account is missing")
-
-	// ErrBatchSignerSigningPubKeyMissing is returned when a BatchSigner lacks the required SigningPubKey field.
-	ErrBatchSignerSigningPubKeyMissing = errors.New("batch BatchSigner SigningPubKey is missing")
-
-	// ErrBatchSignerInvalidTxnSignature is returned when a BatchSigner has an invalid TxnSignature field.
-	ErrBatchSignerInvalidTxnSignature = errors.New("batch BatchSigner TxnSignature is invalid")
 )
 
 // BatchSigner represents a single batch signer entry.

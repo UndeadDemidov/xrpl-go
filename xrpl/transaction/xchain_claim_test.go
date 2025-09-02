@@ -93,7 +93,7 @@ func TestXChainClaim_Validate(t *testing.T) {
 				},
 			},
 			expected:    false,
-			expectedErr: ErrMissingAmount("Amount"),
+			expectedErr: ErrMissingField{Field: "Amount"},
 		},
 		{
 			name: "fail - invalid destination",

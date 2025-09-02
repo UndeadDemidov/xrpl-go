@@ -72,8 +72,11 @@ func (a *AMMVote) Validate() (bool, error) {
 		return false, err
 	}
 
-	if a.TradingFee > 1000 {
-		return false, ErrAMMTradingFeeTooHigh
+	if a.TradingFee > AmmMaxTradingFee {
+		return false, ErrAMMTradingFeeTooHigh{
+			Value: a.TradingFee,
+			Limit: AmmMaxTradingFee,
+		}
 	}
 
 	return true, nil

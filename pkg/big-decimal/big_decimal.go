@@ -2,8 +2,6 @@
 package bigdecimal
 
 import (
-	"errors"
-	"fmt"
 	"math/big"
 	"regexp"
 	"strconv"
@@ -17,15 +15,6 @@ const (
 	BigDecRegEx = "-?(?:[0|1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?"
 	// Precision specifies the bit precision used for internal big.Float calculations.
 	Precision = 512
-)
-
-var (
-	// ErrInvalidCharacter indicates the input string contains disallowed characters.
-	ErrInvalidCharacter = fmt.Errorf("value contains invalid characters. Only the following are allowed: %q", AllowedCharacters)
-	// ErrInvalidZeroValue indicates the value string represents zero or is invalid zero.
-	ErrInvalidZeroValue = errors.New("value cannot be zero")
-	// ErrInvalidScale indicates the scale derived from the input is too large.
-	ErrInvalidScale = errors.New("scale too large")
 )
 
 // BigDecimal represents a high-precision decimal value with scale, precision, and sign.
@@ -78,7 +67,10 @@ func NewBigDecimal(value string) (bd *BigDecimal, err error) {
 
 	// check if the value string contains only allowed characters
 	if !bigDecimalRegEx(value) {
-		return nil, ErrInvalidCharacter
+		return nil, ErrInvalidCharacter{
+			Allowed: AllowedCharacters,
+		}
+
 	}
 
 	v := strings.ToLower(value)

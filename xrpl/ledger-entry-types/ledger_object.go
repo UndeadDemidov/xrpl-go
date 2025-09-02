@@ -1,10 +1,5 @@
 package ledger
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // EntryType represents the type of a ledger entry as a string identifier.
 type EntryType string
 
@@ -105,77 +100,7 @@ func EmptyLedgerObject(t string) (Object, error) {
 	case XChainOwnedCreateAccountClaimIDEntry:
 		return &XChainOwnedCreateAccountClaimID{}, nil
 	}
-	return nil, fmt.Errorf("unrecognized LedgerObject type \"%s\"", t)
-}
-
-// UnmarshalLedgerObject parses the provided JSON data into the correct ledger entry object based on its LedgerEntryType.
-func UnmarshalLedgerObject(data []byte) (Object, error) {
-	if len(data) == 0 {
-		return nil, nil
+	return nil, ErrUnrecognizedLedgerObjectType{
+		Type: t,
 	}
-	type helper struct {
-		LedgerEntryType EntryType
-	}
-	var h helper
-	if err := json.Unmarshal(data, &h); err != nil {
-		return nil, err
-	}
-	var o Object
-	switch h.LedgerEntryType {
-	case AccountRootEntry:
-		o = &AccountRoot{}
-	case AmendmentsEntry:
-		o = &Amendments{}
-	case BridgeEntry:
-		o = &Bridge{}
-	case CheckEntry:
-		o = &Check{}
-	case CredentialEntry:
-		o = &Credential{}
-	case DelegateEntry:
-		o = &Delegate{}
-	case DepositPreauthObjEntry:
-		o = &DepositPreauthObj{}
-	case DIDEntry:
-		o = &DID{}
-	case DirectoryNodeEntry:
-		o = &DirectoryNode{}
-	case EscrowEntry:
-		o = &Escrow{}
-	case FeeSettingsEntry:
-		o = &FeeSettings{}
-	case LedgerHashesEntry:
-		o = &Hashes{}
-	case NegativeUNLEntry:
-		o = &NegativeUNL{}
-	case NFTokenOfferEntry:
-		o = &NFTokenOffer{}
-	case NFTokenPageEntry:
-		o = &NFTokenPage{}
-	case OfferEntry:
-		o = &Offer{}
-	case OracleEntry:
-		o = &Oracle{}
-	case PayChannelEntry:
-		o = &PayChannel{}
-	case PermissionedDomainEntry:
-		o = &PermissionedDomain{}
-	case RippleStateEntry:
-		o = &RippleState{}
-	case SignerListEntry:
-		o = &SignerList{}
-	case TicketEntry:
-		o = &Ticket{}
-	case XChainOwnedClaimIDEntry:
-		o = &XChainOwnedClaimID{}
-	case XChainOwnedCreateAccountClaimIDEntry:
-		o = &XChainOwnedCreateAccountClaimID{}
-	default:
-		return nil, fmt.Errorf("unsupported ledger object of type %s", h.LedgerEntryType)
-	}
-	if err := json.Unmarshal(data, o); err != nil {
-		return nil, err
-	}
-	return o, nil
-
 }

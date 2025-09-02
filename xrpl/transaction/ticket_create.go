@@ -1,7 +1,5 @@
 package transaction
 
-import "fmt"
-
 const (
 	// MinTicketCount is the minimum TicketCount value.
 	// https://xrpl.org/docs/references/protocol/transactions/types/ticketcreate#ticketcreate-fields
@@ -9,11 +7,6 @@ const (
 	// MaxTicketCount is the maximum TicketCount value.
 	// https://xrpl.org/docs/references/protocol/transactions/types/ticketcreate#ticketcreate-fields
 	MaxTicketCount = 250
-)
-
-var (
-	// ErrTicketCreateInvalidTicketCount is returned when the ticket count is outside the valid range.
-	ErrTicketCreateInvalidTicketCount = fmt.Errorf("ticket count must be between %d and %d", MinTicketCount, MaxTicketCount)
 )
 
 // TicketCreate transaction sets aside one or more sequence numbers as Tickets.
@@ -65,7 +58,11 @@ func (t *TicketCreate) Validate() (bool, error) {
 	}
 
 	if t.TicketCount < MinTicketCount || t.TicketCount > MaxTicketCount {
-		return false, ErrTicketCreateInvalidTicketCount
+		return false, ErrTicketCreateInvalidTicketCount{
+			TicketCount:    t.TicketCount,
+			MinTicketCount: MinTicketCount,
+			MaxTicketCount: MaxTicketCount,
+		}
 	}
 
 	return true, nil

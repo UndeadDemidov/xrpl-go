@@ -1,4 +1,5 @@
 // Package types contains data structures for binary codec operations.
+// revive:disable:var-naming
 package types
 
 // Hash256 struct represents a 256-bit hash.
