@@ -14,8 +14,13 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/hash"
 	"github.com/Peersyst/xrpl-go/xrpl/interfaces"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-	"github.com/tyler-smith/go-bip32"
-	"github.com/tyler-smith/go-bip39"
+	bip32 "github.com/bsv-blockchain/go-sdk/compat/bip32"
+	"github.com/bsv-blockchain/go-sdk/compat/bip39"
+	chaincfg "github.com/bsv-blockchain/go-sdk/transaction/chaincfg"
+)
+
+var (
+	NilHDPrivateKeyID = [4]byte{0x00, 0x00, 0x00, 0x00}
 )
 
 // Wallet is a utility for deriving a wallet composed of a keypair (publicKey/privateKey).
@@ -83,31 +88,40 @@ func FromMnemonic(mnemonic string) (*Wallet, error) {
 	seed := bip39.NewSeed(mnemonic, "")
 
 	// Derive the master key
-	masterKey, err := bip32.NewMasterKey(seed)
+
+	params := &chaincfg.Params{
+		HDPrivateKeyID: NilHDPrivateKeyID,
+	}
+	masterKey, err := bip32.NewMaster(seed, params)
 	if err != nil {
 		return nil, err
 	}
 
 	// Derive the key using the path m/44'/144'/0'/0/0
 	path := []uint32{
-		44 + bip32.FirstHardenedChild,
-		144 + bip32.FirstHardenedChild,
-		bip32.FirstHardenedChild,
+		44 + bip32.HardenedKeyStart,
+		144 + bip32.HardenedKeyStart,
+		bip32.HardenedKeyStart,
 		0,
 		0,
 	}
 
 	key := masterKey
 	for _, childNum := range path {
-		key, err = key.NewChildKey(childNum)
+		key, err = key.Child(childNum)
 		if err != nil {
 			return nil, err
 		}
 	}
 
 	// Convert the private key to the format expected by the XRPL library
-	privKey := strings.ToUpper(hex.EncodeToString(key.Key))
-	pubKey := strings.ToUpper(hex.EncodeToString(key.PublicKey().Key))
+	ecPriv, err := key.ECPrivKey()
+	if err != nil {
+		return nil, err
+	}
+
+	privKey := strings.ToUpper(ecPriv.Hex())
+	pubKey := strings.ToUpper(hex.EncodeToString(ecPriv.PubKey().Compressed()))
 
 	// Derive classic address
 	classicAddr, err := keypairs.DeriveClassicAddress(pubKey)
