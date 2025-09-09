@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 const (
@@ -13,27 +14,46 @@ const (
 	MPTokenMetadataMaxSize = 1024
 )
 
-// MPTokenMetadataUrl represents a URL reference within multi-purpose token metadata.
+// MPTokenMetadataURL represents a URL reference within multi-purpose token metadata.
 // It follows the XLS-0089d standard for multi-purpose token metadata schema.
-type MPTokenMetadataUrl struct {
-	Url   string `json:"url,omitempty"`   // The URL address
-	Type  string `json:"type,omitempty"`  // The MIME type of the resource
-	Title string `json:"title,omitempty"` // Human-readable title for the URL
+type MPTokenMetadataURL struct {
+	URL   string `json:"url"`   // The URL address
+	Type  string `json:"type"`  // The MIME type of the resource
+	Title string `json:"title"` // Human-readable title for the URL
 }
 
 // MPTokenMetadata represents the metadata structure for multi-purpose tokens
 // following the XLS-0089d standard. This structure defines the schema for
 // token metadata that can be attached to XRPL tokens.
 type MPTokenMetadata struct {
-	Ticker         string               `json:"ticker,omitempty"`          // Short symbol for the token
-	Name           string               `json:"name,omitempty"`            // Full name of the token
+	Ticker         string               `json:"ticker"`                    // Short symbol for the token
+	Name           string               `json:"name"`                      // Full name of the token
 	Desc           string               `json:"desc,omitempty"`            // Description of the token
 	Icon           string               `json:"icon,omitempty"`            // URL to token icon image
-	AssetClass     string               `json:"asset_class,omitempty"`     // Primary classification of the asset
-	AssetSubclass  string               `json:"asset_subclass,omitempty"`  // Secondary classification of the asset
-	IssuerName     string               `json:"issuer_name,omitempty"`     // Name of the token issuer
-	Urls           []MPTokenMetadataUrl `json:"urls,omitempty"`            // Additional URL references
+	AssetClass     string               `json:"asset_class"`               // Primary classification of the asset
+	AssetSubclass  string               `json:"asset_subclass"`            // Secondary classification of the asset
+	IssuerName     string               `json:"issuer_name"`               // Name of the token issuer
+	URLs           []MPTokenMetadataURL `json:"urls,omitempty"`            // Additional URL references
 	AdditionalInfo json.RawMessage      `json:"additional_info,omitempty"` // Custom additional metadata
+}
+
+// Validate checks if the MPTokenMetadata has all required fields populated.
+// Required fields are: Ticker, AssetClass, AssetSubclass, and Name.
+// Returns an error if any required field is empty or contains only whitespace.
+func (m MPTokenMetadata) Validate() error {
+	if strings.TrimSpace(m.Ticker) == "" {
+		return fmt.Errorf("ticker is required and cannot be empty")
+	}
+	if strings.TrimSpace(m.AssetClass) == "" {
+		return fmt.Errorf("asset_class is required and cannot be empty")
+	}
+	if strings.TrimSpace(m.AssetSubclass) == "" {
+		return fmt.Errorf("asset_subclass is required and cannot be empty")
+	}
+	if strings.TrimSpace(m.Name) == "" {
+		return fmt.Errorf("name is required and cannot be empty")
+	}
+	return nil
 }
 
 // MPTokenMetadataFromBlob parses a hex-encoded blob string into MPTokenMetadata.
@@ -53,6 +73,12 @@ func MPTokenMetadataFromBlob(blob string) (*MPTokenMetadata, error) {
 	if err != nil {
 		return nil, fmt.Errorf("metadata is not in XLS-0089d schema: %w", err)
 	}
+
+	// Validate required fields
+	if err := m.Validate(); err != nil {
+		return nil, fmt.Errorf("metadata validation failed: %w", err)
+	}
+
 	return &m, nil
 }
 
@@ -62,6 +88,11 @@ func MPTokenMetadataFromBlob(blob string) (*MPTokenMetadata, error) {
 // Returns an error if the JSON marshaling fails or if the resulting
 // blob exceeds the maximum allowed size (MPTokenMetadataMaxSize).
 func (m MPTokenMetadata) Blob() (string, error) {
+	// Validate required fields before serialization
+	if err := m.Validate(); err != nil {
+		return "", fmt.Errorf("metadata validation failed: %w", err)
+	}
+
 	json, err := json.Marshal(m)
 	if err != nil {
 		return "", fmt.Errorf("marshal to json for blob: %w", err)
