@@ -20,7 +20,7 @@ import (
 )
 
 var (
-	NilHDPrivateKeyID = [4]byte{0x00, 0x00, 0x00, 0x00}
+	nilHDPrivateKeyID = [4]byte{0x00, 0x00, 0x00, 0x00}
 )
 
 // Wallet is a utility for deriving a wallet composed of a keypair (publicKey/privateKey).
@@ -90,7 +90,7 @@ func FromMnemonic(mnemonic string) (*Wallet, error) {
 	// Derive the master key
 
 	params := &chaincfg.Params{
-		HDPrivateKeyID: NilHDPrivateKeyID,
+		HDPrivateKeyID: nilHDPrivateKeyID,
 	}
 	masterKey, err := bip32.NewMaster(seed, params)
 	if err != nil {
