@@ -21,6 +21,8 @@ const (
 	lsfMPTCanClawback uint32 = 0x00000040
 )
 
+// An MPTokenIssuance entry represents a single MPT issuance and holds data associated with the issuance itself.
+// You can create an MPTokenIssuance using an MPTokenIssuanceCreate transaction, and can delete it with an MPTokenIssuanceDestroy transaction.
 type MPTokenIssuance struct {
 	// The unique ID for this ledger entry. In JSON, this field is represented with different names depending on the
 	// context and API method. (Note, even though this is specified as "optional" in the code, every ledger entry

@@ -11,6 +11,8 @@ const (
 	lsfMPTAuthorized uint32 = 0x00000002
 )
 
+// An MPToken entry tracks MPTs held by an account that is not the token issuer. You can create or delete an empty MPToken entry by sending an MPTokenAuthorize transaction.
+// You can send and receive MPTs using several other transaction types including Payment and OfferCreate transactions.
 type MPToken struct {
 	// The unique ID for this ledger entry. In JSON, this field is represented with different names depending on the
 	// context and API method. (Note, even though this is specified as "optional" in the code, every ledger entry
