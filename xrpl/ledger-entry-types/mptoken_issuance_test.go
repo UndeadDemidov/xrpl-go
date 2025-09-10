@@ -1,0 +1,305 @@
+package ledger
+
+import (
+	"testing"
+
+	"github.com/Peersyst/xrpl-go/xrpl/testutil"
+	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
+	"github.com/stretchr/testify/require"
+)
+
+func TestMPTokenIssuance_EntryType(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	require.Equal(t, mpTokenIssuance.EntryType(), MPTokenIssuanceEntry)
+}
+
+func TestMPTokenIssuance_SetLsfMPTLocked(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	mpTokenIssuance.SetLsfMPTLocked()
+	require.Equal(t, mpTokenIssuance.Flags, lsfMPTLocked)
+}
+
+func TestMPTokenIssuance_SetLsfMPTCanLock(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	mpTokenIssuance.SetLsfMPTCanLock()
+	require.Equal(t, mpTokenIssuance.Flags, lsfMPTCanLock)
+}
+
+func TestMPTokenIssuance_SetLsfMPTRequireAuth(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	mpTokenIssuance.SetLsfMPTRequireAuth()
+	require.Equal(t, mpTokenIssuance.Flags, lsfMPTRequireAuth)
+}
+
+func TestMPTokenIssuance_SetLsfMPTCanEscrow(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	mpTokenIssuance.SetLsfMPTCanEscrow()
+	require.Equal(t, mpTokenIssuance.Flags, lsfMPTCanEscrow)
+}
+
+func TestMPTokenIssuance_SetLsfMPTCanTrade(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	mpTokenIssuance.SetLsfMPTCanTrade()
+	require.Equal(t, mpTokenIssuance.Flags, lsfMPTCanTrade)
+}
+
+func TestMPTokenIssuance_SetLsfMPTCanTransfer(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	mpTokenIssuance.SetLsfMPTCanTransfer()
+	require.Equal(t, mpTokenIssuance.Flags, lsfMPTCanTransfer)
+}
+
+func TestMPTokenIssuance_SetLsfMPTCanClawback(t *testing.T) {
+	mpTokenIssuance := &MPTokenIssuance{}
+	mpTokenIssuance.SetLsfMPTCanClawback()
+	require.Equal(t, mpTokenIssuance.Flags, lsfMPTCanClawback)
+}
+
+func TestMPTokenIssuance_Flatten(t *testing.T) {
+	tests := []struct {
+		name            string
+		mpTokenIssuance *MPTokenIssuance
+		expected        string
+	}{
+		{
+			name: "pass - valid MPToken with lsfMPTLocked",
+			mpTokenIssuance: &MPTokenIssuance{
+				Index:             types.Hash256("A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9"),
+				LedgerEntryType:   MPTokenIssuanceEntry,
+				Flags:             lsfMPTLocked,
+				Issuer:            types.Address("rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8"),
+				AssetScale:        2,
+				MaximumAmount:     1000,
+				OutstandingAmount: 100,
+				TransferFee:       100,
+				MPTokenMetadata:   "7B227469636B6572",
+				OwnerNode:         1,
+				PreviousTxnID:     types.Hash256("8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB"),
+				PreviousTxnLgrSeq: 234644,
+				Sequence:          1,
+			},
+			expected: `{
+	"index": "A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9",
+	"LedgerEntryType": "MPTokenIssuance",
+	"Flags": 1,
+	"Issuer": "rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8",
+	"AssetScale": 2,
+	"MaximumAmount": 1000,
+	"OutstandingAmount": 100,
+	"TransferFee": 100,
+	"MPTokenMetadata": "7B227469636B6572",
+	"OwnerNode": 1,
+	"PreviousTxnID": "8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB",
+	"PreviousTxnLgrSeq": 234644,
+	"Sequence": 1
+}`,
+		},
+		{
+			name: "pass - valid MPToken with lsfMPTCanLock",
+			mpTokenIssuance: &MPTokenIssuance{
+				Index:             types.Hash256("A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9"),
+				LedgerEntryType:   MPTokenIssuanceEntry,
+				Flags:             lsfMPTCanLock,
+				Issuer:            types.Address("rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8"),
+				AssetScale:        2,
+				MaximumAmount:     1000,
+				OutstandingAmount: 100,
+				TransferFee:       100,
+				MPTokenMetadata:   "7B227469636B6572",
+				OwnerNode:         1,
+				PreviousTxnID:     types.Hash256("8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB"),
+				PreviousTxnLgrSeq: 234644,
+				Sequence:          1,
+			},
+			expected: `{
+	"index": "A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9",
+	"LedgerEntryType": "MPTokenIssuance",
+	"Flags": 2,
+	"Issuer": "rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8",
+	"AssetScale": 2,
+	"MaximumAmount": 1000,
+	"OutstandingAmount": 100,
+	"TransferFee": 100,
+	"MPTokenMetadata": "7B227469636B6572",
+	"OwnerNode": 1,
+	"PreviousTxnID": "8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB",
+	"PreviousTxnLgrSeq": 234644,
+	"Sequence": 1
+}`,
+		},
+		{
+			name: "pass - valid MPToken with lsfMPTCanLock",
+			mpTokenIssuance: &MPTokenIssuance{
+				Index:             types.Hash256("A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9"),
+				LedgerEntryType:   MPTokenIssuanceEntry,
+				Flags:             lsfMPTRequireAuth,
+				Issuer:            types.Address("rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8"),
+				AssetScale:        2,
+				MaximumAmount:     1000,
+				OutstandingAmount: 100,
+				TransferFee:       100,
+				MPTokenMetadata:   "7B227469636B6572",
+				OwnerNode:         1,
+				PreviousTxnID:     types.Hash256("8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB"),
+				PreviousTxnLgrSeq: 234644,
+				Sequence:          1,
+			},
+			expected: `{
+	"index": "A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9",
+	"LedgerEntryType": "MPTokenIssuance",
+	"Flags": 4,
+	"Issuer": "rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8",
+	"AssetScale": 2,
+	"MaximumAmount": 1000,
+	"OutstandingAmount": 100,
+	"TransferFee": 100,
+	"MPTokenMetadata": "7B227469636B6572",
+	"OwnerNode": 1,
+	"PreviousTxnID": "8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB",
+	"PreviousTxnLgrSeq": 234644,
+	"Sequence": 1
+}`,
+		},
+		{
+			name: "pass - valid MPToken with lsfMPTCanEscrow",
+			mpTokenIssuance: &MPTokenIssuance{
+				Index:             types.Hash256("A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9"),
+				LedgerEntryType:   MPTokenIssuanceEntry,
+				Flags:             lsfMPTCanEscrow,
+				Issuer:            types.Address("rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8"),
+				AssetScale:        2,
+				MaximumAmount:     1000,
+				OutstandingAmount: 100,
+				TransferFee:       100,
+				MPTokenMetadata:   "7B227469636B6572",
+				OwnerNode:         1,
+				PreviousTxnID:     types.Hash256("8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB"),
+				PreviousTxnLgrSeq: 234644,
+				Sequence:          1,
+			},
+			expected: `{
+	"index": "A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9",
+	"LedgerEntryType": "MPTokenIssuance",
+	"Flags": 8,
+	"Issuer": "rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8",
+	"AssetScale": 2,
+	"MaximumAmount": 1000,
+	"OutstandingAmount": 100,
+	"TransferFee": 100,
+	"MPTokenMetadata": "7B227469636B6572",
+	"OwnerNode": 1,
+	"PreviousTxnID": "8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB",
+	"PreviousTxnLgrSeq": 234644,
+	"Sequence": 1
+}`,
+		},
+		{
+			name: "pass - valid MPToken with lsfMPTCanTrade",
+			mpTokenIssuance: &MPTokenIssuance{
+				Index:             types.Hash256("A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9"),
+				LedgerEntryType:   MPTokenIssuanceEntry,
+				Flags:             lsfMPTCanTrade,
+				Issuer:            types.Address("rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8"),
+				AssetScale:        2,
+				MaximumAmount:     1000,
+				OutstandingAmount: 100,
+				TransferFee:       100,
+				MPTokenMetadata:   "7B227469636B6572",
+				OwnerNode:         1,
+				PreviousTxnID:     types.Hash256("8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB"),
+				PreviousTxnLgrSeq: 234644,
+				Sequence:          1,
+			},
+			expected: `{
+	"index": "A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9",
+	"LedgerEntryType": "MPTokenIssuance",
+	"Flags": 16,
+	"Issuer": "rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8",
+	"AssetScale": 2,
+	"MaximumAmount": 1000,
+	"OutstandingAmount": 100,
+	"TransferFee": 100,
+	"MPTokenMetadata": "7B227469636B6572",
+	"OwnerNode": 1,
+	"PreviousTxnID": "8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB",
+	"PreviousTxnLgrSeq": 234644,
+	"Sequence": 1
+}`,
+		},
+		{
+			name: "pass - valid MPToken with lsfMPTCanTransfer",
+			mpTokenIssuance: &MPTokenIssuance{
+				Index:             types.Hash256("A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9"),
+				LedgerEntryType:   MPTokenIssuanceEntry,
+				Flags:             lsfMPTCanTransfer,
+				Issuer:            types.Address("rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8"),
+				AssetScale:        2,
+				MaximumAmount:     1000,
+				OutstandingAmount: 100,
+				TransferFee:       100,
+				MPTokenMetadata:   "7B227469636B6572",
+				OwnerNode:         1,
+				PreviousTxnID:     types.Hash256("8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB"),
+				PreviousTxnLgrSeq: 234644,
+				Sequence:          1,
+			},
+			expected: `{
+	"index": "A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9",
+	"LedgerEntryType": "MPTokenIssuance",
+	"Flags": 32,
+	"Issuer": "rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8",
+	"AssetScale": 2,
+	"MaximumAmount": 1000,
+	"OutstandingAmount": 100,
+	"TransferFee": 100,
+	"MPTokenMetadata": "7B227469636B6572",
+	"OwnerNode": 1,
+	"PreviousTxnID": "8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB",
+	"PreviousTxnLgrSeq": 234644,
+	"Sequence": 1
+}`,
+		},
+		{
+			name: "pass - valid MPToken with lsfMPTCanClawback",
+			mpTokenIssuance: &MPTokenIssuance{
+				Index:             types.Hash256("A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9"),
+				LedgerEntryType:   MPTokenIssuanceEntry,
+				Flags:             lsfMPTCanClawback,
+				Issuer:            types.Address("rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8"),
+				AssetScale:        2,
+				MaximumAmount:     1000,
+				OutstandingAmount: 100,
+				TransferFee:       100,
+				MPTokenMetadata:   "7B227469636B6572",
+				OwnerNode:         1,
+				PreviousTxnID:     types.Hash256("8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB"),
+				PreviousTxnLgrSeq: 234644,
+				Sequence:          1,
+			},
+
+			expected: `{
+	"index": "A738A1E6E8505E1FC77BBB9FEF84FF9A9C609F2739E0F9573CDD6367100A0AA9",
+	"LedgerEntryType": "MPTokenIssuance",
+	"Flags": 64,
+	"Issuer": "rsUiUMpnrgxQp24dJYZDhmV4bE3aBtQyt8",
+	"AssetScale": 2,
+	"MaximumAmount": 1000,
+	"OutstandingAmount": 100,
+	"TransferFee": 100,
+	"MPTokenMetadata": "7B227469636B6572",
+	"OwnerNode": 1,
+	"PreviousTxnID": "8089451B193AAD110ACED3D62BE79BB523658545E6EE8B7BB0BE573FED9BCBFB",
+	"PreviousTxnLgrSeq": 234644,
+	"Sequence": 1
+}`,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if err := testutil.SerializeAndDeserialize(t, test.mpTokenIssuance, test.expected); err != nil {
+				t.Error(err)
+			}
+		})
+	}
+}
