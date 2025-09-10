@@ -13,7 +13,7 @@ func TestMPToken_EntryType(t *testing.T) {
 	require.Equal(t, mpToken.EntryType(), MPTokenEntry)
 }
 
-func TestMPToken_SetLsfAccepted(t *testing.T) {
+func TestMPToken_SetLsfMPTLocked(t *testing.T) {
 	mpToken := &MPToken{}
 	mpToken.SetLsfMPTLocked()
 	require.Equal(t, mpToken.Flags, lsfMPTLocked)
