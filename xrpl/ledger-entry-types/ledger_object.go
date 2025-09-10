@@ -77,8 +77,8 @@ func EmptyLedgerObject(t string) (Object, error) {
 		return &FeeSettings{}, nil
 	case MPTokenEntry:
 		return &MPToken{}, nil
-	// case MPTokenIssuanceEntry:
-	// 	return &MPTokenIssuance{}, nil
+	case MPTokenIssuanceEntry:
+		return &MPTokenIssuance{}, nil
 	case LedgerHashesEntry:
 		return &Hashes{}, nil
 	case NegativeUNLEntry:
