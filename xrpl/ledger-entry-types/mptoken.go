@@ -41,12 +41,12 @@ func (*MPToken) EntryType() EntryType {
 	return MPTokenEntry
 }
 
-// SetLsfMPTLocked sets the one owner count flag.
+// SetLsfMPTLocked sets the lsfMPTLocked flag.
 func (c *MPToken) SetLsfMPTLocked() {
 	c.Flags |= lsfMPTLocked
 }
 
-// SetLsfMPTAuthorized sets the one owner count flag.
+// SetLsfMPTAuthorized sets the lsfMPTAuthorized flag.
 func (c *MPToken) SetLsfMPTAuthorized() {
 	c.Flags |= lsfMPTAuthorized
 }
