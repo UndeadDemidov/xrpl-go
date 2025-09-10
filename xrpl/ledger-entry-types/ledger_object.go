@@ -19,7 +19,7 @@ const (
 	FeeSettingsEntry                     EntryType = "FeeSettings"
 	LedgerHashesEntry                    EntryType = "LedgerHashes"
 	MPTokenEntry                         EntryType = "MPToken"
-	MPTokenIssuanceEntry                 EntryType = "MPTokenIssuance"
+	MPTokenIssuanceEntry                 EntryType = "MPTokenIssuance" // #nosec G101
 	NegativeUNLEntry                     EntryType = "NegativeUNL"
 	NFTokenOfferEntry                    EntryType = "NFTokenOffer"
 	NFTokenPageEntry                     EntryType = "NFTokenPage"
