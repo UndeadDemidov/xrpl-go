@@ -25,7 +25,7 @@ func TestMPToken_SetLsfMPTAuthorized(t *testing.T) {
 	require.Equal(t, mpToken.Flags, lsfMPTAuthorized)
 }
 
-func TestMPToken_Flatten(t *testing.T) {
+func TestMPTokenSerialization(t *testing.T) {
 	tests := []struct {
 		name     string
 		mpToken  *MPToken

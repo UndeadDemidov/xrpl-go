@@ -55,7 +55,7 @@ func TestMPTokenIssuance_SetLsfMPTCanClawback(t *testing.T) {
 	require.Equal(t, mpTokenIssuance.Flags, lsfMPTCanClawback)
 }
 
-func TestMPTokenIssuance_Flatten(t *testing.T) {
+func TestMPTokenIssuanceSerialization(t *testing.T) {
 	tests := []struct {
 		name            string
 		mpTokenIssuance *MPTokenIssuance
