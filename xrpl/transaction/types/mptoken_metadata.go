@@ -42,16 +42,16 @@ type MPTokenMetadata struct {
 // Returns an error if any required field is empty or contains only whitespace.
 func (m MPTokenMetadata) Validate() error {
 	if strings.TrimSpace(m.Ticker) == "" {
-		return fmt.Errorf("ticker is required and cannot be empty")
+		return ErrEmptyTicker
 	}
 	if strings.TrimSpace(m.AssetClass) == "" {
-		return fmt.Errorf("asset_class is required and cannot be empty")
+		return ErrEmptyAssetClass
 	}
 	if strings.TrimSpace(m.AssetSubclass) == "" {
-		return fmt.Errorf("asset_subclass is required and cannot be empty")
+		return ErrEmptyAssetSubclass
 	}
 	if strings.TrimSpace(m.Name) == "" {
-		return fmt.Errorf("name is required and cannot be empty")
+		return ErrEmptyName
 	}
 	return nil
 }
@@ -65,18 +65,18 @@ func (m MPTokenMetadata) Validate() error {
 func MPTokenMetadataFromBlob(blob string) (*MPTokenMetadata, error) {
 	b, err := hex.DecodeString(blob)
 	if err != nil {
-		return nil, fmt.Errorf("decode from blob in hex: %w", err)
+		return nil, fmt.Errorf("%w: %w", ErrInvalidHexBlob, err)
 	}
 	m := MPTokenMetadata{}
 
 	err = json.Unmarshal(b, &m)
 	if err != nil {
-		return nil, fmt.Errorf("metadata is not in XLS-0089d schema: %w", err)
+		return nil, fmt.Errorf("%w: %w", ErrInvalidSchema, err)
 	}
 
 	// Validate required fields
 	if err := m.Validate(); err != nil {
-		return nil, fmt.Errorf("metadata validation failed: %w", err)
+		return nil, fmt.Errorf("%w: %w", ErrValidationFailed, err)
 	}
 
 	return &m, nil
@@ -90,16 +90,16 @@ func MPTokenMetadataFromBlob(blob string) (*MPTokenMetadata, error) {
 func (m MPTokenMetadata) Blob() (string, error) {
 	// Validate required fields before serialization
 	if err := m.Validate(); err != nil {
-		return "", fmt.Errorf("metadata validation failed: %w", err)
+		return "", fmt.Errorf("%w: %w", ErrValidationFailed, err)
 	}
 
 	json, err := json.Marshal(m)
 	if err != nil {
-		return "", fmt.Errorf("marshal to json for blob: %w", err)
+		return "", fmt.Errorf("%w: %w", ErrMarshalFailed, err)
 	}
 
 	if len(json) > MPTokenMetadataMaxSize {
-		return "", fmt.Errorf("blob is too large: %d", len(json))
+		return "", fmt.Errorf("%w: %d", ErrBlobTooLarge, len(json))
 	}
 
 	return hex.EncodeToString(json), nil
