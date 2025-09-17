@@ -18,6 +18,8 @@ const (
 	EscrowEntry                          EntryType = "Escrow"
 	FeeSettingsEntry                     EntryType = "FeeSettings"
 	LedgerHashesEntry                    EntryType = "LedgerHashes"
+	MPTokenEntry                         EntryType = "MPToken"
+	MPTokenIssuanceEntry                 EntryType = "MPTokenIssuance" // #nosec G101
 	NegativeUNLEntry                     EntryType = "NegativeUNL"
 	NFTokenOfferEntry                    EntryType = "NFTokenOffer"
 	NFTokenPageEntry                     EntryType = "NFTokenPage"
@@ -73,6 +75,10 @@ func EmptyLedgerObject(t string) (Object, error) {
 		return &Escrow{}, nil
 	case FeeSettingsEntry:
 		return &FeeSettings{}, nil
+	case MPTokenEntry:
+		return &MPToken{}, nil
+	case MPTokenIssuanceEntry:
+		return &MPTokenIssuance{}, nil
 	case LedgerHashesEntry:
 		return &Hashes{}, nil
 	case NegativeUNLEntry:
