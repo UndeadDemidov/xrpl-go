@@ -423,6 +423,47 @@ func TestPayment_Validate(t *testing.T) {
 			wantErr:     true,
 			expectedErr: ErrInvalidCredentialIDs,
 		},
+		{
+			name: "pass - valid Payment with DomainID",
+			payment: Payment{
+				BaseTx: BaseTx{
+					Account:         "rJwjoukM94WwKwxM428V7b9npHjpkSvif",
+					TransactionType: PaymentTx,
+					Fee:             types.XRPCurrencyAmount(1000),
+					Flags:           262144,
+				},
+				Amount: types.IssuedCurrencyAmount{
+					Issuer:   "r3dFAtNXwRFCyBGz5BcWhMj9a4cm7qkzzn",
+					Currency: "USD",
+					Value:    "1",
+				},
+				Destination: "rDgHn3T2P7eNAaoHh43iRudhAUjAHmDgEP",
+				DomainID:    types.DomainID("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"),
+			},
+			wantValid: true,
+			wantErr:   false,
+		},
+		{
+			name: "fail - invalid DomainID length",
+			payment: Payment{
+				BaseTx: BaseTx{
+					Account:         "rJwjoukM94WwKwxM428V7b9npHjpkSvif",
+					TransactionType: PaymentTx,
+					Fee:             types.XRPCurrencyAmount(1000),
+					Flags:           262144,
+				},
+				Amount: types.IssuedCurrencyAmount{
+					Issuer:   "r3dFAtNXwRFCyBGz5BcWhMj9a4cm7qkzzn",
+					Currency: "USD",
+					Value:    "1",
+				},
+				Destination: "rDgHn3T2P7eNAaoHh43iRudhAUjAHmDgEP",
+				DomainID:    types.DomainID("invalid"),
+			},
+			wantValid:   false,
+			wantErr:     true,
+			expectedErr: ErrInvalidDomainID,
+		},
 	}
 
 	for _, tt := range tests {

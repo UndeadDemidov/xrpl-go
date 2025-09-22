@@ -78,6 +78,8 @@ type DirectoryNode struct {
 	TakerPaysCurrency string `json:",omitempty"`
 	// (Offer directories only) The issuer of the TakerPays amount from the offers in this directory.
 	TakerPaysIssuer string `json:",omitempty"`
+	// The domain that the offer directory is a part of.
+	DomainID string `json:",omitempty"`
 }
 
 // EntryType returns the type of ledger entry.

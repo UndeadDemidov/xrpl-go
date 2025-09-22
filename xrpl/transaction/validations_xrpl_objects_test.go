@@ -466,3 +466,60 @@ func TestIsPaths(t *testing.T) {
 		})
 	}
 }
+
+func TestIsDomainID(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected bool
+	}{
+		{
+			name:     "pass - valid 64 character DomainID",
+			input:    "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+			expected: true,
+		},
+		{
+			name:     "fail - too short DomainID",
+			input:    "1234567890abcdef",
+			expected: false,
+		},
+		{
+			name:     "fail - too long DomainID",
+			input:    "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12",
+			expected: false,
+		},
+		{
+			name:     "fail - empty DomainID",
+			input:    "",
+			expected: false,
+		},
+		{
+			name:     "pass - valid DomainID with all uppercase hex",
+			input:    "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+			expected: true,
+		},
+		{
+			name:     "pass - valid DomainID with mixed case hex",
+			input:    "1234567890abcDEF1234567890ABcdef1234567890ABcdef1234567890ABcdef",
+			expected: true,
+		},
+		{
+			name:     "pass - valid DomainID with all numbers",
+			input:    "1234567890123456789012345678901234567890123456789012345678901234",
+			expected: true,
+		},
+		{
+			name:     "pass - valid DomainID with all letters",
+			input:    "abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcd",
+			expected: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if result := IsDomainID(tt.input); result != tt.expected {
+				t.Errorf("Expected IsDomainID to return %v, but got %v", tt.expected, result)
+			}
+		})
+	}
+}

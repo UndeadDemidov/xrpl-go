@@ -16,6 +16,7 @@ type OrderBook struct {
 	Taker     types.Address              `json:"taker"`
 	Snapshot  bool                       `json:"snapshot,omitempty"`
 	Both      bool                       `json:"both,omitempty"`
+	Domain    *string                    `json:"domain,omitempty"`
 }
 
 // OrderBookStream documented as identical to TransactionStream
