@@ -14,7 +14,8 @@ const (
 	// in the ledger, because tfSell only matters if you get a better rate than you asked for
 	// which can only happen when the offer is initially placed.
 	lsfSell uint32 = 0x00020000
-
+	// Indicates the offer is hybrid. (meaning it is part of both a domain and open order book)
+	// This flag cannot be set if the offer doesn't have a DomainID.
 	lsfHybrid uint32 = 0x00040000
 )
 
