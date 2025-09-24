@@ -1,4 +1,4 @@
-// Package types contains data structures for binary codec operations.
+//revive:disable:var-naming
 package types
 
 import (

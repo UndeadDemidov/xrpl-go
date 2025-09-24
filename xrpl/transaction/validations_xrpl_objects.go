@@ -21,6 +21,8 @@ const (
 	IssuedCurrencySize = 3
 	// StandardCurrencyCodeLen is the required length of a standard three-character currency code.
 	StandardCurrencyCodeLen = 3
+	// DomainIDLength is the required length of a domain id
+	DomainIDLength = 64
 )
 
 // *************************
@@ -219,4 +221,9 @@ func IsAsset(asset ledger.Asset) (bool, error) {
 	}
 
 	return true, nil
+}
+
+// IsDomainID checks if the given domain ID is valid.
+func IsDomainID(id string) bool {
+	return len(id) == DomainIDLength
 }

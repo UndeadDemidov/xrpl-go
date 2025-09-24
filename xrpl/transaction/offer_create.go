@@ -36,6 +36,8 @@ type OfferCreate struct {
 	TakerGets types.CurrencyAmount
 	// The amount and type of currency being bought.
 	TakerPays types.CurrencyAmount
+	// The domain that the offer must be a part of.
+	DomainID *string `json:",omitempty"`
 }
 
 // **********************************
@@ -51,6 +53,9 @@ const (
 	tfFillOrKill uint32 = 262144
 	// tfSell indicates that the offer is selling, not buying.
 	tfSell uint32 = 524288
+	// Indicates the offer is hybrid. (meaning it is part of both a domain and open order book)
+	// This flag cannot be set if the offer doesn't have a DomainID
+	tfHybrid uint32 = 0x00100000
 )
 
 // SetPassiveFlag sets the tfPassive flag, indicating the offer is passive and will not consume exactly matching offers.
@@ -75,6 +80,11 @@ func (o *OfferCreate) SetSellFlag() {
 	o.Flags |= tfSell
 }
 
+// SetHybridFlag sets the tfHybrid, indicating the offer is hybrid.
+func (o *OfferCreate) SetHybridFlag() {
+	o.Flags |= tfHybrid
+}
+
 // TxType returns the type of the transaction (OfferCreate).
 func (*OfferCreate) TxType() TxType {
 	return OfferCreateTx
@@ -95,6 +105,10 @@ func (o *OfferCreate) Flatten() FlatTransaction {
 	flattened["TakerGets"] = o.TakerGets.Flatten()
 	flattened["TakerPays"] = o.TakerPays.Flatten()
 
+	if o.DomainID != nil {
+		flattened["DomainID"] = *o.DomainID
+	}
+
 	return flattened
 }
 
@@ -111,6 +125,16 @@ func (o *OfferCreate) Validate() (bool, error) {
 
 	if ok, err := IsAmount(o.TakerPays, "TakerPays", true); !ok {
 		return false, err
+	}
+
+	if o.DomainID == nil && types.IsFlagEnabled(o.Flags, tfHybrid) {
+		return false, ErrTfHybridCannotBeSetWithoutDomainID
+	}
+
+	if o.DomainID != nil {
+		if ok := IsDomainID(*o.DomainID); !ok {
+			return false, ErrInvalidDomainID
+		}
 	}
 
 	return true, nil

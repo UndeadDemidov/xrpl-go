@@ -65,6 +65,16 @@ type Payment struct {
 	// Must be supplied for cross-currency/cross-issue payments.
 	// Must be omitted for XRP-to-XRP payments.
 	SendMax types.CurrencyAmount `json:",omitempty"`
+
+	// The domain the sender intends to use. Both the sender and destination must
+	// be part of this domain. The DomainID can be included if the sender intends
+	// it to be a cross-currency payment (i.e. if the payment is going to interact
+	// with the DEX). The domain will only play its role if there is a path that
+	// crossing an orderbook.
+	//
+	// Note: it's still possible that DomainID is included but the payment does
+	// not interact with DEX, it simply means that the DomainID will be ignored
+	DomainID *string `json:",omitempty"`
 }
 
 // TxType returns the type of the transaction (Payment).
@@ -125,6 +135,10 @@ func (p *Payment) Flatten() FlatTransaction {
 
 	if p.SendMax != nil {
 		flattened["SendMax"] = p.SendMax.Flatten()
+	}
+
+	if p.DomainID != nil {
+		flattened["DomainID"] = *p.DomainID
 	}
 
 	return flattened
@@ -205,6 +219,12 @@ func (p *Payment) Validate() (bool, error) {
 	// Check partial payment fields
 	if ok, err := checkPartialPayment(p); !ok {
 		return false, err
+	}
+
+	if p.DomainID != nil {
+		if ok := IsDomainID(*p.DomainID); !ok {
+			return false, ErrInvalidDomainID
+		}
 	}
 
 	return true, nil

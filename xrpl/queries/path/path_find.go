@@ -33,6 +33,7 @@ type FindCreateRequest struct {
 	DestinationAmount  types.CurrencyAmount   `json:"destination_amount,omitempty"`
 	SendMax            types.CurrencyAmount   `json:"send_max,omitempty"`
 	Paths              []transaction.PathStep `json:"paths,omitempty"`
+	Domain             *string                `json:"domain,omitempty"`
 }
 
 // Method returns the JSON-RPC method name for FindCreateRequest.
@@ -119,4 +120,5 @@ type FindResponse struct {
 	FullReply         bool          `json:"full_reply"`
 	Closed            bool          `json:"closed,omitempty"`
 	Status            bool          `json:"status,omitempty"`
+	Domain            string        `json:"domain,omitempty"`
 }

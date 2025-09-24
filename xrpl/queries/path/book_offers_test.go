@@ -38,6 +38,38 @@ func TestBookOffersRequest(t *testing.T) {
 	}
 }
 
+func TestBookOffersRequestWithDomain(t *testing.T) {
+	domain := "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+	s := BookOffersRequest{
+		Taker: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+		TakerGets: pathtypes.BookOfferCurrency{
+			Currency: "XRP",
+		},
+		TakerPays: pathtypes.BookOfferCurrency{
+			Currency: "USD",
+			Issuer:   "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+		},
+		Limit:  10,
+		Domain: &domain,
+	}
+	j := `{
+	"taker_gets": {
+		"currency": "XRP"
+	},
+	"taker_pays": {
+		"currency": "USD",
+		"issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+	},
+	"taker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+	"limit": 10,
+	"domain": "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+}`
+
+	if err := testutil.Serialize(t, s, j); err != nil {
+		t.Error(err)
+	}
+}
+
 func TestBookOffersResponse(t *testing.T) {
 	s := BookOffersResponse{
 		LedgerCurrentIndex: 7035305,

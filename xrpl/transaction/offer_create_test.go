@@ -85,6 +85,39 @@ func TestOfferCreateFlatten(t *testing.T) {
 				}
 			}`,
 		},
+		{
+			name: "pass - with DomainID",
+			input: OfferCreate{
+				BaseTx: BaseTx{
+					Account:            "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+					TransactionType:    OfferCreateTx,
+					Fee:                types.XRPCurrencyAmount(12),
+					Sequence:           8,
+					LastLedgerSequence: 7108682,
+				},
+				TakerGets: types.XRPCurrencyAmount(6000000),
+				TakerPays: types.IssuedCurrencyAmount{
+					Issuer:   "ruazs5h1qEsqpke88pcqnaseXdm6od2xc",
+					Currency: "GKO",
+					Value:    "2",
+				},
+				DomainID: types.DomainID("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"),
+			},
+			expected: `{
+				"Account": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+				"TransactionType": "OfferCreate",
+				"Fee": "12",
+				"Sequence": 8,
+				"LastLedgerSequence": 7108682,
+				"TakerGets": "6000000",
+				"TakerPays": {
+					"issuer": "ruazs5h1qEsqpke88pcqnaseXdm6od2xc",
+					"currency": "GKO",
+					"value": "2"
+				},
+				"DomainID": "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+			}`,
+		},
 	}
 
 	for _, tt := range tests {
@@ -183,6 +216,87 @@ func TestOfferCreate_Validate(t *testing.T) {
 			},
 			expected: false,
 		},
+		{
+			name: "pass - valid OfferCreate with DomainID",
+			input: OfferCreate{
+				BaseTx: BaseTx{
+					Account:            "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+					TransactionType:    OfferCreateTx,
+					Fee:                types.XRPCurrencyAmount(12),
+					Sequence:           8,
+					LastLedgerSequence: 7108682,
+				},
+				TakerGets: types.XRPCurrencyAmount(6000000),
+				TakerPays: types.IssuedCurrencyAmount{
+					Issuer:   "ruazs5h1qEsqpke88pcqnaseXdm6od2xc",
+					Currency: "GKO",
+					Value:    "2",
+				},
+				DomainID: types.DomainID("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"),
+			},
+			expected: true,
+		},
+		{
+			name: "fail - hybrid flag without DomainID",
+			input: OfferCreate{
+				BaseTx: BaseTx{
+					Account:            "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+					TransactionType:    OfferCreateTx,
+					Fee:                types.XRPCurrencyAmount(12),
+					Sequence:           8,
+					LastLedgerSequence: 7108682,
+					Flags:              tfHybrid,
+				},
+				TakerGets: types.XRPCurrencyAmount(6000000),
+				TakerPays: types.IssuedCurrencyAmount{
+					Issuer:   "ruazs5h1qEsqpke88pcqnaseXdm6od2xc",
+					Currency: "GKO",
+					Value:    "2",
+				},
+			},
+			expected: false,
+		},
+		{
+			name: "fail - invalid DomainID length",
+			input: OfferCreate{
+				BaseTx: BaseTx{
+					Account:            "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+					TransactionType:    OfferCreateTx,
+					Fee:                types.XRPCurrencyAmount(12),
+					Sequence:           8,
+					LastLedgerSequence: 7108682,
+				},
+				TakerGets: types.XRPCurrencyAmount(6000000),
+				TakerPays: types.IssuedCurrencyAmount{
+					Issuer:   "ruazs5h1qEsqpke88pcqnaseXdm6od2xc",
+					Currency: "GKO",
+					Value:    "2",
+				},
+				DomainID: types.DomainID("invalid_length"),
+			},
+			expected: false,
+		},
+		{
+			name: "pass - hybrid flag with valid DomainID",
+			input: OfferCreate{
+				BaseTx: BaseTx{
+					Account:            "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+					TransactionType:    OfferCreateTx,
+					Fee:                types.XRPCurrencyAmount(12),
+					Sequence:           8,
+					LastLedgerSequence: 7108682,
+					Flags:              tfHybrid,
+				},
+				TakerGets: types.XRPCurrencyAmount(6000000),
+				TakerPays: types.IssuedCurrencyAmount{
+					Issuer:   "ruazs5h1qEsqpke88pcqnaseXdm6od2xc",
+					Currency: "GKO",
+					Value:    "2",
+				},
+				DomainID: types.DomainID("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"),
+			},
+			expected: true,
+		},
 	}
 
 	for _, tt := range tests {
@@ -228,6 +342,13 @@ func TestOfferCreate_Flags(t *testing.T) {
 				a.SetSellFlag()
 			},
 			expected: tfSell,
+		},
+		{
+			name: "pass - SetHybridFlag",
+			setter: func(a *OfferCreate) {
+				a.SetHybridFlag()
+			},
+			expected: tfHybrid,
 		},
 	}
 

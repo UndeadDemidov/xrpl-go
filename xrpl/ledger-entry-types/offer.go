@@ -11,10 +11,33 @@ const (
 	// the ledger.
 	lsfPassive uint32 = 0x00010000
 	// The offer was placed as a "Sell" offer. This has no effect after the offer is placed
-	// in the ledger, because tfSell only matters if you get a better rate than you asked for,
+	// in the ledger, because tfSell only matters if you get a better rate than you asked for
 	// which can only happen when the offer is initially placed.
 	lsfSell uint32 = 0x00020000
+	// Indicates the offer is hybrid. (meaning it is part of both a domain and open order book)
+	// This flag cannot be set if the offer doesn't have a DomainID.
+	lsfHybrid uint32 = 0x00040000
 )
+
+// Book represents an offer book.
+//
+// ```json
+//
+//	{
+//	    "BookDirectory": "ACC27DE91DBA86FC509069EAF4BC511D73128B780F2E54BF5E07A369E2446000",
+//	    "BookNode": "0000000000000000"
+//	}
+//
+// ```
+type Book struct {
+	Book struct {
+		// The ID of the offer directory that links to this offer.
+		BookDirectory string
+		// A hint indicating which page of the offer directory links to this entry,
+		// in case the directory consists of multiple pages.
+		BookNode string
+	}
+}
 
 // Offer ledger entry describes an Offer to exchange currencies in the XRP Ledger's
 // decentralized exchange. (In finance, this is more traditionally known as an order.)
@@ -79,6 +102,11 @@ type Offer struct {
 	TakerPays types.CurrencyAmount
 	// The remaining amount and type of currency being provided by the Offer creator.
 	TakerGets types.CurrencyAmount
+	// The domain that the offer must be a part of.
+	DomainID *string `json:",omitempty"`
+	// An additional list of order book directories that this offer belongs to.
+	// Currently, this field only applicable to hybrid offers.
+	AdditionalBooks []Book `json:",omitempty"`
 }
 
 // EntryType returns the type of the ledger entry.
@@ -96,6 +124,11 @@ func (o *Offer) SetLsfSell() {
 	o.Flags |= lsfSell
 }
 
+// SetLsfHybrid sets the hybrid flag.
+func (o *Offer) SetLsfHybrid() {
+	o.Flags |= lsfHybrid
+}
+
 // UnmarshalJSON unmarshals the offer from a JSON byte slice.
 func (o *Offer) UnmarshalJSON(data []byte) error {
 	type offerHelper struct {
@@ -111,6 +144,8 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		Sequence          uint32
 		TakerPays         json.RawMessage
 		TakerGets         json.RawMessage
+		DomainID          string `json:",omitempty"`
+		AdditionalBooks   []Book `json:",omitempty"`
 	}
 	var h offerHelper
 	if err := json.Unmarshal(data, &h); err != nil {
@@ -127,6 +162,10 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		PreviousTxnID:     h.PreviousTxnID,
 		PreviousTxnLgrSeq: h.PreviousTxnLgrSeq,
 		Sequence:          h.Sequence,
+		AdditionalBooks:   h.AdditionalBooks,
+	}
+	if h.DomainID != "" {
+		o.DomainID = &h.DomainID
 	}
 	pays, err := types.UnmarshalCurrencyAmount(h.TakerPays)
 	if err != nil {

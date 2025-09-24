@@ -21,6 +21,7 @@ type BookOffersRequest struct {
 	LedgerHash  common.LedgerHash           `json:"ledger_hash,omitempty"`
 	LedgerIndex common.LedgerIndex          `json:"ledger_index,omitempty"`
 	Limit       int                         `json:"limit,omitempty"`
+	Domain      *string                     `json:"domain,omitempty"`
 }
 
 // Method returns the JSON-RPC method name for the BookOffersRequest.

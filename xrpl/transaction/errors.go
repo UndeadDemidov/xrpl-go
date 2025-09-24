@@ -104,6 +104,8 @@ var (
 	ErrSignerTxnSignatureShouldBeNonEmpty = errors.New("signers: TxnSignature should be a non-empty string")
 	// ErrSignerSigningPubKeyShouldBeNonEmpty is returned when SigningPubKey in a Signer is empty.
 	ErrSignerSigningPubKeyShouldBeNonEmpty = errors.New("signers: SigningPubKey should be a non-empty string")
+	// ErrInvalidDomainID is returned when the provided DomainID is invalid.
+	ErrInvalidDomainID = errors.New("invalid DomainID value")
 
 	// trust set
 
@@ -152,6 +154,8 @@ var (
 
 	// ErrOfferCancelMissingOfferSequence is returned when the offer sequence is missing.
 	ErrOfferCancelMissingOfferSequence = errors.New("missing offer sequence")
+	// ErrTfHybridCannotBeSetWithoutDomainID is returned if a OfferCreate has tfHybrid enabled and no DomainID set.
+	ErrTfHybridCannotBeSetWithoutDomainID = errors.New("tfHybrid must have a valid DomainID")
 
 	// nft
 
