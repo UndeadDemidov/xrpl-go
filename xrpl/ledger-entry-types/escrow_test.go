@@ -24,6 +24,8 @@ func TestEscrow(t *testing.T) {
 		PreviousTxnID:     "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",
 		PreviousTxnLgrSeq: 28991004,
 		SourceTag:         11747,
+		TransferRate:      1000,
+		IssuerNode:        1234567890,
 	}
 
 	j := `{
@@ -40,7 +42,9 @@ func TestEscrow(t *testing.T) {
 	"OwnerNode": "0000000000000000",
 	"PreviousTxnID": "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",
 	"PreviousTxnLgrSeq": 28991004,
-	"SourceTag": 11747
+	"SourceTag": 11747,
+	"TransferRate": 1000,
+	"IssuerNode": 1234567890
 }`
 
 	if err := testutil.SerializeAndDeserialize(t, s, j); err != nil {
@@ -51,4 +55,106 @@ func TestEscrow(t *testing.T) {
 func TestEscrow_EntryType(t *testing.T) {
 	s := &Escrow{}
 	require.Equal(t, s.EntryType(), EscrowEntry)
+}
+
+func TestEscrowMPTAmountSerialization(t *testing.T) {
+	var s Object = &Escrow{
+		LedgerEntryType: EscrowEntry,
+		Flags:           0,
+		Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+		Amount: types.MPTCurrencyAmount{
+			MPTIssuanceID: "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+			Value:         "10000",
+		},
+		CancelAfter:       545440232,
+		Condition:         "A0258020A82A88B2DF843A54F58772E4A3861866ECDB4157645DD9AE528C1D3AEEDABAB6810120",
+		Destination:       "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+		DestinationNode:   "0000000000000000",
+		DestinationTag:    23480,
+		FinishAfter:       545354132,
+		OwnerNode:         "0000000000000000",
+		PreviousTxnID:     "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",
+		PreviousTxnLgrSeq: 28991004,
+		SourceTag:         11747,
+		TransferRate:      1000,
+		IssuerNode:        1234567890,
+	}
+
+	j := `{
+	"LedgerEntryType": "Escrow",
+	"Flags": 0,
+	"Account": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+	"Amount": {
+		"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+		"value": "10000"
+	},
+	"CancelAfter": 545440232,
+	"Condition": "A0258020A82A88B2DF843A54F58772E4A3861866ECDB4157645DD9AE528C1D3AEEDABAB6810120",
+	"Destination": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+	"DestinationNode": "0000000000000000",
+	"DestinationTag": 23480,
+	"FinishAfter": 545354132,
+	"OwnerNode": "0000000000000000",
+	"PreviousTxnID": "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",
+	"PreviousTxnLgrSeq": 28991004,
+	"SourceTag": 11747,
+	"TransferRate": 1000,
+	"IssuerNode": 1234567890
+}`
+
+	if err := testutil.SerializeAndDeserialize(t, s, j); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestEscrowIssuedAmountSerialization(t *testing.T) {
+	var s Object = &Escrow{
+		LedgerEntryType: EscrowEntry,
+		Flags:           0,
+		Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+		Amount: types.IssuedCurrencyAmount{
+			Issuer:   "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+			Currency: "USD",
+			Value:    "10000",
+		},
+		CancelAfter:       545440232,
+		Condition:         "A0258020A82A88B2DF843A54F58772E4A3861866ECDB4157645DD9AE528C1D3AEEDABAB6810120",
+		Destination:       "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+		DestinationNode:   "0000000000000000",
+		DestinationTag:    23480,
+		FinishAfter:       545354132,
+		OwnerNode:         "0000000000000000",
+		PreviousTxnID:     "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",
+		PreviousTxnLgrSeq: 28991004,
+		SourceTag:         11747,
+		TransferRate:      1000,
+		IssuerNode:        1234567890,
+	}
+
+	j := `{
+	"LedgerEntryType": "Escrow",
+	"Flags": 0,
+	"Account": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+	"Amount": {
+		"issuer": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+		"currency": "USD",
+		"value": "10000"
+	},
+	"CancelAfter": 545440232,
+	"Condition": "A0258020A82A88B2DF843A54F58772E4A3861866ECDB4157645DD9AE528C1D3AEEDABAB6810120",
+	"Destination": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+	"DestinationNode": "0000000000000000",
+	"DestinationTag": 23480,
+	"FinishAfter": 545354132,
+	"OwnerNode": "0000000000000000",
+	"PreviousTxnID": "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",
+	"PreviousTxnLgrSeq": 28991004,
+	"SourceTag": 11747,
+	"TransferRate": 1000,
+	"IssuerNode": 1234567890
+}`
+
+	if err := testutil.SerializeAndDeserialize(t, s, j); err != nil {
+		t.Error(err)
+	}
 }
