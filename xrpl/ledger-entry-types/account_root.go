@@ -8,6 +8,8 @@ import (
 const (
 	// Enable Clawback for this account. (Requires the Clawback amendment.)
 	lsfAllowTrustLineClawback uint32 = 0x80000000
+	// Allow IOUs to be used as escrow amounts for an issuer
+	lsfAllowTrustLineLocking uint32 = 0x40000000
 	// Enable rippling on this addresses's trust lines by default. Required for issuing addresses; discouraged for others.
 	lsfDefaultRipple uint32 = 0x00800000
 	// This account has DepositAuth enabled, meaning it can only receive funds from transactions it sends, and from preauthorized accounts. (Added by the DepositAuth amendment)
@@ -134,6 +136,11 @@ func (*AccountRoot) EntryType() EntryType {
 // SetLsfAllowTrustLineClawback sets the AllowTrustLineClawback flag.
 func (a *AccountRoot) SetLsfAllowTrustLineClawback() {
 	a.Flags |= lsfAllowTrustLineClawback
+}
+
+// SetLsfAllowTrustLineLocking sets the AllowTrustLineLocking flag.
+func (a *AccountRoot) SetLsfAllowTrustLineLocking() {
+	a.Flags |= lsfAllowTrustLineLocking
 }
 
 // SetLsfDefaultRipple sets the DefaultRipple flag.
