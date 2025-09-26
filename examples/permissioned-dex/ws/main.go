@@ -354,7 +354,7 @@ func main() {
 		return
 	}
 
-	offerNode := txResponse.TxJson
+	offerNode := txResponse.TxJSON
 	fmt.Printf("✅ Offer ledger object retrieved\n")
 	fmt.Printf("   📊 LedgerEntryType: %v\n", offerNode["LedgerEntryType"])
 	fmt.Printf("   🏷️  DomainID: %v\n", offerNode["DomainID"])

@@ -229,10 +229,10 @@ func createEscrow(client *rpc.Client, issuerWallet, holderWallet, holderWallet2 
 	}
 	fmt.Println("✅ Escrow created!")
 	fmt.Printf("🌐 Hash: %s\n", escrowResponse.Hash.String())
-	fmt.Printf("🌐 Sequence: %d\n", escrowResponse.TxJson.Sequence())
+	fmt.Printf("🌐 Sequence: %d\n", escrowResponse.TxJSON.Sequence())
 	fmt.Println()
 
-	return escrowResponse.TxJson.Sequence()
+	return escrowResponse.TxJSON.Sequence()
 
 }
 
