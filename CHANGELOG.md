@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### xrpl
 
 - Adds `PermissionedDomain` ledger entry type (XLS-80d).
+- Adds `TokenEscrow` support (XLS-85).
+
+### Fixed
+
+- Flatten function in Escrow transaction types for Destination and Owner fields.
 
 ## [v0.1.11]
 
