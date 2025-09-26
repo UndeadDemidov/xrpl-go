@@ -16,6 +16,17 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/wallet"
 )
 
+// safeInt64ToUint32 safely converts int64 to uint32 with bounds checking
+func safeInt64ToUint32(value int64) uint32 {
+	if value < 0 {
+		return 0
+	}
+	if value > int64(^uint32(0)) {
+		return ^uint32(0) // max uint32 value
+	}
+	return uint32(value)
+}
+
 func main() {
 
 	//
@@ -216,8 +227,8 @@ func createEscrow(client *rpc.Client, issuerWallet, holderWallet, holderWallet2 
 			Value:    "100",
 		},
 		Destination: holderWallet2.ClassicAddress,
-		CancelAfter: uint32(rippleTime.UnixTimeToRippleTime(time.Now().Unix()) + 4000),
-		FinishAfter: uint32(rippleTime.UnixTimeToRippleTime(time.Now().Unix() + 5)),
+		CancelAfter: safeInt64ToUint32(rippleTime.UnixTimeToRippleTime(time.Now().Unix()) + 4000),
+		FinishAfter: safeInt64ToUint32(rippleTime.UnixTimeToRippleTime(time.Now().Unix() + 5)),
 	}
 	escrowResponse, err := client.SubmitTxAndWait(escrow.Flatten(), &types.SubmitOptions{
 		Autofill: true,

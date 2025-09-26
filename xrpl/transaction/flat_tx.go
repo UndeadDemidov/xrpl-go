@@ -42,7 +42,9 @@ func (f FlatTransaction) Sequence() uint32 {
 
 	// Handle int case
 	if sequenceInt, ok := f["Sequence"].(int); ok {
-		return uint32(sequenceInt)
+		if sequenceInt >= 0 && sequenceInt <= int(^uint32(0)) {
+			return uint32(sequenceInt)
+		}
 	}
 
 	return 0
