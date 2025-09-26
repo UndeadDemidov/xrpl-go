@@ -72,6 +72,7 @@ func (p *PaymentChannelCreate) Flatten() FlatTransaction {
 	return flattened
 }
 
+// UnmarshalJSON unmarshals the PaymentChannelCreate transaction from JSON.
 func (p *PaymentChannelCreate) UnmarshalJSON(data []byte) error {
 	type paymentChannelCreateHelper struct {
 		BaseTx

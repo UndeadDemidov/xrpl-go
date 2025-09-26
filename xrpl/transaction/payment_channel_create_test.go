@@ -93,6 +93,62 @@ func TestPaymentChannelCreate_Flatten(t *testing.T) {
 				"PublicKey":   "32D2471DB72B27E3310F355BB33E339BF26F8392D5A93D3BC0FC3B566612DA0F0A"
 			}`,
 		},
+		{
+			name: "pass - Optional fields omitted and Amount as IssuedCurrencyAmount",
+			tx: &PaymentChannelCreate{
+				BaseTx: BaseTx{
+					Account:         "r2UeJh4HhYc5VtYc8U2YpZfQzY5Lw8kZV",
+					TransactionType: PaymentChannelCreateTx,
+				},
+				Amount: types.IssuedCurrencyAmount{
+					Currency: "USD",
+					Value:    "10000",
+					Issuer:   "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+				},
+				Destination: types.Address("rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn"),
+				SettleDelay: 86400,
+				PublicKey:   "32D2471DB72B27E3310F355BB33E339BF26F8392D5A93D3BC0FC3B566612DA0F0A",
+			},
+			expected: `{
+				"Account":     "r2UeJh4HhYc5VtYc8U2YpZfQzY5Lw8kZV",
+				"TransactionType": "PaymentChannelCreate",
+				"Amount": {
+					"issuer": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+					"currency": "USD",
+					"value": "10000"
+				},
+				"Destination": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+				"SettleDelay": 86400,
+				"PublicKey":   "32D2471DB72B27E3310F355BB33E339BF26F8392D5A93D3BC0FC3B566612DA0F0A"
+			}`,
+		},
+		{
+			name: "pass - Optional fields omitted and Amount as MPTCurrencyAmount",
+			tx: &PaymentChannelCreate{
+				BaseTx: BaseTx{
+					Account:         "r2UeJh4HhYc5VtYc8U2YpZfQzY5Lw8kZV",
+					TransactionType: PaymentChannelCreateTx,
+				},
+				Amount: types.MPTCurrencyAmount{
+					MPTIssuanceID: "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+					Value:         "10000",
+				},
+				Destination: types.Address("rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn"),
+				SettleDelay: 86400,
+				PublicKey:   "32D2471DB72B27E3310F355BB33E339BF26F8392D5A93D3BC0FC3B566612DA0F0A",
+			},
+			expected: `{
+				"Account":     "r2UeJh4HhYc5VtYc8U2YpZfQzY5Lw8kZV",
+				"TransactionType": "PaymentChannelCreate",
+				"Amount": {
+					"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+					"value": "10000"
+				},
+				"Destination": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+				"SettleDelay": 86400,
+				"PublicKey":   "32D2471DB72B27E3310F355BB33E339BF26F8392D5A93D3BC0FC3B566612DA0F0A"
+			}`,
+		},
 	}
 
 	for _, tt := range tests {
