@@ -1,5 +1,9 @@
 package transaction
 
+import (
+	"encoding/json"
+)
+
 var _ Tx = (*FlatTransaction)(nil)
 
 // FlatTransaction is a flattened transaction represented as a map from field names to interface{} values.
@@ -13,4 +17,17 @@ func (f FlatTransaction) TxType() TxType {
 		return TxType("")
 	}
 	return TxType(txType)
+}
+
+// Sequence returns the sequence number of the flattened transaction.
+func (f FlatTransaction) Sequence() uint32 {
+	sequence, ok := f["Sequence"].(json.Number)
+	if !ok {
+		return 0
+	}
+	sequenceInt, err := sequence.Int64()
+	if err != nil {
+		return 0
+	}
+	return uint32(sequenceInt)
 }
