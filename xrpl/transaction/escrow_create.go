@@ -57,7 +57,7 @@ func (e *EscrowCreate) Flatten() FlatTransaction {
 	flattened["Amount"] = e.Amount.Flatten()
 
 	if e.Destination != "" {
-		flattened["Destination"] = e.Destination
+		flattened["Destination"] = e.Destination.String()
 	}
 	if e.CancelAfter != 0 {
 		flattened["CancelAfter"] = e.CancelAfter
