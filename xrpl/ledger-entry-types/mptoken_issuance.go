@@ -59,6 +59,8 @@ type MPTokenIssuance struct {
 	// The Sequence (or Ticket) number of the transaction that created this issuance.
 	// This helps to uniquely identify the issuance and distinguish it from any other later MPT issuances created by this account.
 	Sequence uint32
+	// The amount of tokens currently locked up (for example, in escrow or payment channels). (Requires the TokenEscrow amendment .)
+	LockedAmount uint64 `json:",omitempty"`
 }
 
 // EntryType returns the type of the ledger entry.
