@@ -22,12 +22,28 @@ func (f FlatTransaction) TxType() TxType {
 // Sequence returns the sequence number of the flattened transaction.
 func (f FlatTransaction) Sequence() uint32 {
 	sequence, ok := f["Sequence"].(json.Number)
-	if !ok {
-		return 0
+	if ok {
+		sequenceInt, err := sequence.Float64()
+		if err != nil {
+			return 0
+		}
+		return uint32(sequenceInt)
 	}
-	sequenceInt, err := sequence.Int64()
-	if err != nil {
-		return 0
+
+	// Handle float64 case (when JSON is parsed as float64 instead of json.Number)
+	if sequenceFloat, ok := f["Sequence"].(float64); ok {
+		return uint32(sequenceFloat)
 	}
-	return uint32(sequenceInt)
+
+	// Handle uint32 case (direct integer)
+	if sequenceInt, ok := f["Sequence"].(uint32); ok {
+		return sequenceInt
+	}
+
+	// Handle int case
+	if sequenceInt, ok := f["Sequence"].(int); ok {
+		return uint32(sequenceInt)
+	}
+
+	return 0
 }
