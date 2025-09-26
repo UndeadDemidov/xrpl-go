@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"encoding/json"
 	"time"
 
 	rippletime "github.com/Peersyst/xrpl-go/xrpl/time"
@@ -27,7 +28,7 @@ type PaymentChannelFund struct {
 	// The unique ID of the channel to fund, as a 64-character hexadecimal string.
 	Channel types.Hash256
 	// Amount of XRP, in drops to add to the channel. Must be a positive amount of XRP.
-	Amount types.XRPCurrencyAmount
+	Amount types.CurrencyAmount
 	// (Optional) New Expiration time to set for the channel, in seconds since the Ripple Epoch.
 	// This must be later than either the current time plus the SettleDelay of the channel, or the existing Expiration of the channel.
 	// After the Expiration time, any transaction that would access the channel closes the channel without taking its normal action.
@@ -45,7 +46,7 @@ func (p *PaymentChannelFund) Flatten() FlatTransaction {
 	flattened := p.BaseTx.Flatten()
 
 	flattened["Channel"] = p.Channel.String()
-	flattened["Amount"] = p.Amount.String()
+	flattened["Amount"] = p.Amount.Flatten()
 
 	if p.Expiration != 0 {
 		flattened["Expiration"] = p.Expiration
@@ -68,4 +69,27 @@ func (p *PaymentChannelFund) Validate() (bool, error) {
 	}
 
 	return true, nil
+}
+
+// UnmarshalJSON unmarshals the PaymentChannelFund transaction from JSON.
+func (p *PaymentChannelFund) UnmarshalJSON(data []byte) error {
+	type paymentChannelFundHelper struct {
+		BaseTx
+		Amount     json.RawMessage
+		Expiration uint32 `json:",omitempty"`
+	}
+	var h paymentChannelFundHelper
+	if err := json.Unmarshal(data, &h); err != nil {
+		return err
+	}
+	*p = PaymentChannelFund{
+		BaseTx:     h.BaseTx,
+		Expiration: h.Expiration,
+	}
+	amount, err := types.UnmarshalCurrencyAmount(h.Amount)
+	if err != nil {
+		return err
+	}
+	p.Amount = amount
+	return nil
 }

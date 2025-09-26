@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"encoding/json"
 	"testing"
 	"time"
 
@@ -54,6 +55,58 @@ func TestPaymentChannelFund_Flatten(t *testing.T) {
 				"TransactionType": "PaymentChannelFund",
 				"Channel": "DEF456",
 				"Amount": "300000",
+				"Expiration": 543171558
+			}`,
+		},
+		{
+			name: "pass - with Expiration and Amount as MPTCurrencyAmount",
+			tx: &PaymentChannelFund{
+				BaseTx: BaseTx{
+					Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+					TransactionType: PaymentChannelFundTx,
+				},
+				Channel: "DEF456",
+				Amount: types.MPTCurrencyAmount{
+					MPTIssuanceID: "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+					Value:         "300000",
+				},
+				Expiration: 543171558,
+			},
+			expected: `{
+				"Account": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+				"TransactionType": "PaymentChannelFund",
+				"Channel": "DEF456",
+				"Amount": {
+					"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+					"value": "300000"
+				},
+				"Expiration": 543171558
+			}`,
+		},
+		{
+			name: "pass - with Expiration and Amount as IssuedCurrencyAmount",
+			tx: &PaymentChannelFund{
+				BaseTx: BaseTx{
+					Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+					TransactionType: PaymentChannelFundTx,
+				},
+				Channel: "DEF456",
+				Amount: types.IssuedCurrencyAmount{
+					Issuer:   "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+					Currency: "USD",
+					Value:    "300000",
+				},
+				Expiration: 543171558,
+			},
+			expected: `{
+				"Account": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+				"TransactionType": "PaymentChannelFund",
+				"Channel": "DEF456",
+				"Amount": {
+					"issuer": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+					"currency": "USD",
+					"value": "300000"
+				},
 				"Expiration": 543171558
 			}`,
 		},
@@ -141,6 +194,60 @@ func TestPaymentChannelFund_Validate(t *testing.T) {
 				return
 			}
 			assert.Equal(t, tt.wantErr, err != nil)
+		})
+	}
+}
+
+func TestPaymentChannelFund_Unmarshal(t *testing.T) {
+	tests := []struct {
+		name                 string
+		jsonData             string
+		expectUnmarshalError bool
+	}{
+		{
+			name: "pass - full PaymentChannelFund with MPTCurrencyAmount",
+			jsonData: `{
+				"TransactionType": "PaymentChannelFund",
+				"Account": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+				"Channel": "DEF456",
+				"Amount": {
+					"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+					"value": "300000"
+				},
+				"Expiration": 543171558
+			}`,
+		},
+		{
+			name: "pass - full PaymentChannelFund with IssuedCurrencyAmount",
+			jsonData: `{
+				"TransactionType": "PaymentChannelFund",
+				"Account": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+				"Channel": "DEF456",
+				"Amount": {
+					"issuer": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+					"currency": "USD",
+					"value": "300000"
+				},
+				"Expiration": 543171558
+			}`,
+		},
+		{
+			name: "pass - full PaymentChannelFund with XRPCurrencyAmount",
+			jsonData: `{
+				"TransactionType": "PaymentChannelFund",
+				"Account": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+				"Channel": "DEF456",
+				"Amount": "300000",
+				"Expiration": 543171558
+			}`,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var paymentChannelFund PaymentChannelFund
+			err := json.Unmarshal([]byte(tt.jsonData), &paymentChannelFund)
+			assert.Equal(t, tt.expectUnmarshalError, err != nil)
 		})
 	}
 }
