@@ -67,7 +67,7 @@ func TestOracleSet_Flatten(t *testing.T) {
 				"AssetClass":         "currency",
 				"PriceDataSeries": []map[string]any{
 					{
-						"PriceData": ledger.FlatPriceData{
+						"PriceData": map[string]any{
 							"AssetPrice": uint64(740),
 							"BaseAsset":  "XRP",
 							"QuoteAsset": "USD",
