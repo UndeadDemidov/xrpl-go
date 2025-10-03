@@ -1,6 +1,8 @@
 package ledger
 
 import (
+	"strconv"
+
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
@@ -8,6 +10,10 @@ const (
 	// PriceDataScaleMax is the maximum scale for a price data.
 	PriceDataScaleMax uint8 = 10
 )
+
+type PriceDataWrapper struct {
+	PriceData PriceData
+}
 
 // A PriceData object represents the price information for a token pair.
 type PriceData struct {
@@ -52,27 +58,39 @@ func (priceData *PriceData) Validate() error {
 	return nil
 }
 
+// Flatten returns a map containing the PriceData if it is set, or nil otherwise.
+func (mw *PriceDataWrapper) Flatten() map[string]any {
+	if mw.PriceData != (PriceData{}) {
+		flattened := make(map[string]any)
+		flattened["PriceData"] = mw.PriceData.Flatten()
+		return flattened
+	}
+	return nil
+}
+
 // FlatPriceData represents a flattened map of PriceData fields for JSON serialization.
-type FlatPriceData map[string]interface{}
+// type FlatPriceData map[string]interface{}
 
 // Flatten flattens the price data.
-func (priceData *PriceData) Flatten() FlatPriceData {
+func (priceData *PriceData) Flatten() map[string]any {
 	mapKeys := 2
 
 	if priceData.Scale != 0 && priceData.AssetPrice != 0 {
 		mapKeys = 4
 	}
 
-	flattened := make(FlatPriceData, mapKeys)
+	flattened := make(map[string]any, mapKeys)
 
+	if priceData.AssetPrice != 0 {
+		// AssetPrice needs to be a string
+		flatAssetPrice := strconv.FormatUint(priceData.AssetPrice, 10)
+		flattened["AssetPrice"] = flatAssetPrice
+	}
 	if priceData.BaseAsset != "" {
 		flattened["BaseAsset"] = priceData.BaseAsset
 	}
 	if priceData.QuoteAsset != "" {
 		flattened["QuoteAsset"] = priceData.QuoteAsset
-	}
-	if priceData.AssetPrice != 0 {
-		flattened["AssetPrice"] = priceData.AssetPrice
 	}
 
 	flattened["Scale"] = priceData.Scale
@@ -119,7 +137,7 @@ type Oracle struct {
 	Provider string
 	// An array of up to 10 PriceData objects, each representing the price information for a token pair.
 	// More than five PriceData objects require two owner reserves.
-	PriceDataSeries []PriceData
+	PriceDataSeries []PriceDataWrapper
 	// The time the data was last updated, represented in Unix time.
 	LastUpdateTime uint32
 	// An optional Universal Resource Identifier to reference price data off-chain.
