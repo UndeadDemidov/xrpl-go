@@ -13,6 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Adds `PermissionedDomain` ledger entry type (XLS-80d).
 
+#### binary-codec
+
+- `Number` and `AssetScale` fields to `definitions.json`
+
+### Fixed
+
+#### xrpl
+
+- `OracleSet` transaction to Flatten correctly and `Oracle` PriceDataSeries array.
+
+#### binary-codec
+
+- `definitions.json` where `LastUpdatedTime` had a typo issue.
+
 ## [v0.1.11]
 
 ### BREAKING CHANGES

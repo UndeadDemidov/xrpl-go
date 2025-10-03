@@ -24,7 +24,7 @@ func TestOracleSet_Flatten(t *testing.T) {
 			name: "pass - empty",
 			tx:   &OracleSet{},
 			expected: map[string]interface{}{
-				"TransactionType":  OracleSetTx,
+				"TransactionType":  OracleSetTx.String(),
 				"OracleDocumentID": uint32(0),
 				"LastUpdatedTime":  uint32(0),
 			},
@@ -43,17 +43,19 @@ func TestOracleSet_Flatten(t *testing.T) {
 				URI:              "https://example.com",
 				LastUpdatedTime:  1715702400,
 				AssetClass:       "currency",
-				PriceDataSeries: []ledger.PriceData{
+				PriceDataSeries: []ledger.PriceDataWrapper{
 					{
-						BaseAsset:  "XRP",
-						QuoteAsset: "USD",
-						AssetPrice: 740,
-						Scale:      3,
+						PriceData: ledger.PriceData{
+							BaseAsset:  "XRP",
+							QuoteAsset: "USD",
+							AssetPrice: 740,
+							Scale:      3,
+						},
 					},
 				},
 			},
 			expected: map[string]interface{}{
-				"TransactionType":    OracleSetTx,
+				"TransactionType":    OracleSetTx.String(),
 				"Account":            "r9cZA1mTh4KVPD5PXPBGVdqw9XRybCz6z",
 				"Fee":                "1000000",
 				"Sequence":           uint32(1),
@@ -63,12 +65,14 @@ func TestOracleSet_Flatten(t *testing.T) {
 				"URI":                "https://example.com",
 				"LastUpdatedTime":    uint32(1715702400),
 				"AssetClass":         "currency",
-				"PriceDataSeries": []map[string]interface{}{
+				"PriceDataSeries": []map[string]any{
 					{
-						"BaseAsset":  "XRP",
-						"QuoteAsset": "USD",
-						"AssetPrice": uint64(740),
-						"Scale":      uint8(3),
+						"PriceData": map[string]any{
+							"AssetPrice": "740",
+							"BaseAsset":  "XRP",
+							"QuoteAsset": "USD",
+							"Scale":      uint8(3),
+						},
 					},
 				},
 			},
@@ -118,7 +122,7 @@ func TestOracleSet_Validate(t *testing.T) {
 					Account:         "r9cZA1mTh4KVPD5PXPBGVdqw9XRybCz6z",
 					TransactionType: OracleSetTx,
 				},
-				PriceDataSeries: make([]ledger.PriceData, 100),
+				PriceDataSeries: make([]ledger.PriceDataWrapper, 100),
 			},
 			expected: ErrOraclePriceDataSeriesItems{
 				Length: 100,
@@ -132,9 +136,11 @@ func TestOracleSet_Validate(t *testing.T) {
 					Account:         "r9cZA1mTh4KVPD5PXPBGVdqw9XRybCz6z",
 					TransactionType: OracleSetTx,
 				},
-				PriceDataSeries: []ledger.PriceData{
+				PriceDataSeries: []ledger.PriceDataWrapper{
 					{
-						BaseAsset: "XRP",
+						PriceData: ledger.PriceData{
+							BaseAsset: "XRP",
+						},
 					},
 				},
 			},
@@ -147,11 +153,13 @@ func TestOracleSet_Validate(t *testing.T) {
 					Account:         "r9cZA1mTh4KVPD5PXPBGVdqw9XRybCz6z",
 					TransactionType: OracleSetTx,
 				},
-				PriceDataSeries: []ledger.PriceData{
+				PriceDataSeries: []ledger.PriceDataWrapper{
 					{
-						BaseAsset:  "XRP",
-						QuoteAsset: "USD",
-						Scale:      11,
+						PriceData: ledger.PriceData{
+							BaseAsset:  "XRP",
+							QuoteAsset: "USD",
+							Scale:      11,
+						},
 					},
 				},
 			},
@@ -167,11 +175,13 @@ func TestOracleSet_Validate(t *testing.T) {
 					Account:         "r9cZA1mTh4KVPD5PXPBGVdqw9XRybCz6z",
 					TransactionType: OracleSetTx,
 				},
-				PriceDataSeries: []ledger.PriceData{
+				PriceDataSeries: []ledger.PriceDataWrapper{
 					{
-						BaseAsset:  "XRP",
-						QuoteAsset: "USD",
-						Scale:      10,
+						PriceData: ledger.PriceData{
+							BaseAsset:  "XRP",
+							QuoteAsset: "USD",
+							Scale:      10,
+						},
 					},
 				},
 			},
@@ -189,12 +199,14 @@ func TestOracleSet_Validate(t *testing.T) {
 				URI:              "https://example.com",
 				LastUpdatedTime:  1715702400,
 				AssetClass:       "currency",
-				PriceDataSeries: []ledger.PriceData{
+				PriceDataSeries: []ledger.PriceDataWrapper{
 					{
-						BaseAsset:  "XRP",
-						QuoteAsset: "USD",
-						AssetPrice: 740,
-						Scale:      3,
+						PriceData: ledger.PriceData{
+							BaseAsset:  "XRP",
+							QuoteAsset: "USD",
+							AssetPrice: 740,
+							Scale:      3,
+						},
 					},
 				},
 			},

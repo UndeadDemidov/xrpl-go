@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // IssuedCurrency represents an amount of a non-XRP currency issued by an account.

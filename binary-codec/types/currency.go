@@ -29,11 +29,13 @@ func (c *Currency) FromJSON(json any) ([]byte, error) {
 // ToJSON serializes a binary currency value into a JSON-compatible format.
 // It requires a length option specifying the byte length to read.
 func (c *Currency) ToJSON(p interfaces.BinaryParser, opts ...int) (any, error) {
-	if len(opts) == 0 {
-		return nil, ErrMissingCurrencyLengthOption
+	// default to 20 bytes, https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/oracle#currency-internal-format
+	length := 20
+	if len(opts) > 0 && opts[0] > 0 {
+		length = opts[0]
 	}
 
-	currencyBytes, err := p.ReadBytes(opts[0])
+	currencyBytes, err := p.ReadBytes(length)
 	if err != nil {
 		return nil, err
 	}

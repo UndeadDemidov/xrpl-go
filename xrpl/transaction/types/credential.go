@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // Credential represents an XRPL credential, including the issuer address and credential type.
