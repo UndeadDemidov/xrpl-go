@@ -13,6 +13,7 @@
     "LedgerEntry": 10002,
     "Metadata": 10004,
     "NotPresent": 0,
+    "Number": 9,
     "PathSet": 18,
     "STArray": 15,
     "STObject": 14,
@@ -233,6 +234,16 @@
         "isVLEncoded": false,
         "isSerialized": true,
         "isSigningField": true,
+        "type": "UInt8"
+      }
+    ],
+    [
+      "AssetScale",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 5,
         "type": "UInt8"
       }
     ],
@@ -527,7 +538,7 @@
       }
     ],
     [
-      "LastUpdateTime",
+      "LastUpdatedTime",
       {
         "nth": 15,
         "isVLEncoded": false,
@@ -2414,6 +2425,16 @@
         "isSerialized": true,
         "isSigningField": true,
         "type": "AccountID"
+      }
+    ],
+    [
+      "Number",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 1,
+        "type": "Number"
       }
     ],
     [
