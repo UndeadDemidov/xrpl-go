@@ -56,7 +56,7 @@ type OracleSet struct {
 	// This field is required when creating a new Oracle ledger entry, but is optional for updates.
 	AssetClass string `json:",omitempty"`
 	// An array of up to 10 PriceData objects, each representing the price information for a token pair. More than five PriceData objects require two owner reserves.
-	PriceDataSeries []ledger.PriceData
+	PriceDataSeries []ledger.PriceDataWrapper
 }
 
 // TxType returns the TxType for OracleSet transactions.
@@ -68,7 +68,7 @@ func (tx *OracleSet) TxType() TxType {
 func (tx *OracleSet) Flatten() map[string]interface{} {
 	flattened := tx.BaseTx.Flatten()
 
-	flattened["TransactionType"] = tx.TxType()
+	flattened["TransactionType"] = tx.TxType().String()
 
 	if tx.Account != "" {
 		flattened["Account"] = tx.Account.String()
@@ -90,9 +90,10 @@ func (tx *OracleSet) Flatten() map[string]interface{} {
 	}
 
 	if len(tx.PriceDataSeries) > 0 {
-		flattenedPriceDataSeries := make([]map[string]interface{}, 0, len(tx.PriceDataSeries))
-		for _, priceData := range tx.PriceDataSeries {
-			flattenedPriceDataSeries = append(flattenedPriceDataSeries, priceData.Flatten())
+		flattenedPriceDataSeries := make([]map[string]any, 0, len(tx.PriceDataSeries))
+		for _, priceDataWrapper := range tx.PriceDataSeries {
+			flattenedPriceDataWrapper := priceDataWrapper.Flatten()
+			flattenedPriceDataSeries = append(flattenedPriceDataSeries, flattenedPriceDataWrapper)
 		}
 		flattened["PriceDataSeries"] = flattenedPriceDataSeries
 	}
@@ -120,8 +121,8 @@ func (tx *OracleSet) Validate() (bool, error) {
 		}
 	}
 
-	for _, priceData := range tx.PriceDataSeries {
-		if err := priceData.Validate(); err != nil {
+	for _, priceDataWrapper := range tx.PriceDataSeries {
+		if err := priceDataWrapper.PriceData.Validate(); err != nil {
 			return false, err
 		}
 	}

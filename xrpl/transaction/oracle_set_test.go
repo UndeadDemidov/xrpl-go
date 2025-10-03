@@ -68,7 +68,7 @@ func TestOracleSet_Flatten(t *testing.T) {
 				"PriceDataSeries": []map[string]any{
 					{
 						"PriceData": map[string]any{
-							"AssetPrice": uint64(740),
+							"AssetPrice": "740",
 							"BaseAsset":  "XRP",
 							"QuoteAsset": "USD",
 							"Scale":      uint8(3),
