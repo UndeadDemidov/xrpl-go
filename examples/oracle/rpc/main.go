@@ -6,11 +6,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Peersyst/xrpl-go/examples/clients"
 	"github.com/Peersyst/xrpl-go/pkg/crypto"
 	"github.com/Peersyst/xrpl-go/xrpl/currency"
-	"github.com/Peersyst/xrpl-go/xrpl/faucet"
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
-	"github.com/Peersyst/xrpl-go/xrpl/rpc"
 	"github.com/Peersyst/xrpl-go/xrpl/rpc/types"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
 	"github.com/Peersyst/xrpl-go/xrpl/wallet"
@@ -29,18 +28,8 @@ func main() {
 	//
 	// Configure client
 	//
-	fmt.Println("⏳ Setting up client...")
-	cfg, err := rpc.NewClientConfig(
-		"https://s.altnet.rippletest.net:51234/",
-		rpc.WithFaucetProvider(faucet.NewTestnetFaucetProvider()),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	client := rpc.NewClient(cfg)
-	fmt.Println("✅ Client configured!")
-	fmt.Println()
+	fmt.Println("⏳ Setting up testnet RPC client...")
+	client := clients.GetTestnetRPCClient()
 
 	//
 	// Configure wallets
