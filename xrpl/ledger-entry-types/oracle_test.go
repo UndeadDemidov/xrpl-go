@@ -35,7 +35,22 @@ func TestPriceData_Flatten(t *testing.T) {
 			expected: map[string]any{
 				"BaseAsset":  "XRP",
 				"QuoteAsset": "USD",
-				"AssetPrice": 740,
+				"AssetPrice": "740",
+				"Scale":      uint8(3),
+			},
+		},
+		{
+			name: "pass - complete with currency more than 3 characters",
+			priceData: &PriceData{
+				BaseAsset:  "XRP",
+				QuoteAsset: "ACGBD",
+				AssetPrice: 740,
+				Scale:      3,
+			},
+			expected: map[string]any{
+				"BaseAsset":  "XRP",
+				"QuoteAsset": "ACGBD",
+				"AssetPrice": "740",
 				"Scale":      uint8(3),
 			},
 		},
