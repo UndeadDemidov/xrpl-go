@@ -63,6 +63,64 @@ func TestPriceData_Flatten(t *testing.T) {
 	}
 }
 
+func TestPriceDataWrapper_Flatten(t *testing.T) {
+	testcases := []struct {
+		name      string
+		priceData *PriceDataWrapper
+		expected  map[string]any
+	}{
+		{
+			name:      "pass - empty",
+			priceData: &PriceDataWrapper{},
+			expected:  nil,
+		},
+		{
+			name: "pass - complete",
+			priceData: &PriceDataWrapper{
+				PriceData: PriceData{
+					BaseAsset:  "XRP",
+					QuoteAsset: "USD",
+					AssetPrice: 740,
+					Scale:      3,
+				},
+			},
+			expected: map[string]any{
+				"PriceData": map[string]any{
+					"BaseAsset":  "XRP",
+					"QuoteAsset": "USD",
+					"AssetPrice": "740",
+					"Scale":      uint8(3),
+				},
+			},
+		},
+		{
+			name: "pass - complete with currency more than 3 characters",
+			priceData: &PriceDataWrapper{
+				PriceData: PriceData{
+					BaseAsset:  "XRP",
+					QuoteAsset: "ACGBD",
+					AssetPrice: 740,
+					Scale:      3,
+				},
+			},
+			expected: map[string]any{
+				"PriceData": map[string]any{
+					"BaseAsset":  "XRP",
+					"QuoteAsset": "ACGBD",
+					"AssetPrice": "740",
+					"Scale":      uint8(3),
+				},
+			},
+		},
+	}
+
+	for _, testcase := range testcases {
+		t.Run(testcase.name, func(t *testing.T) {
+			assert.Equal(t, testcase.priceData.Flatten(), testcase.expected)
+		})
+	}
+}
+
 func TestPriceData_Validate(t *testing.T) {
 	testcases := []struct {
 		name      string
