@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // WalletLocator returns a pointer to a Hash256 representing an arbitrary 256-bit value (optional).
