@@ -68,9 +68,6 @@ func (mw *PriceDataWrapper) Flatten() map[string]any {
 	return nil
 }
 
-// FlatPriceData represents a flattened map of PriceData fields for JSON serialization.
-// type FlatPriceData map[string]interface{}
-
 // Flatten flattens the price data.
 func (priceData *PriceData) Flatten() map[string]any {
 	mapKeys := 2
