@@ -11,6 +11,7 @@ const (
 	PriceDataScaleMax uint8 = 10
 )
 
+// PriceDataWrapper represents a wrapper for the PriceData struct.
 type PriceDataWrapper struct {
 	PriceData PriceData
 }

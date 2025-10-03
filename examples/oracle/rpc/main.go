@@ -15,6 +15,16 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/wallet"
 )
 
+func safeInt64ToUint32(value int64) uint32 {
+	if value < 0 {
+		return 0
+	}
+	if value > int64(^uint32(0)) {
+		return ^uint32(0) // max uint32 value
+	}
+	return uint32(value)
+}
+
 func printJSON(data interface{}) {
 	jsonBytes, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
@@ -54,7 +64,7 @@ func main() {
 	fmt.Println("⏳ Creating oracle set transaction...")
 
 	// 1 minute ago
-	lastUpdatedTime := time.Now().Add(-time.Second).Unix()
+	lastUpdatedTime := safeInt64ToUint32(time.Now().Add(-time.Second).Unix())
 	oracleDocumentID := uint32(1)
 
 	oracleSet := transaction.OracleSet{
@@ -62,7 +72,7 @@ func main() {
 			Account: oracleIssuer.ClassicAddress,
 		},
 		OracleDocumentID: oracleDocumentID,
-		LastUpdatedTime:  uint32(lastUpdatedTime),
+		LastUpdatedTime:  lastUpdatedTime,
 		URI:              hex.EncodeToString([]byte("https://example.com")),
 		Provider:         hex.EncodeToString([]byte("Chainlink")),
 		AssetClass:       hex.EncodeToString([]byte("currency")),
