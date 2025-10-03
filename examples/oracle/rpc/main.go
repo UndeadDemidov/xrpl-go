@@ -66,12 +66,13 @@ func main() {
 
 	// 1 minute ago
 	lastUpdatedTime := time.Now().Add(-time.Second).Unix()
+	oracleDocumentID := uint32(1)
 
 	oracleSet := transaction.OracleSet{
 		BaseTx: transaction.BaseTx{
 			Account: oracleIssuer.ClassicAddress,
 		},
-		OracleDocumentID: 1,
+		OracleDocumentID: oracleDocumentID,
 		LastUpdatedTime:  uint32(lastUpdatedTime),
 		URI:              hex.EncodeToString([]byte("https://example.com")),
 		Provider:         hex.EncodeToString([]byte("Chainlink")),
@@ -106,4 +107,39 @@ func main() {
 	fmt.Println("✅ Oracle set transaction submitted")
 	fmt.Printf("🌐 Hash: %s\n", response.Hash.String())
 	fmt.Printf("🌐 Validated: %t\n", response.Validated)
+
+	if !response.Validated {
+		fmt.Println("❌ Oracle set transaction failed")
+		return
+	}
+	fmt.Println()
+
+	// Delete oracle
+	fmt.Println("⏳ Deleting oracle...")
+
+	oracleDelete := transaction.OracleDelete{
+		BaseTx: transaction.BaseTx{
+			Account: oracleIssuer.ClassicAddress,
+		},
+		OracleDocumentID: oracleDocumentID,
+	}
+
+	flatOracleDelete := oracleDelete.Flatten()
+
+	fmt.Println("📄 Oracle Delete Transaction JSON:")
+	printJSON(flatOracleDelete)
+	fmt.Println()
+
+	responseDelete, err := client.SubmitTxAndWait(flatOracleDelete, &types.SubmitOptions{
+		Wallet:   &oracleIssuer,
+		Autofill: true,
+	})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("✅ Oracle deleted")
+	fmt.Printf("🌐 Hash: %s\n", responseDelete.Hash.String())
+	fmt.Printf("🌐 Validated: %t\n", responseDelete.Validated)
 }
