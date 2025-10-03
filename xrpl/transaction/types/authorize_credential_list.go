@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // AuthorizeCredentialList represents a list of AuthorizeCredential entries with validation and flattening.
