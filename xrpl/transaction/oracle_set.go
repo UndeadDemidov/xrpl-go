@@ -90,10 +90,9 @@ func (tx *OracleSet) Flatten() map[string]interface{} {
 	}
 
 	if len(tx.PriceDataSeries) > 0 {
-		flattenedPriceDataSeries := make([]map[string]any, 0, len(tx.PriceDataSeries))
-		for _, priceDataWrapper := range tx.PriceDataSeries {
-			flattenedPriceDataWrapper := priceDataWrapper.Flatten()
-			flattenedPriceDataSeries = append(flattenedPriceDataSeries, flattenedPriceDataWrapper)
+		flattenedPriceDataSeries := make([]map[string]any, len(tx.PriceDataSeries))
+		for i, priceDataWrapper := range tx.PriceDataSeries {
+			flattenedPriceDataSeries[i] = priceDataWrapper.Flatten()
 		}
 		flattened["PriceDataSeries"] = flattenedPriceDataSeries
 	}
