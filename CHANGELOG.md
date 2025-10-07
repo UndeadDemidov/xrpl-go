@@ -5,17 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v0.1.13]
 
 ### Added
 
-#### xrpl
-
-- Adds `PermissionedDomain` ledger entry type (XLS-80d).
-
 #### binary-codec
 
-- `Number` and `AssetScale` fields to `definitions.json`
+- `Number` and `AssetScale` fields to `definitions.json`.
+
+#### xrpl
+
+- `PermissionedDEX` support (XLS-81d).
 
 ### Fixed
 
@@ -26,6 +26,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### binary-codec
 
 - `definitions.json` where `LastUpdatedTime` had a typo issue.
+
+### Refactored
+
+#### xrpl
+
+- Replaced `bip32` and `bip39` dependencies due to repository deletion and, therefore, dependency outdated.
+
+## [v0.1.12]
+
+### Added
+
+#### xrpl
+
+- Adds `PermissionedDomain` ledger entry type (XLS-80d).
 
 ## [v0.1.11]
 
