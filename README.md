@@ -8,9 +8,6 @@
 The `xrpl-go` library provides a Go implementation for interacting with the XRP Ledger. From serialization to signing transactions, the library allows users to work with the most
 complex elements of the XRP Ledger. A full library of models for all transactions and core server rippled API objects are provided.
 
-## Disclaimer
-This library is still in development and not yet intended for production use.
-
 ## Requirements
 
 Requiring Go version `1.22.0` and later.
