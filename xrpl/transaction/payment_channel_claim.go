@@ -64,7 +64,7 @@ type PaymentChannelClaim struct {
 	// Each member of the array must be the ledger entry ID of a Credential entry in the ledger.
 	// For details see https://xrpl.org/docs/references/protocol/transactions/types/payment#credential-ids
 	CredentialIDs types.CredentialIDs `json:",omitempty"`
-	// (Optional)Total amount of XRP, in drops, delivered by this channel after processing this claim. Required to deliver XRP.
+	// (Optional) Total amount of XRP, in drops, delivered by this channel after processing this claim. Required to deliver XRP.
 	// Must be more than the total amount delivered by the channel so far, but not greater than the Amount of the signed claim. Must be provided except when closing the channel.
 	Balance types.XRPCurrencyAmount `json:",omitempty"`
 	// (Optional) The amount of XRP, in drops, authorized by the Signature. This must match the amount in the signed message.
