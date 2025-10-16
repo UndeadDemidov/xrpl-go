@@ -74,7 +74,7 @@ func TestPaymentChannelClaim_Flatten(t *testing.T) {
 			}`,
 		},
 		{
-			name: "pass - PaymentChannelClaim with Balance",
+			name: "pass - PaymentChannelClaim with Balance and Amount",
 			claim: PaymentChannelClaim{
 				BaseTx: BaseTx{
 					Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
