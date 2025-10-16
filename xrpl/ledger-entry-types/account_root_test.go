@@ -132,3 +132,9 @@ func TestAccountRoot_SetLsfRequireDestTag(t *testing.T) {
 	ar.SetLsfRequireDestTag()
 	require.Equal(t, ar.Flags, lsfRequireDestTag)
 }
+
+func TestAccountRoot_SetLsfAllowTrustLineLocking(t *testing.T) {
+	ar := &AccountRoot{}
+	ar.SetLsfAllowTrustLineLocking()
+	require.Equal(t, ar.Flags, lsfAllowTrustLineLocking)
+}
