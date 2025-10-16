@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"encoding/json"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
@@ -31,7 +29,7 @@ type PaymentChannelCreate struct {
 	BaseTx
 	// Amount of XRP, in drops, to deduct from the sender's balance and set aside in this channel.
 	// While the channel is open, the XRP can only go to the Destination address. When the channel closes, any unclaimed XRP is returned to the source address's balance.
-	Amount types.CurrencyAmount
+	Amount types.XRPCurrencyAmount
 	// Address to receive XRP claims against this channel. This is also known as the "destination address" for the channel. Cannot be the same as the sender (Account).
 	Destination types.Address
 	// Amount of time the source address must wait before closing the channel if it has unclaimed XRP.
@@ -56,7 +54,7 @@ func (*PaymentChannelCreate) TxType() TxType {
 func (p *PaymentChannelCreate) Flatten() FlatTransaction {
 	flattened := p.BaseTx.Flatten()
 
-	flattened["Amount"] = p.Amount.Flatten()
+	flattened["Amount"] = p.Amount.String()
 	flattened["Destination"] = p.Destination.String()
 	flattened["SettleDelay"] = p.SettleDelay
 	flattened["PublicKey"] = p.PublicKey
@@ -70,37 +68,6 @@ func (p *PaymentChannelCreate) Flatten() FlatTransaction {
 	}
 
 	return flattened
-}
-
-// UnmarshalJSON unmarshals the PaymentChannelCreate transaction from JSON.
-func (p *PaymentChannelCreate) UnmarshalJSON(data []byte) error {
-	type paymentChannelCreateHelper struct {
-		BaseTx
-		Amount         json.RawMessage
-		Destination    types.Address
-		SettleDelay    uint32
-		PublicKey      string
-		CancelAfter    uint32  `json:",omitempty"`
-		DestinationTag *uint32 `json:",omitempty"`
-	}
-	var h paymentChannelCreateHelper
-	if err := json.Unmarshal(data, &h); err != nil {
-		return err
-	}
-	*p = PaymentChannelCreate{
-		BaseTx:         h.BaseTx,
-		Destination:    h.Destination,
-		SettleDelay:    h.SettleDelay,
-		PublicKey:      h.PublicKey,
-		CancelAfter:    h.CancelAfter,
-		DestinationTag: h.DestinationTag,
-	}
-	amount, err := types.UnmarshalCurrencyAmount(h.Amount)
-	if err != nil {
-		return err
-	}
-	p.Amount = amount
-	return nil
 }
 
 // Validate validates the PaymentChannelCreate fields.
