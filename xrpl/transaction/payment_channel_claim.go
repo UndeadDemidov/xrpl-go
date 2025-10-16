@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"encoding/json"
-
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -68,10 +66,10 @@ type PaymentChannelClaim struct {
 	CredentialIDs types.CredentialIDs `json:",omitempty"`
 	// (Optional) Total amount of XRP, in drops, delivered by this channel after processing this claim. Required to deliver XRP.
 	// Must be more than the total amount delivered by the channel so far, but not greater than the Amount of the signed claim. Must be provided except when closing the channel.
-	Balance types.CurrencyAmount `json:",omitempty"`
+	Balance types.XRPCurrencyAmount `json:",omitempty"`
 	// The amount of XRP, in drops, or fungible tokens authorized by the Signature. This must match the amount in the signed message.
 	// This is the cumulative amount that can be dispensed by the channel, including funds previously redeemed. Non-XRP tokens can only be used if the TokenEscrow amendment is enabled.
-	Amount types.CurrencyAmount `json:",omitempty"`
+	Amount types.XRPCurrencyAmount `json:",omitempty"`
 	// (Optional) The signature of this claim, as hexadecimal. The signed message contains the channel ID and the amount of the claim.
 	// Required unless the sender of the transaction is the source address of the channel.
 	Signature string `json:",omitempty"`
@@ -95,10 +93,10 @@ func (p *PaymentChannelClaim) Flatten() FlatTransaction {
 	if p.Channel != "" {
 		flattened["Channel"] = p.Channel.String()
 	}
-	if p.Balance != nil {
+	if p.Balance != 0 {
 		flattened["Balance"] = p.Balance.Flatten()
 	}
-	if p.Amount != nil {
+	if p.Amount != 0 {
 		flattened["Amount"] = p.Amount.Flatten()
 	}
 	if p.Signature != "" {
@@ -163,39 +161,4 @@ func (p *PaymentChannelClaim) Validate() (bool, error) {
 	}
 
 	return true, nil
-}
-
-// UnmarshalJSON unmarshals the PaymentChannelClaim transaction from JSON.
-func (p *PaymentChannelClaim) UnmarshalJSON(data []byte) error {
-	type paymentChannelClaimHelper struct {
-		BaseTx
-		Amount        json.RawMessage
-		Balance       json.RawMessage
-		Channel       types.Hash256
-		Signature     string
-		PublicKey     string
-		CredentialIDs types.CredentialIDs `json:",omitempty"`
-	}
-	var h paymentChannelClaimHelper
-	if err := json.Unmarshal(data, &h); err != nil {
-		return err
-	}
-	*p = PaymentChannelClaim{
-		BaseTx:        h.BaseTx,
-		Channel:       h.Channel,
-		Signature:     h.Signature,
-		PublicKey:     h.PublicKey,
-		CredentialIDs: h.CredentialIDs,
-	}
-	amount, err := types.UnmarshalCurrencyAmount(h.Amount)
-	if err != nil {
-		return err
-	}
-	p.Amount = amount
-	balance, err := types.UnmarshalCurrencyAmount(h.Balance)
-	if err != nil {
-		return err
-	}
-	p.Balance = balance
-	return nil
 }

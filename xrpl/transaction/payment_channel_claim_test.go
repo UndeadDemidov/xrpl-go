@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/Peersyst/xrpl-go/xrpl/testutil"
@@ -76,7 +74,7 @@ func TestPaymentChannelClaim_Flatten(t *testing.T) {
 			}`,
 		},
 		{
-			name: "pass - PaymentChannelClaim with Balance and Amount as XRPCurrencyAmount",
+			name: "pass - PaymentChannelClaim with Balance",
 			claim: PaymentChannelClaim{
 				BaseTx: BaseTx{
 					Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
@@ -90,68 +88,6 @@ func TestPaymentChannelClaim_Flatten(t *testing.T) {
 				"TransactionType": "PaymentChannelClaim",
 				"Balance": "1000",
 				"Amount": "2000"
-			}`,
-		},
-		{
-			name: "pass - PaymentChannelClaim with Balance and Amount as MPTCurrencyAmount",
-			claim: PaymentChannelClaim{
-				BaseTx: BaseTx{
-					Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
-					TransactionType: PaymentChannelClaimTx,
-				},
-				Balance: types.MPTCurrencyAmount{
-					MPTIssuanceID: "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
-					Value:         "1000",
-				},
-				Amount: types.MPTCurrencyAmount{
-					MPTIssuanceID: "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
-					Value:         "2000",
-				},
-			},
-			expected: `{
-				"Account": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
-				"TransactionType": "PaymentChannelClaim",
-				"Balance": {
-					"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
-					"value": "1000"
-				},
-				"Amount": {
-					"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
-					"value": "2000"
-				}
-			}`,
-		},
-		{
-			name: "pass - PaymentChannelClaim with Balance and Amount as IssuedCurrencyAmount",
-			claim: PaymentChannelClaim{
-				BaseTx: BaseTx{
-					Account:         "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
-					TransactionType: PaymentChannelClaimTx,
-				},
-				Balance: types.IssuedCurrencyAmount{
-					Issuer:   "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-					Currency: "USD",
-					Value:    "1000",
-				},
-				Amount: types.IssuedCurrencyAmount{
-					Issuer:   "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-					Currency: "USD",
-					Value:    "2000",
-				},
-			},
-			expected: `{
-				"Account": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
-				"TransactionType": "PaymentChannelClaim",
-				"Balance": {
-					"issuer": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-					"currency": "USD",
-					"value": "1000"
-				},
-				"Amount": {
-					"issuer": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-					"currency": "USD",
-					"value": "2000"
-				}
 			}`,
 		},
 		{
@@ -321,171 +257,6 @@ func TestPaymentChannelClaim_Validate(t *testing.T) {
 			if err != nil && err != tt.expectedErr {
 				t.Errorf("Validate() error = %v, expectedErr %v", err, tt.expectedErr)
 			}
-		})
-	}
-}
-
-func TestPaymentChannelClaim_Unmarshal(t *testing.T) {
-	tests := []struct {
-		name                 string
-		jsonData             string
-		expectUnmarshalError bool
-	}{
-		{
-			name: "pass - full PaymentChannelClaim with IssuedCurrencyAmount",
-			jsonData: `{
-				"TransactionType": "PaymentChannelClaim",
-				"Account": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-				"Channel": "ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC1",
-				"Amount": {
-					"issuer": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-					"currency": "USD",
-					"value": "1000000"
-				},
-				"Balance": {
-					"issuer": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-					"currency": "USD",
-					"value": "900000"
-				},
-				"CredentialIDs": ["1234567890abcdef", "1234567890abcdefg"],
-				"Fee": "10",
-				"Sequence": 1,
-				"Flags": 2147483648,
-				"CancelAfter": 695123456,
-				"FinishAfter": 695000000,
-				"Condition": "A0258020C4F71E9B01F5A78023E932ABF6B2C1F020986E6C9E55678FFBAE67A2F5B474680103080000000000000000000000000000000000000000000000000000000000000000",
-				"DestinationTag": 12345,
-				"SourceTag": 54321,
-				"OwnerNode": "0000000000000000",
-				"PreviousTxnID": "C4F71E9B01F5A78023E932ABF6B2C1F020986E6C9E55678FFBAE67A2F5B47468",
-				"LastLedgerSequence": 12345678,
-				"NetworkID": 1024,
-				"Memos": [
-					{
-					"Memo": {
-						"MemoType": "657363726F77",
-						"MemoData": "457363726F77206372656174656420666F72207061796D656E74"
-					}
-					}
-				],
-				"Signers": [
-					{
-					"Signer": {
-						"Account": "rSIGNER123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-						"SigningPubKey": "ED5F93AB1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678",
-						"TxnSignature": "3045022100D7F67A81F343...B87D"
-					}
-					}
-				],
-				"SigningPubKey": "ED5F93AB1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678",
-				"TxnSignature": "3045022100D7F67A81F343...B87D"
-			}`,
-			expectUnmarshalError: false,
-		},
-		{
-			name: "pass - full PaymentChannelClaim with MPTCurrencyAmount",
-			jsonData: `{
-				"TransactionType": "PaymentChannelClaim",
-				"Account": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-				"Channel": "ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC1",
-				"Amount": {
-					"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
-					"value": "1000000"
-				},
-				"Balance": {
-					"mpt_issuance_id": "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
-					"value": "900000"
-				},
-				"CredentialIDs": ["1234567890abcdef", "1234567890abcdefg"],
-				"Fee": "10",
-				"Sequence": 1,
-				"Flags": 2147483648,
-				"CancelAfter": 695123456,
-				"FinishAfter": 695000000,
-				"Condition": "A0258020C4F71E9B01F5A78023E932ABF6B2C1F020986E6C9E55678FFBAE67A2F5B474680103080000000000000000000000000000000000000000000000000000000000000000",
-				"DestinationTag": 12345,
-				"SourceTag": 54321,
-				"OwnerNode": "0000000000000000",
-				"PreviousTxnID": "C4F71E9B01F5A78023E932ABF6B2C1F020986E6C9E55678FFBAE67A2F5B47468",
-				"LastLedgerSequence": 12345678,
-				"NetworkID": 1024,
-				"Memos": [
-					{
-					"Memo": {
-						"MemoType": "657363726F77",
-						"MemoData": "457363726F77206372656174656420666F72207061796D656E74"
-					}
-					}
-				],
-				"Signers": [
-					{
-					"Signer": {
-						"Account": "rSIGNER123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-						"SigningPubKey": "ED5F93AB1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678",
-						"TxnSignature": "3045022100D7F67A81F343...B87D"
-					}
-					}
-				],
-				"SigningPubKey": "ED5F93AB1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678",
-				"TxnSignature": "3045022100D7F67A81F343...B87D"
-			}`,
-			expectUnmarshalError: false,
-		},
-		{
-			name: "pass - full PaymentChannelClaim with XRPCurrencyAmount",
-			jsonData: `{
-				"TransactionType": "PaymentChannelClaim",
-				"Account": "rEXAMPLE123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-				"Channel": "ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC123ABC1",
-				"Amount": "1000000",
-				"Balance": "30000",
-				"CredentialIDs": ["1234567890abcdef", "1234567890abcdefg"],
-				"Fee": "10",
-				"Sequence": 1,
-				"Flags": 2147483648,
-				"CancelAfter": 695123456,
-				"FinishAfter": 695000000,
-				"Condition": "A0258020C4F71E9B01F5A78023E932ABF6B2C1F020986E6C9E55678FFBAE67A2F5B474680103080000000000000000000000000000000000000000000000000000000000000000",
-				"DestinationTag": 12345,
-				"SourceTag": 54321,
-				"OwnerNode": "0000000000000000",
-				"PreviousTxnID": "C4F71E9B01F5A78023E932ABF6B2C1F020986E6C9E55678FFBAE67A2F5B47468",
-				"LastLedgerSequence": 12345678,
-				"NetworkID": 1024,
-				"Memos": [
-					{
-					"Memo": {
-						"MemoType": "657363726F77",
-						"MemoData": "457363726F77206372656174656420666F72207061796D656E74"
-					}
-					}
-				],
-				"Signers": [
-					{
-					"Signer": {
-						"Account": "rSIGNER123456789ABCDEFGHJKLMNPQRSTUVWXYZ",
-						"SigningPubKey": "ED5F93AB1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678",
-						"TxnSignature": "3045022100D7F67A81F343...B87D"
-					}
-					}
-				],
-				"SigningPubKey": "ED5F93AB1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678",
-				"TxnSignature": "3045022100D7F67A81F343...B87D"
-			}`,
-			expectUnmarshalError: false,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			var paymentChannelCreate PaymentChannelClaim
-			err := json.Unmarshal([]byte(tt.jsonData), &paymentChannelCreate)
-			fmt.Println(paymentChannelCreate.TransactionType)
-			if (err != nil) != tt.expectUnmarshalError {
-				t.Errorf("Unmarshal() error = %v, expectUnmarshalError %v", err, tt.expectUnmarshalError)
-				return
-			}
-
 		})
 	}
 }
