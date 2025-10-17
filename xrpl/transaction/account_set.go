@@ -46,6 +46,8 @@ const (
 	asfDisallowIncomingTrustLine uint32 = 15
 	// Permanently gain the ability to claw back issued IOUs
 	asfAllowTrustLineClawback uint32 = 16
+	// Issuers allow their IOUs to be used as escrow amounts
+	asfAllowTrustLineLocking uint32 = 17
 
 	//
 	// Transaction Flags
@@ -334,6 +336,16 @@ func (s *AccountSet) ClearAsfAllowTrustLineClawback() {
 	s.ClearFlag = asfAllowTrustLineClawback
 }
 
+// SetAsfAllowTrustLineLocking sets the allow trust line locking flag.
+func (s *AccountSet) SetAsfAllowTrustLineLocking() {
+	s.SetFlag = asfAllowTrustLineLocking
+}
+
+// ClearAsfAllowTrustLineLocking clears the allow trust line locking flag.
+func (s *AccountSet) ClearAsfAllowTrustLineLocking() {
+	s.ClearFlag = asfAllowTrustLineLocking
+}
+
 // Validate the AccountSet transaction fields.
 func (s *AccountSet) Validate() (bool, error) {
 	flatten := s.Flatten()
@@ -396,7 +408,7 @@ func (s *AccountSet) Validate() (bool, error) {
 
 	// check if SetFlag is within the valid range
 	if s.SetFlag != 0 {
-		if s.SetFlag < asfRequireDest || s.SetFlag > asfAllowTrustLineClawback {
+		if s.SetFlag < asfRequireDest || s.SetFlag > asfAllowTrustLineLocking {
 			return false, ErrAccountSetInvalidSetFlag
 		}
 	}

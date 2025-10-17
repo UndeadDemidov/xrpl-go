@@ -49,7 +49,7 @@ func (e *EscrowFinish) Flatten() FlatTransaction {
 	flattened["TransactionType"] = "EscrowFinish"
 
 	if e.Owner != "" {
-		flattened["Owner"] = e.Owner
+		flattened["Owner"] = e.Owner.String()
 	}
 
 	if e.OfferSequence != 0 {
