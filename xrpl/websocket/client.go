@@ -365,18 +365,20 @@ func (c *Client) waitForTransaction(txHash string, lastLedgerSequence uint32) (*
 		res, err := c.Request(&requests.TxRequest{
 			Transaction: txHash,
 		})
-		if err != nil {
+		if err != nil && !strings.Contains(err.Error(), txnNotFound) {
 			return nil, err
 		}
 
-		err = res.GetResult(&txResponse)
-		if err != nil {
-			return nil, err
-		}
+		if res != nil {
+			err = res.GetResult(&txResponse)
+			if err != nil {
+				return nil, err
+			}
 
-		// Check if the transaction has been included in the current ledger
-		if txResponse.LedgerIndex.Int() >= int(lastLedgerSequence) {
-			break
+			// Check if the transaction has been included in the current ledger
+			if txResponse.LedgerIndex.Int() >= int(lastLedgerSequence) {
+				break
+			}
 		}
 
 		// Wait for the retry delay before retrying
