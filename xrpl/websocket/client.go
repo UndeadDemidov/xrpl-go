@@ -733,10 +733,10 @@ func (c *Client) handleStream(t streamtypes.Type, message []byte) {
 			c.ledgerClosedChan <- &ledger
 		}
 	case streamtypes.TransactionStreamType:
-		var transaction streamtypes.TransactionStream
-		c.unmarshalMessage(message, &transaction)
+		var transactionStream streamtypes.TransactionStream
+		c.unmarshalMessage(message, &transactionStream)
 		if c.transactionChan != nil {
-			c.transactionChan <- &transaction
+			c.transactionChan <- &transactionStream
 		}
 	case streamtypes.ValidationStreamType:
 		var validation streamtypes.ValidationStream

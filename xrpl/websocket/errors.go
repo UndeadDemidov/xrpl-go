@@ -82,11 +82,6 @@ var (
 	// ErrAmountAndDeliverMaxMustBeIdentical is returned when Amount and DeliverMax fields are not identical.
 	ErrAmountAndDeliverMaxMustBeIdentical = errors.New("payment transaction: Amount and DeliverMax fields must be identical when both are provided")
 
-	// tags
-
-	// ErrTagMustEqualAddressTag is returned when a tag must equal the address tag.
-	ErrTagMustEqualAddressTag = errors.New("tag, if present, must be equal to the tag of the address")
-
 	// connection
 
 	// ErrNotConnected is returned when attempting to perform operations on a connection that is not established.
