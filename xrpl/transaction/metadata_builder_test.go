@@ -8,6 +8,8 @@ import (
 )
 
 func TestTxMetadataBuilder_AsTxObjMeta(t *testing.T) {
+	batchId := types.BatchID("ABCD1234")
+
 	tests := []struct {
 		name     string
 		builder  TxMetadataBuilder
@@ -28,7 +30,7 @@ func TestTxMetadataBuilder_AsTxObjMeta(t *testing.T) {
 				TransactionIndex:       42,
 				TransactionResult:      "tesSUCCESS",
 				DeliveredAmount:        "1000000",
-				ParentBatchID:          stringPtr("ABCD1234"),
+				ParentBatchID:          &batchId,
 			},
 			expected: TxObjMeta{
 				AffectedNodes: []AffectedNode{
@@ -43,7 +45,7 @@ func TestTxMetadataBuilder_AsTxObjMeta(t *testing.T) {
 				TransactionIndex:       42,
 				TransactionResult:      "tesSUCCESS",
 				DeliveredAmount:        "1000000",
-				ParentBatchID:          stringPtr("ABCD1234"),
+				ParentBatchID:          &batchId,
 			},
 		},
 		{
@@ -87,6 +89,8 @@ func TestTxMetadataBuilder_AsTxObjMeta(t *testing.T) {
 }
 
 func TestTxMetadataBuilder_AsPaymentMetadata(t *testing.T) {
+	batchID := types.BatchID("EFGH5678")
+
 	tests := []struct {
 		name     string
 		builder  TxMetadataBuilder
@@ -107,7 +111,7 @@ func TestTxMetadataBuilder_AsPaymentMetadata(t *testing.T) {
 				TransactionIndex:       10,
 				TransactionResult:      "tesSUCCESS",
 				DeliveredAmount:        "5000000",
-				ParentBatchID:          stringPtr("EFGH5678"),
+				ParentBatchID:          &batchID,
 			},
 			expected: PaymentMetadata{
 				TxObjMeta: TxObjMeta{
@@ -123,7 +127,7 @@ func TestTxMetadataBuilder_AsPaymentMetadata(t *testing.T) {
 					TransactionIndex:       10,
 					TransactionResult:      "tesSUCCESS",
 					DeliveredAmount:        "5000000",
-					ParentBatchID:          stringPtr("EFGH5678"),
+					ParentBatchID:          &batchID,
 				},
 			},
 		},
@@ -152,7 +156,7 @@ func TestTxMetadataBuilder_AsPaymentMetadata(t *testing.T) {
 
 func TestTxMetadataBuilder_AsNFTokenMintMetadata(t *testing.T) {
 	nftokenID := types.NFTokenID("000100001E962F495F07A990F4ED55ACCFEEF365DBAA76B6A048C0A200000007")
-	offerID := "9C92E061381C1EF37A8CDE0E8FC35188BFC30B1883825042A64309AC09F4C36D"
+	offerID := types.OfferID("9C92E061381C1EF37A8CDE0E8FC35188BFC30B1883825042A64309AC09F4C36D")
 
 	tests := []struct {
 		name     string
@@ -250,7 +254,7 @@ func TestTxMetadataBuilder_AsNFTokenMintMetadata(t *testing.T) {
 }
 
 func TestTxMetadataBuilder_AsNFTokenCreateOfferMetadata(t *testing.T) {
-	offerID := "68CD1F6F906494EA08C9CB5CAFA64DFA90D4E834B7151899B73231DE5A0C3B77"
+	offerID := types.OfferID("68CD1F6F906494EA08C9CB5CAFA64DFA90D4E834B7151899B73231DE5A0C3B77")
 
 	tests := []struct {
 		name     string
@@ -504,7 +508,7 @@ func TestTxMetadataBuilder_AsNFTokenCancelOfferMetadata(t *testing.T) {
 }
 
 func TestTxMetadataBuilder_AsMPTokenIssuanceCreateMetadata(t *testing.T) {
-	mptIssuanceID := "MPT1234567890ABCDEF"
+	mptIssuanceID := types.MPTIssuanceID("MPT1234567890ABCDEF")
 
 	tests := []struct {
 		name     string
@@ -580,9 +584,4 @@ func TestTxMetadataBuilder_AsMPTokenIssuanceCreateMetadata(t *testing.T) {
 			require.Equal(t, tt.expected, result)
 		})
 	}
-}
-
-// Helper function to create string pointers
-func stringPtr(s string) *string {
-	return &s
 }

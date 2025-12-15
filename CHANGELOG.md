@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Refactored
 
-- `TxResponse` `meta` field type changed to `TxMetadataBuilder`, enabling custom parsing for specific transactions metadata such as `Payment`, `NFTokenMint`, etc.
+- `TxResponse` `Meta` field type changed to `TxMetadataBuilder`, enabling custom parsing for specific transactions metadata such as `Payment`, `NFTokenMint`, etc.
 
 ## [v0.1.13]
 

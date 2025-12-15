@@ -20,7 +20,7 @@ type NFTokenCreateOfferMetadata struct {
 	TxObjMeta
 
 	// OfferID is a string of Amount is present.
-	OfferID *string `json:"offer_id,omitempty"`
+	OfferID *types.OfferID `json:"offer_id,omitempty"`
 }
 
 // NFTokenCreateOffer creates either a new Sell offer for an NFToken owned by the account executing the transaction, or a new Buy offer for an NFToken owned by another account.

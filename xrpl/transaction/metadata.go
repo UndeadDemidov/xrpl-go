@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
+	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
 // TxMeta represents the metadata interface for a transaction.
@@ -21,7 +22,7 @@ type TxObjMeta struct {
 	DeliveredAmount any `json:"delivered_amount,omitempty"`
 
 	// ParentBatchID is the hash of the parent Batch transaction when this transaction is executed as part of a batch.
-	ParentBatchID *string `json:"ParentBatchID,omitempty"`
+	ParentBatchID *types.BatchID `json:"ParentBatchID,omitempty"`
 }
 
 // TxMeta implements the TxMeta interface for TxObjMeta.

@@ -15,7 +15,7 @@ type NFTokenMintMetadata struct {
 	NFTokenID *types.NFTokenID `json:"nftoken_id,omitempty"`
 
 	// OfferID is a string of Amount is present.
-	OfferID *string `json:"offer_id,omitempty"`
+	OfferID *types.OfferID `json:"offer_id,omitempty"`
 }
 
 // NFTokenMint transaction creates a non-fungible token and adds it to the relevant NFTokenPage object of the NFTokenMinter as an NFToken object.

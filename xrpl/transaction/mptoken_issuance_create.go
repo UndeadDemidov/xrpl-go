@@ -29,7 +29,7 @@ const (
 // It extends from TxObjMeta.
 type MPTokenIssuanceCreateMetadata struct {
 	TxObjMeta
-	MPTIssuanceID *string `json:"mpt_issuance_id,omitempty"`
+	MPTIssuanceID *types.MPTIssuanceID `json:"mpt_issuance_id,omitempty"`
 }
 
 // MPTokenIssuanceCreate represents a transaction to create a new MPTokenIssuance object.

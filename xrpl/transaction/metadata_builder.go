@@ -15,7 +15,7 @@ type TxMetadataBuilder struct {
 	DeliveredAmount any `json:"delivered_amount,omitempty"`
 
 	// ParentBatchID is the hash of the parent Batch transaction when this transaction is executed as part of a batch.
-	ParentBatchID *string `json:"ParentBatchID,omitempty"`
+	ParentBatchID *types.BatchID `json:"ParentBatchID,omitempty"`
 
 	// rippled 1.11.0 or later.
 	// Only available in: NFTokenMintMetadata, NFTokenAcceptOfferMetadata
@@ -23,14 +23,14 @@ type TxMetadataBuilder struct {
 
 	// OfferID is a string of Amount is present.
 	// Only available in: NFTokenMintMetadata, NFTokenCreateOfferMetadata
-	OfferID *string `json:"offer_id,omitempty"`
+	OfferID *types.OfferID `json:"offer_id,omitempty"`
 
 	// rippled 1.11.0 or later.
 	// Only available in: NFTokenCancelOfferMetadata
 	NFTokenIDs []types.NFTokenID `json:"nftoken_ids,omitempty"`
 
 	// Only available in: MPTokenIssuanceCreate
-	MPTIssuanceID *string `json:"mpt_issuance_id,omitempty"`
+	MPTIssuanceID *types.MPTIssuanceID `json:"mpt_issuance_id,omitempty"`
 }
 
 // AsPaymentMetadata returns the PaymentMetadata.
