@@ -20,7 +20,11 @@ func main() {
 			WithHost("wss://s.devnet.rippletest.net:51233").
 			WithFaucetProvider(faucet.NewDevnetFaucetProvider()),
 	)
-	defer client.Disconnect()
+	defer func() {
+		if err := client.Disconnect(); err != nil {
+			fmt.Println("Error disconnecting:", err)
+		}
+	}()
 
 	if err := client.Connect(); err != nil {
 		fmt.Println("❌ Error connecting to devnet:", err)
@@ -80,19 +84,14 @@ func main() {
 	// Step 3: Retrieve the NFT token ID
 	fmt.Println("⏳ Retrieving NFT ID...")
 
-	metaMap, ok := responseMint.Meta.(map[string]any)
-	if !ok {
-		fmt.Println("❌ Meta is not a map[string]any")
-		return
-	}
+	metaMap := responseMint.Meta.AsNFTokenMintMetadata()
 
-	nftokenID1, ok := metaMap["nftoken_id"].(string)
-	if !ok {
+	if metaMap.NFTokenID == nil {
 		fmt.Println("❌ nftoken_id not found or not a string")
 		return
 	}
 
-	fmt.Println("🌎 nftoken_id:", nftokenID1)
+	fmt.Println("🌎 nftoken_id:", metaMap.NFTokenID.String())
 	fmt.Println()
 
 	// ------
@@ -127,19 +126,14 @@ func main() {
 	// Step 3: Retrieve the second NFT token ID
 	fmt.Println("⏳ Retrieving second NFT ID...")
 
-	metaMap2, ok := responseMint2.Meta.(map[string]any)
-	if !ok {
-		fmt.Println("❌ Meta is not a map[string]any")
-		return
-	}
+	metaMap2 := responseMint2.Meta.AsNFTokenMintMetadata()
 
-	nftokenID2, ok := metaMap2["nftoken_id"].(string)
-	if !ok {
+	if metaMap2.NFTokenID == nil {
 		fmt.Println("❌ nftoken_id not found or not a string")
 		return
 	}
 
-	fmt.Println("🌎 nftoken_id:", nftokenID2)
+	fmt.Println("🌎 nftoken_id:", metaMap2.NFTokenID.String())
 	fmt.Println()
 
 	// Step 4: Cancel the NFT offers
@@ -151,8 +145,8 @@ func main() {
 			TransactionType: transaction.NFTokenAcceptOfferTx,
 		},
 		NFTokenOffers: []txnTypes.NFTokenID{
-			txnTypes.NFTokenID(nftokenID1),
-			txnTypes.NFTokenID(nftokenID2),
+			txnTypes.NFTokenID(metaMap2.NFTokenID.String()),
+			txnTypes.NFTokenID(metaMap2.NFTokenID.String()),
 		},
 	}
 

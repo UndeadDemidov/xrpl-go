@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import (
@@ -35,6 +36,8 @@ func GetSerializedType(t string) SerializedType {
 		return NewHash128()
 	case "Hash160":
 		return NewHash160()
+	case "Hash192":
+		return NewHash192()
 	case "Hash256":
 		return NewHash256()
 	case "AccountID":

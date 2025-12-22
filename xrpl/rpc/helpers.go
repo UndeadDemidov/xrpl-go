@@ -3,7 +3,6 @@ package rpc
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"math"
@@ -28,11 +27,13 @@ import (
 )
 
 const (
+	// RestrictedNetworks is the threshold above which sidechains are expected to have network IDs.
 	// Sidechains are expected to have network IDs above this.
 	// Networks with ID above this restricted number are expected specify an accurate NetworkID field
 	// in every transaction to that chain to prevent replay attacks.
 	// Mainnet and testnet are exceptions. More context: https://github.com/XRPLF/rippled/pull/4370
-	RestrictedNetworks       = 1024
+	RestrictedNetworks = 1024
+	// RequiredNetworkIDVersion is the minimum rippled version that requires NetworkID validation.
 	RequiredNetworkIDVersion = "1.11.0"
 )
 
@@ -190,7 +191,11 @@ func createRequest(reqParams XRPLRequest) ([]byte, error) {
 
 	jsonBytes, err := jsoniter.Marshal(body)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal JSON-RPC request for method %s with parameters %+v: %w", reqParams.Method(), reqParams, err)
+		return nil, ErrFailedToMarshalJSONRPCRequest{
+			Method: reqParams.Method(),
+			Params: reqParams,
+			Err:    err,
+		}
 	}
 
 	return jsonBytes, nil
@@ -268,7 +273,10 @@ func (c *Client) validateTransactionAddress(tx *transaction.FlatTransaction, add
 
 	if tag != uint32(0) {
 		if txTag, ok := (*tx)[tagField].(uint32); ok && txTag != tag {
-			return fmt.Errorf("the %s, if present, must be equal to the tag of the %s", addressField, tagField)
+			return ErrMismatchedTag{
+				Expected: addressField,
+				Actual:   tagField,
+			}
 		}
 		(*tx)[tagField] = tag
 	}
@@ -279,7 +287,7 @@ func (c *Client) validateTransactionAddress(tx *transaction.FlatTransaction, add
 // Sets the next valid sequence number for a given transaction.
 func (c *Client) setTransactionNextValidSequenceNumber(tx *transaction.FlatTransaction) error {
 	if _, ok := (*tx)["Account"].(string); !ok {
-		return errors.New("missing Account in transaction")
+		return ErrMissingAccountInTransaction
 	}
 	res, err := c.GetAccountInfo(&account.InfoRequest{
 		Account:     types.Address((*tx)["Account"].(string)),
@@ -303,7 +311,7 @@ func (c *Client) getFeeXrp(cushion float32) (string, error) {
 	}
 
 	if res.Info.ValidatedLedger.BaseFeeXRP == 0 {
-		return "", errors.New("getFeeXrp: could not get BaseFeeXrp from ServerInfo")
+		return "", ErrCouldNotGetBaseFeeXrp
 	}
 
 	loadFactor := res.Info.LoadFactor
@@ -365,7 +373,7 @@ func (c *Client) calculateFeePerTransactionType(tx *transaction.FlatTransaction,
 			if fulfillmentStr, ok := fulfillment.(string); ok && fulfillmentStr != "" {
 				fulfillmentBytesSize := (len(fulfillmentStr) + 1) / 2 // Math.ceil(length / 2)
 				if fulfillmentBytesSize < 0 {
-					return fmt.Errorf("invalid fulfillment length")
+					return ErrInvalidFulfillmentLength
 				}
 				// BaseFee × (33 + ceil(Fulfillment size in bytes / 16))
 				chunks := (uint64(fulfillmentBytesSize) + 15) / 16 // ceil division
@@ -441,7 +449,7 @@ func (c *Client) checkAccountDeleteBlockers(address types.Address) error {
 	}
 
 	if len(accObjects.AccountObjects) > 0 {
-		return errors.New("account %s cannot be deleted; there are Escrows, PayChannels, RippleStates, or Checks associated with the account")
+		return ErrAccountCannotBeDeleted
 	}
 	return nil
 }
@@ -451,7 +459,7 @@ func (c *Client) checkPaymentAmounts(tx *transaction.FlatTransaction) error {
 		if _, ok := (*tx)["Amount"]; !ok {
 			(*tx)["Amount"] = (*tx)["DeliverMax"]
 		} else if (*tx)["Amount"] != (*tx)["DeliverMax"] {
-			return errors.New("payment transaction: Amount and DeliverMax fields must be identical when both are provided")
+			return ErrAmountAndDeliverMaxMustBeIdentical
 		}
 	}
 	return nil
@@ -469,7 +477,7 @@ func (c *Client) setTransactionFlags(tx *transaction.FlatTransaction) error {
 
 	_, ok = (*tx)["TransactionType"].(string)
 	if !ok {
-		return errors.New("transaction type is missing in transaction")
+		return ErrTransactionTypeMissing
 	}
 
 	return nil
@@ -541,7 +549,7 @@ func (c *Client) waitForTransaction(txHash string, lastLedgerSequence uint32) (*
 	}
 
 	if txResponse == nil {
-		return nil, errors.New("transaction not found")
+		return nil, ErrTransactionNotFound
 	}
 
 	return txResponse, nil
@@ -592,7 +600,7 @@ func (c *Client) fetchOwnerReserveFee() (uint64, error) {
 
 	reserveInc := response.State.ValidatedLedger.ReserveInc
 	if reserveInc == 0 {
-		return 0, errors.New("could not fetch Owner Reserve")
+		return 0, ErrCouldNotFetchOwnerReserve
 	}
 
 	return uint64(reserveInc), nil
@@ -606,7 +614,7 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 	// Get RawTransactions from the batch transaction
 	rawTransactions, ok := (*tx)["RawTransactions"].([]map[string]any)
 	if !ok {
-		return 0, errors.New("RawTransactions field missing from Batch transaction")
+		return 0, ErrRawTransactionsFieldMissing
 	}
 
 	// Iterate through each raw transaction
@@ -614,7 +622,7 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Extract the actual transaction from the wrapper
 		innerTx, ok := rawTx["RawTransaction"].(map[string]any)
 		if !ok {
-			return 0, errors.New("RawTransaction field missing from wrapper")
+			return 0, ErrRawTransactionFieldMissing
 		}
 
 		// Calculate fee for this inner transaction (no multi-signing for inner transactions)
@@ -627,7 +635,7 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Extract the calculated fee
 		feeStr, ok := innerTx["Fee"].(string)
 		if !ok {
-			return 0, errors.New("fee field missing after calculation")
+			return 0, ErrFeeFieldMissing
 		}
 
 		innerTx["Fee"] = "0"
@@ -635,7 +643,10 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Convert fee string to uint64 and add to total
 		feeUint, err := strconv.ParseUint(feeStr, 10, 64)
 		if err != nil {
-			return 0, fmt.Errorf("failed to parse fee '%s': %w", feeStr, err)
+			return 0, ErrFailedToParseFee{
+				Fee: feeStr,
+				Err: err,
+			}
 		}
 
 		totalFees += feeUint

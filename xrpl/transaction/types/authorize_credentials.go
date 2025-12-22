@@ -1,13 +1,16 @@
+//revive:disable:var-naming
 package types
 
 import (
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 )
 
+// AuthorizeCredentialsWrapper wraps AuthorizeCredentials for optional inclusion in a transaction.
 type AuthorizeCredentialsWrapper struct {
 	Credential AuthorizeCredentials
 }
 
+// AuthorizeCredentials represents the credentials to be authorized, including issuer and credential type.
 type AuthorizeCredentials struct {
 	// The issuer of the credential.
 	Issuer Address

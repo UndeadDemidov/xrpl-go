@@ -1,7 +1,10 @@
+// Package types provides data structures for server query responses.
+// revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
+// Info represents the server info response, including load, ledger, and network metrics.
 type Info struct {
 	AmendmentBlocked         bool                 `json:"amendment_blocked,omitempty"`
 	BuildVersion             string               `json:"build_version"`
@@ -38,22 +41,26 @@ type Info struct {
 	ValidatorList            ServerValidatorList  `json:"validator_list,omitempty"`
 }
 
+// ServerValidatorList holds the count, expiration, and status of the server's validator list.
 type ServerValidatorList struct {
 	Count      uint   `json:"count"`
 	Expiration string `json:"expiration"`
 	Status     string `json:"status"`
 }
 
+// ServerLoad contains metrics about current server job types and thread usage.
 type ServerLoad struct {
 	JobTypes []JobType `json:"job_types"`
 	Threads  uint      `json:"threads"`
 }
 
+// ServerClose holds details about the last ledger close, including converge time and number of proposers.
 type ServerClose struct {
 	ConvergeTimeS float32 `json:"converge_time_s"`
 	Proposers     uint    `json:"proposers"`
 }
 
+// State represents a summary of the server's operational state, including load and ledger statistics.
 type State struct {
 	AmendmentBlocked        bool                 `json:"amendment_blocked,omitempty"`
 	BuildVersion            string               `json:"build_version"`
@@ -82,6 +89,7 @@ type State struct {
 	ValidatorListExpires    string               `json:"validator_list_expires,omitempty"`
 }
 
+// ClosedLedgerState contains metadata for a closed ledger, such as age, fees, and sequence.
 type ClosedLedgerState struct {
 	Age         uint          `json:"age"`
 	BaseFee     float32       `json:"base_fee"`
@@ -91,6 +99,7 @@ type ClosedLedgerState struct {
 	Seq         uint          `json:"seq"`
 }
 
+// LedgerState represents the state of a validated ledger in the server state response.
 type LedgerState struct {
 	Age         uint   `json:"age,omitempty"`
 	BaseFee     uint   `json:"base_fee"`
@@ -101,6 +110,7 @@ type LedgerState struct {
 	Seq         uint   `json:"seq"`
 }
 
+// CloseState describes metrics of a ledger close, including converge time and proposer count.
 type CloseState struct {
 	ConvergeTime uint `json:"converge_time"`
 	Proposers    uint `json:"proposers"`

@@ -1,7 +1,6 @@
 package rpc
 
 import (
-	"errors"
 	"net/http"
 	"strings"
 	"time"
@@ -9,12 +8,12 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/common"
 )
 
-var ErrEmptyURL = errors.New("empty port and IP provided")
-
+// HTTPClient defines the interface for sending HTTP requests.
 type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
+// Config holds configuration for the XRPL RPC client, including HTTP client, URL, headers, and retry/fee settings.
 type Config struct {
 	HTTPClient HTTPClient
 	URL        string
@@ -34,32 +33,38 @@ type Config struct {
 	timeout time.Duration
 }
 
+// ConfigOpt represents a function that applies a configuration option to Config.
 type ConfigOpt func(c *Config)
 
+// WithHTTPClient returns a ConfigOpt that sets a custom HTTPClient.
 func WithHTTPClient(cl HTTPClient) ConfigOpt {
 	return func(c *Config) {
 		c.HTTPClient = cl
 	}
 }
 
+// WithMaxFeeXRP returns a ConfigOpt that sets the maximum fee in XRP.
 func WithMaxFeeXRP(maxFeeXRP float32) ConfigOpt {
 	return func(c *Config) {
 		c.maxFeeXRP = maxFeeXRP
 	}
 }
 
+// WithFeeCushion returns a ConfigOpt that sets the fee cushion multiplier.
 func WithFeeCushion(feeCushion float32) ConfigOpt {
 	return func(c *Config) {
 		c.feeCushion = feeCushion
 	}
 }
 
+// WithFaucetProvider returns a ConfigOpt that sets the faucet provider.
 func WithFaucetProvider(fp common.FaucetProvider) ConfigOpt {
 	return func(c *Config) {
 		c.faucetProvider = fp
 	}
 }
 
+// WithTimeout returns a ConfigOpt that sets the request timeout for the HTTP client.
 func WithTimeout(timeout time.Duration) ConfigOpt {
 	return func(c *Config) {
 		c.timeout = timeout
@@ -69,6 +74,7 @@ func WithTimeout(timeout time.Duration) ConfigOpt {
 	}
 }
 
+// NewClientConfig creates a new Config with the given URL and applies any provided ConfigOpt options.
 func NewClientConfig(url string, opts ...ConfigOpt) (*Config, error) {
 
 	// validate a url has been passed in

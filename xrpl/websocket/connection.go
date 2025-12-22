@@ -1,14 +1,9 @@
 package websocket
 
 import (
-	"errors"
 	"sync"
 
 	"github.com/gorilla/websocket"
-)
-
-var (
-	ErrNotConnected = errors.New("connection is not connected")
 )
 
 // Connection is a wrapper around a websocket connection.

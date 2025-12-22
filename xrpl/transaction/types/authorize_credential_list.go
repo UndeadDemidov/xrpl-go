@@ -1,15 +1,10 @@
+//revive:disable:var-naming
 package types
 
-import "errors"
-
-var (
-	ErrEmptyCredentials       = errors.New("credentials list cannot be empty")
-	ErrInvalidCredentialCount = errors.New("accepted credentials list must contain at least one and no more than the maximum allowed number of items")
-	ErrDuplicateCredentials   = errors.New("credentials list cannot contain duplicate elements")
-)
-
+// AuthorizeCredentialList represents a list of AuthorizeCredential entries with validation and flattening.
 type AuthorizeCredentialList []AuthorizeCredential
 
+// Validate checks that the list is non-empty, within allowed size, has no duplicates, and each credential is valid.
 func (ac *AuthorizeCredentialList) Validate() error {
 	if len(*ac) == 0 {
 		return ErrEmptyCredentials
@@ -32,6 +27,7 @@ func (ac *AuthorizeCredentialList) Validate() error {
 	return nil
 }
 
+// Flatten returns a slice of maps representing each AuthorizeCredential in JSON-like format.
 func (ac *AuthorizeCredentialList) Flatten() []map[string]interface{} {
 	acs := make([]map[string]interface{}, len(*ac))
 	for i, c := range *ac {

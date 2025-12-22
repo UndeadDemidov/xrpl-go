@@ -1,3 +1,4 @@
+// Package ledger defines types for ledger entries in the XRP Ledger.
 package ledger
 
 import (
@@ -7,6 +8,8 @@ import (
 const (
 	// Enable Clawback for this account. (Requires the Clawback amendment.)
 	lsfAllowTrustLineClawback uint32 = 0x80000000
+	// Allow IOUs to be used as escrow amounts for an issuer
+	lsfAllowTrustLineLocking uint32 = 0x40000000
 	// Enable rippling on this addresses's trust lines by default. Required for issuing addresses; discouraged for others.
 	lsfDefaultRipple uint32 = 0x00800000
 	// This account has DepositAuth enabled, meaning it can only receive funds from transactions it sends, and from preauthorized accounts. (Added by the DepositAuth amendment)
@@ -35,7 +38,7 @@ const (
 	lsfRequireDestTag uint32 = 0x00020000
 )
 
-// An AccountRoot ledger entry type describes a single account, its settings, and XRP balance.
+// AccountRoot ledger entry type describes a single account, its settings, and XRP balance.
 //
 // ```json
 //
@@ -125,77 +128,82 @@ type AccountRoot struct {
 	WalletSize uint32 `json:",omitempty"`
 }
 
-// Returns the type of this ledger entry.
+// EntryType returns the ledger entry type for AccountRoot.
 func (*AccountRoot) EntryType() EntryType {
 	return AccountRootEntry
 }
 
-// Set the AllowTrustLineClawback flag.
+// SetLsfAllowTrustLineClawback sets the AllowTrustLineClawback flag.
 func (a *AccountRoot) SetLsfAllowTrustLineClawback() {
 	a.Flags |= lsfAllowTrustLineClawback
 }
 
-// Set the DefaultRipple flag.
+// SetLsfAllowTrustLineLocking sets the AllowTrustLineLocking flag.
+func (a *AccountRoot) SetLsfAllowTrustLineLocking() {
+	a.Flags |= lsfAllowTrustLineLocking
+}
+
+// SetLsfDefaultRipple sets the DefaultRipple flag.
 func (a *AccountRoot) SetLsfDefaultRipple() {
 	a.Flags |= lsfDefaultRipple
 }
 
-// Set the DepositAuth flag.
+// SetLsfDepositAuth sets the DepositAuth flag.
 func (a *AccountRoot) SetLsfDepositAuth() {
 	a.Flags |= lsfDepositAuth
 }
 
-// Set the DisableMaster flag.
+// SetLsfDisableMaster sets the DisableMaster flag.
 func (a *AccountRoot) SetLsfDisableMaster() {
 	a.Flags |= lsfDisableMaster
 }
 
-// Set the DisallowIncomingCheck flag.
+// SetLsfDisallowIncomingCheck sets the DisallowIncomingCheck flag.
 func (a *AccountRoot) SetLsfDisallowIncomingCheck() {
 	a.Flags |= lsfDisallowIncomingCheck
 }
 
-// Set the DisallowIncomingNFTokenOffer flag.
+// SetLsfDisallowIncomingNFTokenOffer sets the DisallowIncomingNFTokenOffer flag.
 func (a *AccountRoot) SetLsfDisallowIncomingNFTokenOffer() {
 	a.Flags |= lsfDisallowIncomingNFTokenOffer
 }
 
-// Set the DisallowIncomingPayChan flag.
+// SetLsfDisallowIncomingPayChan sets the DisallowIncomingPayChan flag.
 func (a *AccountRoot) SetLsfDisallowIncomingPayChan() {
 	a.Flags |= lsfDisallowIncomingPayChan
 }
 
-// Set the DisallowIncomingTrustline flag.
+// SetLsfDisallowIncomingTrustline sets the DisallowIncomingTrustline flag.
 func (a *AccountRoot) SetLsfDisallowIncomingTrustline() {
 	a.Flags |= lsfDisallowIncomingTrustline
 }
 
-// Set the DisallowXRP flag.
+// SetLsfDisallowXRP sets the DisallowXRP flag.
 func (a *AccountRoot) SetLsfDisallowXRP() {
 	a.Flags |= lsfDisallowXRP
 }
 
-// Set the GlobalFreeze flag.
+// SetLsfGlobalFreeze sets the GlobalFreeze flag.
 func (a *AccountRoot) SetLsfGlobalFreeze() {
 	a.Flags |= lsfGlobalFreeze
 }
 
-// Set the NoFreeze flag.
+// SetLsfNoFreeze sets the NoFreeze flag.
 func (a *AccountRoot) SetLsfNoFreeze() {
 	a.Flags |= lsfNoFreeze
 }
 
-// Set the PasswordSpent flag.
+// SetLsfPasswordSpent sets the PasswordSpent flag.
 func (a *AccountRoot) SetLsfPasswordSpent() {
 	a.Flags |= lsfPasswordSpent
 }
 
-// Set the RequireAuth flag.
+// SetLsfRequireAuth sets the RequireAuth flag.
 func (a *AccountRoot) SetLsfRequireAuth() {
 	a.Flags |= lsfRequireAuth
 }
 
-// Set the RequireDestTag flag.
+// SetLsfRequireDestTag sets the RequireDestTag flag.
 func (a *AccountRoot) SetLsfRequireDestTag() {
 	a.Flags |= lsfRequireDestTag
 }

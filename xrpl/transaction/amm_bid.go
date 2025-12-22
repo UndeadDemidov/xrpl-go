@@ -1,19 +1,12 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	ledger "github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrAMMAtLeastOneAssetMustBeNonXRP = errors.New("at least one of the assets must be non-XRP")
-	ErrAMMAuthAccountsTooMany         = errors.New("authAccounts should have at most 4 AuthAccount objects")
-)
-
-// Bid on an Automated Market Maker's (AMM's) auction slot. If you win, you can trade against the AMM at a discounted fee until you are outbid or 24 hours have passed.
+// AMMBid bids on an Automated Market Maker's (AMM's) auction slot. If you win, you can trade against the AMM at a discounted fee until you are outbid or 24 hours have passed.
 // If you are outbid before 24 hours have passed, you are refunded part of the cost of your bid based on how much time remains.
 // If the AMM's trading fee is zero, you can still bid, but the auction slot provides no benefit unless the trading fee changes.
 // You bid using the AMM's LP Tokens; the amount of a winning bid is returned to the AMM, decreasing the outstanding balance of LP Tokens.

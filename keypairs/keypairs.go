@@ -1,17 +1,8 @@
 package keypairs
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/keypairs/interfaces"
-)
-
-var (
-	// Static errors
-
-	// ErrInvalidSignature is returned when the derived keypair did not generate a verifiable signature.
-	ErrInvalidSignature = errors.New("derived keypair did not generate verifiable signature")
 )
 
 const (
@@ -37,7 +28,7 @@ func GenerateSeed(entropy string, alg interfaces.KeypairCryptoAlg, r interfaces.
 	return addresscodec.EncodeSeed(pe, alg)
 }
 
-// Derives a keypair from a given seed. Returns a tuple of private key and public key.
+// DeriveKeypair derives a key pair from a given seed. Returns a tuple of private key and public key.
 // The seed has to be encoded using the addresscodec package. Otherwise, it returns an error.
 func DeriveKeypair(seed string, validator bool) (private, public string, err error) {
 	ds, alg, err := addresscodec.DecodeSeed(seed)

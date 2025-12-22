@@ -4,7 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// An OfferCreate transaction places an Offer in the decentralized exchange.
+// OfferCreate transaction places an Offer in the decentralized exchange.
 //
 // Example:
 //
@@ -36,6 +36,8 @@ type OfferCreate struct {
 	TakerGets types.CurrencyAmount
 	// The amount and type of currency being bought.
 	TakerPays types.CurrencyAmount
+	// The domain that the offer must be a part of.
+	DomainID *string `json:",omitempty"`
 }
 
 // **********************************
@@ -51,26 +53,36 @@ const (
 	tfFillOrKill uint32 = 262144
 	// tfSell indicates that the offer is selling, not buying.
 	tfSell uint32 = 524288
+	// Indicates the offer is hybrid. (meaning it is part of both a domain and open order book)
+	// This flag cannot be set if the offer doesn't have a DomainID
+	tfHybrid uint32 = 0x00100000
 )
 
-// tfPassive indicates that the offer is passive, meaning it does not consume offers that exactly match it, and instead waits to be consumed by an offer that exactly matches it.
+// SetPassiveFlag sets the tfPassive flag, indicating the offer is passive and will not consume exactly matching offers.
 func (o *OfferCreate) SetPassiveFlag() {
 	o.Flags |= tfPassive
 }
 
-// Treat the Offer as an Immediate or Cancel order. The Offer never creates an Offer object in the ledger: it only trades as much as it can by consuming existing Offers at the time the transaction is processed. If no Offers match, it executes "successfully" without trading anything. In this case, the transaction still uses the result code tesSUCCESS.
+// SetImmediateOrCancelFlag sets the tfImmediateOrCancel flag, treating the offer as an Immediate or Cancel order.
+// It executes against existing offers only and never creates a new ledger entry.
 func (o *OfferCreate) SetImmediateOrCancelFlag() {
 	o.Flags |= tfImmediateOrCancel
 }
 
-// Treat the offer as a Fill or Kill order. The Offer never creates an Offer object in the ledger, and is canceled if it cannot be fully filled at the time of execution. By default, this means that the owner must receive the full TakerPays amount; if the tfSell flag is enabled, the owner must be able to spend the entire TakerGets amount instead.
+// SetFillOrKillFlag sets the tfFillOrKill flag, treating the offer as a Fill or Kill order.
+// The offer is canceled if it cannot be fully filled immediately.
 func (o *OfferCreate) SetFillOrKillFlag() {
 	o.Flags |= tfFillOrKill
 }
 
-// tfSell indicates that the offer is selling, not buying.
+// SetSellFlag sets the tfSell flag, indicating the offer is selling rather than buying.
 func (o *OfferCreate) SetSellFlag() {
 	o.Flags |= tfSell
+}
+
+// SetHybridFlag sets the tfHybrid, indicating the offer is hybrid.
+func (o *OfferCreate) SetHybridFlag() {
+	o.Flags |= tfHybrid
 }
 
 // TxType returns the type of the transaction (OfferCreate).
@@ -93,10 +105,14 @@ func (o *OfferCreate) Flatten() FlatTransaction {
 	flattened["TakerGets"] = o.TakerGets.Flatten()
 	flattened["TakerPays"] = o.TakerPays.Flatten()
 
+	if o.DomainID != nil {
+		flattened["DomainID"] = *o.DomainID
+	}
+
 	return flattened
 }
 
-// Validates the OfferCreate transaction.
+// Validate validates the OfferCreate transaction.
 func (o *OfferCreate) Validate() (bool, error) {
 	_, err := o.BaseTx.Validate()
 	if err != nil {
@@ -109,6 +125,16 @@ func (o *OfferCreate) Validate() (bool, error) {
 
 	if ok, err := IsAmount(o.TakerPays, "TakerPays", true); !ok {
 		return false, err
+	}
+
+	if o.DomainID == nil && types.IsFlagEnabled(o.Flags, tfHybrid) {
+		return false, ErrTfHybridCannotBeSetWithoutDomainID
+	}
+
+	if o.DomainID != nil {
+		if ok := IsDomainID(*o.DomainID); !ok {
+			return false, ErrInvalidDomainID
+		}
 	}
 
 	return true, nil

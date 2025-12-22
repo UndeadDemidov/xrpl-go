@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import (
@@ -6,6 +7,8 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// BaseLedger represents the core fields of a closed or validated ledger,
+// including metadata such as hashes, timestamps, transaction lists, and totals.
 type BaseLedger struct {
 	AccountHash         string                    `json:"account_hash"`
 	AccountState        []ledger.FlatLedgerObject `json:"accountState,omitempty"`
@@ -23,6 +26,8 @@ type BaseLedger struct {
 	Transactions        []interface{}             `json:"transactions,omitempty"`
 }
 
+// QueueData contains information about transactions queued in the ledger,
+// including retry counts, preflight and last results, and optional fee details.
 type QueueData struct {
 	Account          types.Address               `json:"account"`
 	Tx               transaction.FlatTransaction `json:"tx"`

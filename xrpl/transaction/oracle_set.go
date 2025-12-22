@@ -1,23 +1,17 @@
 package transaction
 
 import (
-	"fmt"
-
 	ledger "github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 )
 
 const (
-	// The maximum number of PriceData objects that can be included in a PriceDataSeries array.
+	// OracleSetMaxPriceDataSeriesItems is the maximum number of PriceData objects allowed in a PriceDataSeries array.
 	OracleSetMaxPriceDataSeriesItems int = 10
-	OracleSetProviderMaxLength       int = 256
+	// OracleSetProviderMaxLength is the maximum length in bytes for the Provider field.
+	OracleSetProviderMaxLength int = 256
 )
 
-var (
-	ErrProviderLength       = fmt.Errorf("provider length must be less than %d bytes", OracleSetProviderMaxLength)
-	ErrPriceDataSeriesItems = fmt.Errorf("price data series items must be less than %d", OracleSetMaxPriceDataSeriesItems)
-)
-
-// Creates a new Oracle ledger entry or updates the fields of an existing one, using the Oracle ID.
+// OracleSet creates a new Oracle ledger entry or updates the fields of an existing one using the Oracle ID.
 //
 // The oracle provider must complete these steps before submitting this transaction:
 // 1. Create or own the XRPL account in the Owner field and have enough XRP to meet the reserve and transaction fee requirements.
@@ -62,19 +56,19 @@ type OracleSet struct {
 	// This field is required when creating a new Oracle ledger entry, but is optional for updates.
 	AssetClass string `json:",omitempty"`
 	// An array of up to 10 PriceData objects, each representing the price information for a token pair. More than five PriceData objects require two owner reserves.
-	PriceDataSeries []ledger.PriceData
+	PriceDataSeries []ledger.PriceDataWrapper
 }
 
-// Returns the type of the transaction.
+// TxType returns the TxType for OracleSet transactions.
 func (tx *OracleSet) TxType() TxType {
 	return OracleSetTx
 }
 
-// Returns a flattened transaction.
+// Flatten returns a map representation of the OracleSet transaction for JSON-RPC submission.
 func (tx *OracleSet) Flatten() map[string]interface{} {
 	flattened := tx.BaseTx.Flatten()
 
-	flattened["TransactionType"] = tx.TxType()
+	flattened["TransactionType"] = tx.TxType().String()
 
 	if tx.Account != "" {
 		flattened["Account"] = tx.Account.String()
@@ -96,9 +90,9 @@ func (tx *OracleSet) Flatten() map[string]interface{} {
 	}
 
 	if len(tx.PriceDataSeries) > 0 {
-		flattenedPriceDataSeries := make([]map[string]interface{}, 0, len(tx.PriceDataSeries))
-		for _, priceData := range tx.PriceDataSeries {
-			flattenedPriceDataSeries = append(flattenedPriceDataSeries, priceData.Flatten())
+		flattenedPriceDataSeries := make([]map[string]any, len(tx.PriceDataSeries))
+		for i, priceDataWrapper := range tx.PriceDataSeries {
+			flattenedPriceDataSeries[i] = priceDataWrapper.Flatten()
 		}
 		flattened["PriceDataSeries"] = flattenedPriceDataSeries
 	}
@@ -106,22 +100,28 @@ func (tx *OracleSet) Flatten() map[string]interface{} {
 	return flattened
 }
 
-// Validates the transaction.
+// Validate checks OracleSet transaction fields and returns false with an error if invalid.
 func (tx *OracleSet) Validate() (bool, error) {
 	if ok, err := tx.BaseTx.Validate(); !ok {
 		return false, err
 	}
 
 	if len([]byte(tx.Provider)) > OracleSetProviderMaxLength {
-		return false, ErrProviderLength
+		return false, ErrOracleProviderLength{
+			Length: len([]byte(tx.Provider)),
+			Limit:  OracleSetProviderMaxLength,
+		}
 	}
 
 	if len(tx.PriceDataSeries) > OracleSetMaxPriceDataSeriesItems {
-		return false, ErrPriceDataSeriesItems
+		return false, ErrOraclePriceDataSeriesItems{
+			Length: len(tx.PriceDataSeries),
+			Limit:  OracleSetMaxPriceDataSeriesItems,
+		}
 	}
 
-	for _, priceData := range tx.PriceDataSeries {
-		if err := priceData.Validate(); err != nil {
+	for _, priceDataWrapper := range tx.PriceDataSeries {
+		if err := priceDataWrapper.PriceData.Validate(); err != nil {
 			return false, err
 		}
 	}

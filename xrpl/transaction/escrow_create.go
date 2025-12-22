@@ -1,19 +1,13 @@
 package transaction
 
 import (
-	"errors"
+	"encoding/json"
 
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrEscrowCreateInvalidDestinationAddress   = errors.New("escrow create: invalid destination address")
-	ErrEscrowCreateNoCancelOrFinishAfterSet    = errors.New("escrow create: either CancelAfter or FinishAfter must be set")
-	ErrEscrowCreateNoConditionOrFinishAfterSet = errors.New("escrow create: either Condition or FinishAfter must be specified")
-)
-
-// Sequester XRP until the escrow process either finishes or is canceled.
+// EscrowCreate sequesters XRP until the escrow process either finishes or is canceled.
 //
 // Example:
 //
@@ -34,8 +28,9 @@ var (
 // ```
 type EscrowCreate struct {
 	BaseTx
-	// Amount of XRP, in drops, to deduct from the sender's balance and escrow. Once escrowed, the XRP can either go to the Destination address (after the FinishAfter time) or returned to the sender (after the CancelAfter time).
-	Amount types.XRPCurrencyAmount
+	// Amount of XRP or fungible tokens to deduct from the sender's balance and escrow.
+	// Once escrowed, the payment can either go to the Destination address (after the FinishAfter time) or be returned to the sender (after the CancelAfter time).
+	Amount types.CurrencyAmount
 	// Address to receive escrowed XRP.
 	Destination types.Address
 	// (Optional) The time, in seconds since the Ripple Epoch, when this escrow expires. This value is immutable; the funds can only be returned to the sender after this time.
@@ -62,7 +57,7 @@ func (e *EscrowCreate) Flatten() FlatTransaction {
 	flattened["Amount"] = e.Amount.Flatten()
 
 	if e.Destination != "" {
-		flattened["Destination"] = e.Destination
+		flattened["Destination"] = e.Destination.String()
 	}
 	if e.CancelAfter != 0 {
 		flattened["CancelAfter"] = e.CancelAfter
@@ -80,7 +75,38 @@ func (e *EscrowCreate) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the EscrowCreate transaction and makes sure all the fields are correct.
+// UnmarshalJSON implements custom JSON unmarshalling for EscrowCreate.
+func (e *EscrowCreate) UnmarshalJSON(data []byte) error {
+	type escrowCreateHelper struct {
+		BaseTx
+		Amount         json.RawMessage
+		Destination    types.Address
+		CancelAfter    uint32  `json:",omitempty"`
+		FinishAfter    uint32  `json:",omitempty"`
+		Condition      string  `json:",omitempty"`
+		DestinationTag *uint32 `json:",omitempty"`
+	}
+	var h escrowCreateHelper
+	if err := json.Unmarshal(data, &h); err != nil {
+		return err
+	}
+	*e = EscrowCreate{
+		BaseTx:         h.BaseTx,
+		Destination:    h.Destination,
+		CancelAfter:    h.CancelAfter,
+		FinishAfter:    h.FinishAfter,
+		Condition:      h.Condition,
+		DestinationTag: h.DestinationTag,
+	}
+	amount, err := types.UnmarshalCurrencyAmount(h.Amount)
+	if err != nil {
+		return err
+	}
+	e.Amount = amount
+	return nil
+}
+
+// Validate checks the EscrowCreate transaction fields for correctness.
 func (e *EscrowCreate) Validate() (bool, error) {
 	ok, err := e.BaseTx.Validate()
 	if err != nil || !ok {
@@ -88,7 +114,7 @@ func (e *EscrowCreate) Validate() (bool, error) {
 	}
 
 	if !addresscodec.IsValidAddress(e.Destination.String()) {
-		return false, ErrInvalidDestinationAddress
+		return false, ErrEscrowCreateInvalidDestinationAddress
 	}
 
 	if (e.FinishAfter == 0 && e.CancelAfter == 0) || (e.Condition == "" && e.FinishAfter == 0) {

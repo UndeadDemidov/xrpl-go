@@ -1,20 +1,16 @@
 package integration
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 	"github.com/Peersyst/xrpl-go/xrpl/wallet"
 )
 
-var (
-	ErrFailedToFundWallet = errors.New("failed to fund wallet")
-)
-
 const (
+	// LocalGenesisAddress is the default XRPL address used by the local genesis faucet.
 	LocalGenesisAddress types.Address = "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh"
-	LocalGenesisSeed    string        = "snoPBrXtMeMyMHUVTgbuqAfg1SUTb"
+	// LocalGenesisSeed is the seed corresponding to the LocalGenesisAddress genesis account.
+	LocalGenesisSeed string = "snoPBrXtMeMyMHUVTgbuqAfg1SUTb"
 )
 
 // FundWallet funds a wallet with the client's faucet provider.

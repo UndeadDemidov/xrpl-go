@@ -2,33 +2,32 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// A PermissionedDomain ledger entry describes a single permissioned domain instance.
+// PermissionedDomain represents a ledger entry that describes a single permissioned domain instance.
 // You can create a permissioned domain by sending a PermissionedDomainSet transaction.
 //
 // ```json
 //
-// {
-// 	"LedgerEntryType": "PermissionedDomain",
-// 	"Fee": "10",
-// 	"Flags": 0,
-// 	"Owner": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
-// 	"OwnerNode": "0000000000000000",
-// 	"Sequence": 390,
-// 	"AcceptedCredentials": [
-// 	  {
-// 		  "Credential": {
-// 			  "Issuer": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
-// 			  "CredentialType": "6D795F63726564656E7469616C"
-// 		  }
-// 	  }
-// 	],
-// 	"PreviousTxnID": "E7E3F2BBAAF48CF893896E48DC4A02BDA0C747B198D5AE18BC3D7567EE64B904",
-// 	"PreviousTxnLgrSeq": 8734523,
-// 	"index": "3DFA1DDEA27AF7E466DE395CCB16158E07ECA6BC4EB5580F75EBD39DE833645F"
-//   }
+//	{
+//		"LedgerEntryType": "PermissionedDomain",
+//		"Fee": "10",
+//		"Flags": 0,
+//		"Owner": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+//		"OwnerNode": "0000000000000000",
+//		"Sequence": 390,
+//		"AcceptedCredentials": [
+//		  {
+//			  "Credential": {
+//				  "Issuer": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+//				  "CredentialType": "6D795F63726564656E7469616C"
+//			  }
+//		  }
+//		],
+//		"PreviousTxnID": "E7E3F2BBAAF48CF893896E48DC4A02BDA0C747B198D5AE18BC3D7567EE64B904",
+//		"PreviousTxnLgrSeq": 8734523,
+//		"index": "3DFA1DDEA27AF7E466DE395CCB16158E07ECA6BC4EB5580F75EBD39DE833645F"
+//	  }
 //
 // ```
-
 type PermissionedDomain struct {
 	// The unique ID for this ledger entry.
 	// In JSON, this field is represented with different names depending on the context and API method.
@@ -58,10 +57,12 @@ type PermissionedDomain struct {
 	PreviousTxnLgrSeq uint32
 }
 
+// EntryType returns the type of this ledger entry (PermissionedDomainEntry).
 func (*PermissionedDomain) EntryType() EntryType {
 	return PermissionedDomainEntry
 }
 
+// Flatten converts the PermissionedDomain struct into a flat map representation.
 func (p *PermissionedDomain) Flatten() FlatLedgerObject {
 	flattened := make(FlatLedgerObject)
 	if p.Index.String() != "" {

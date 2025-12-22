@@ -204,6 +204,13 @@ func TestAccountSetAsfFlags(t *testing.T) {
 			},
 			expected: asfAllowTrustLineClawback,
 		},
+		{
+			name: "pass - SetAsfAllowTrustLineLocking",
+			setter: func(s *AccountSet) {
+				s.SetAsfAllowTrustLineLocking()
+			},
+			expected: asfAllowTrustLineLocking,
+		},
 	}
 
 	for _, tt := range tests {
@@ -327,6 +334,13 @@ func TestAccountClearAsfFlags(t *testing.T) {
 				s.ClearAsfAllowTrustLineClawback()
 			},
 			expected: asfAllowTrustLineClawback,
+		},
+		{
+			name: "pass - ClearAsfAllowTrustLineLocking",
+			setter: func(s *AccountSet) {
+				s.ClearAsfAllowTrustLineLocking()
+			},
+			expected: asfAllowTrustLineLocking,
 		},
 	}
 

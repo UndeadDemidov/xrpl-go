@@ -89,7 +89,7 @@ func TestXChainCreateClaimID_Validate(t *testing.T) {
 				OtherChainSource: "rMTi57fNy2UkUb4RcdoUeJm7gjxVQvxzUo",
 			},
 			expected:    false,
-			expectedErr: ErrMissingAmount("SignatureReward"),
+			expectedErr: ErrMissingField{Field: "SignatureReward"},
 		},
 		{
 			name: "fail - invalid xchain bridge",

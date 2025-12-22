@@ -1,15 +1,7 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	ErrTrustSetMissingLimitAmount  = errors.New("missing field LimitAmount")
-	ErrTrustSetQualityInNotNumber  = errors.New("QualityIn must be a number")
-	ErrTrustSetQualityOutNotNumber = errors.New("QualityOut must be a number")
 )
 
 const (
@@ -36,7 +28,7 @@ const (
 	tfClearDeepFreeze uint32 = 0x00800000
 )
 
-// Create or modify a trust line linking two accounts.
+// TrustSet creates or modifies a trust line linking two accounts.
 type TrustSet struct {
 	// Base transaction fields
 	BaseTx
@@ -77,60 +69,42 @@ func (t *TrustSet) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Set the SetAuth flag
-//
-// SetAuth: Authorize the other party to hold currency issued by this account. (No
-// effect unless using the asfRequireAuth AccountSet flag.) Cannot be unset.
+// SetSetAuthFlag sets the SetAuth flag, authorizing the other party to hold currency issued by this account. Cannot be unset.
 func (t *TrustSet) SetSetAuthFlag() {
 	t.Flags |= tfSetAuth
 }
 
-// Set the SetNoRipple flag
-//
-// SetNoRipple: Enable the No Ripple flag, which blocks rippling between two trust lines.
-// of the same currency if this flag is enabled on both.
+// SetSetNoRippleFlag sets the SetNoRipple flag, enabling the No Ripple feature on the trust line.
 func (t *TrustSet) SetSetNoRippleFlag() {
 	t.Flags |= tfSetNoRipple
 }
 
-// Set the ClearNoRipple flag
-//
-// ClearNoRipple: Disable the No Ripple flag, allowing rippling on this trust line.
+// SetClearNoRippleFlag sets the ClearNoRipple flag, disabling the No Ripple feature on the trust line.
 func (t *TrustSet) SetClearNoRippleFlag() {
 	t.Flags |= tfClearNoRipple
 }
 
-// Set the SetFreeze flag
-//
-// SetFreeze: Freeze the trust line
+// SetSetFreezeFlag sets the SetFreeze flag to freeze the trust line.
 func (t *TrustSet) SetSetFreezeFlag() {
 	t.Flags |= tfSetFreeze
 }
 
-// Set the ClearFreeze flag
-//
-// ClearFreeze: Unfreeze the trust line
+// SetClearFreezeFlag sets the ClearFreeze flag to unfreeze the trust line.
 func (t *TrustSet) SetClearFreezeFlag() {
 	t.Flags |= tfClearFreeze
 }
 
-// Set the SetDeepFreeze flag
-//
-// SetDeepFreeze: Freeze the trust line, preventing the high account from sending and
-// receiving the asset.
+// SetSetDeepFreezeFlag sets the SetDeepFreeze flag to deep freeze the trust line (XLS-77d).
 func (t *TrustSet) SetSetDeepFreezeFlag() {
 	t.Flags |= tfSetDeepFreeze
 }
 
-// Set the ClearDeepFreeze flag
-//
-// ClearDeepFreeze: Unfreeze the trust line, allowing the high account to send and
-// receiving the asset.
+// SetClearDeepFreezeFlag sets the ClearDeepFreeze flag to remove deep freeze on the trust line.
 func (t *TrustSet) SetClearDeepFreezeFlag() {
 	t.Flags |= tfClearDeepFreeze
 }
 
-// Validates the TrustSet transaction.
+// Validate checks that the TrustSet transaction has valid fields and flags.
 func (t *TrustSet) Validate() (bool, error) {
 	// Validate the base transaction
 	_, err := t.BaseTx.Validate()

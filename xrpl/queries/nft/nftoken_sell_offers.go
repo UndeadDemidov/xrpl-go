@@ -1,3 +1,4 @@
+// Package nft provides commands to query XRPL NFT-related methods.
 package nft
 
 import (
@@ -11,8 +12,7 @@ import (
 // Request
 // ############################################################################
 
-// The nft_sell_offers method retrieves all of sell offers for the specified
-// NFToken.
+// NFTokenSellOffersRequest retrieves all sell offers for the specified NFT.
 type NFTokenSellOffersRequest struct {
 	common.BaseRequest
 	NFTokenID   types.NFTokenID        `json:"nft_id"`
@@ -20,15 +20,17 @@ type NFTokenSellOffersRequest struct {
 	LedgerIndex common.LedgerSpecifier `json:"ledger_index,omitempty"`
 }
 
+// Method returns the XRPL JSON-RPC method name for NFTokenSellOffersRequest.
 func (*NFTokenSellOffersRequest) Method() string {
 	return "nft_sell_offers"
 }
 
+// APIVersion returns the XRPL API version for NFTokenSellOffersRequest.
 func (*NFTokenSellOffersRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement V2
+// Validate ensures the NFTokenSellOffersRequest is valid.
 func (*NFTokenSellOffersRequest) Validate() error {
 	return nil
 }
@@ -37,7 +39,7 @@ func (*NFTokenSellOffersRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the nft_sell_offers method.
+// NFTokenSellOffersResponse is the expected response from the nft_sell_offers method.
 type NFTokenSellOffersResponse struct {
 	NFTokenID types.NFTokenID         `json:"nft_id"`
 	Offers    []nfttypes.NFTokenOffer `json:"offers"`

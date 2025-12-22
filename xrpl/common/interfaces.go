@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package common
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"

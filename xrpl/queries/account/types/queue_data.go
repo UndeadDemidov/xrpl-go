@@ -1,7 +1,9 @@
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
+// QueueData holds information about queued transactions and related metadata.
 type QueueData struct {
 	TxnCount           uint64                  `json:"txn_count"`
 	AuthChangeQueued   bool                    `json:"auth_change_queued,omitempty"`

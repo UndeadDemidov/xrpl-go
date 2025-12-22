@@ -1,8 +1,8 @@
+// Package websocket provides a client for connecting to an XRPL WebSocket server.
 package websocket
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"math"
 	"strconv"
@@ -31,23 +31,22 @@ import (
 )
 
 const (
+	// DefaultFeeCushion is the default cushion factor for fee calculations.
 	DefaultFeeCushion float32 = 1.2
-	DefaultMaxFeeXRP  float32 = 2
+	// DefaultMaxFeeXRP is the default maximum fee in XRP.
+	DefaultMaxFeeXRP float32 = 2
 
+	// RestrictedNetworks is the minimum network ID above which networks are considered restricted.
 	// Sidechains are expected to have network IDs above this.
-	// Networks with ID above this restricted number are expected specify an accurate NetworkID field
+	// Networks with ID above this restricted number are expected to specify an accurate NetworkID field
 	// in every transaction to that chain to prevent replay attacks.
 	// Mainnet and testnet are exceptions. More context: https://github.com/XRPLF/rippled/pull/4370
-	RestrictedNetworks       = 1024
+	RestrictedNetworks = 1024
+	// RequiredNetworkIDVersion is the minimum XRPL server build version after which specifying NetworkID is required for restricted networks.
 	RequiredNetworkIDVersion = "1.11.0"
 )
 
-var (
-	ErrIncorrectID          = errors.New("incorrect id")
-	ErrNotConnectedToServer = errors.New("not connected to server")
-	ErrRequestTimedOut      = errors.New("request timed out")
-)
-
+// Client is a WebSocket client for interacting with an XRPL server.
 type Client struct {
 	cfg  ClientConfig
 	conn *Connection
@@ -67,7 +66,7 @@ type Client struct {
 	NetworkID uint32
 }
 
-// Creates a new websocket client with cfg.
+// NewClient creates a new WebSocket client using the provided ClientConfig.
 // This client will open and close a websocket connection for each request.
 func NewClient(cfg ClientConfig) *Client {
 	return &Client{
@@ -98,6 +97,7 @@ func (c *Client) IsConnected() bool {
 	return c.conn.IsConnected()
 }
 
+// FaucetProvider returns the configured faucet provider for the client.
 func (c *Client) FaucetProvider() commonconstants.FaucetProvider {
 	return c.cfg.faucetProvider
 }
@@ -181,7 +181,7 @@ func (c *Client) AutofillMultisigned(tx *transaction.FlatTransaction, nSigners u
 // If the wallet does not have a classic address, it will return an error.
 func (c *Client) FundWallet(wallet *wallet.Wallet) error {
 	if wallet.ClassicAddress == "" {
-		return errors.New("fund wallet: cannot fund a wallet without a classic address")
+		return ErrCannotFundWalletWithoutClassicAddress
 	}
 
 	err := c.cfg.faucetProvider.FundWallet(wallet.ClassicAddress)
@@ -285,7 +285,7 @@ func (c *Client) SubmitMultisigned(txBlob string, failHard bool) (*requests.Subm
 			signer := sig.(map[string]any)
 			signerData := signer["Signer"].(map[string]any)
 			if signerData["SigningPubKey"] == "" && signerData["TxnSignature"] == "" {
-				return nil, errors.New("signer data is empty")
+				return nil, ErrSignerDataIsEmpty
 			}
 		}
 	}
@@ -365,18 +365,20 @@ func (c *Client) waitForTransaction(txHash string, lastLedgerSequence uint32) (*
 		res, err := c.Request(&requests.TxRequest{
 			Transaction: txHash,
 		})
-		if err != nil {
+		if err != nil && !strings.Contains(err.Error(), txnNotFound) {
 			return nil, err
 		}
 
-		err = res.GetResult(&txResponse)
-		if err != nil {
-			return nil, err
-		}
+		if res != nil {
+			err = res.GetResult(&txResponse)
+			if err != nil {
+				return nil, err
+			}
 
-		// Check if the transaction has been included in the current ledger
-		if txResponse.LedgerIndex.Int() >= int(lastLedgerSequence) {
-			break
+			// Check if the transaction has been included in the current ledger
+			if txResponse.LedgerIndex.Int() >= int(lastLedgerSequence) {
+				break
+			}
 		}
 
 		// Wait for the retry delay before retrying
@@ -385,7 +387,7 @@ func (c *Client) waitForTransaction(txHash string, lastLedgerSequence uint32) (*
 	}
 
 	if txResponse == nil {
-		return nil, errors.New("transaction not found")
+		return nil, ErrTransactionNotFound
 	}
 
 	return txResponse, nil
@@ -487,7 +489,7 @@ func (c *Client) setValidTransactionAddresses(tx *transaction.FlatTransaction) e
 // Sets the next valid sequence number for a given transaction.
 func (c *Client) setTransactionNextValidSequenceNumber(tx *transaction.FlatTransaction) error {
 	if _, ok := (*tx)["Account"].(string); !ok {
-		return errors.New("missing Account in transaction")
+		return ErrMissingAccountInTransaction
 	}
 	res, err := c.GetAccountInfo(&account.InfoRequest{
 		Account:     types.Address((*tx)["Account"].(string)),
@@ -511,7 +513,7 @@ func (c *Client) getFeeXrp(cushion float32) (string, error) {
 	}
 
 	if res.Info.ValidatedLedger.BaseFeeXRP == 0 {
-		return "", errors.New("getFeeXrp: could not get BaseFeeXrp from ServerInfo")
+		return "", ErrCouldNotGetBaseFeeXrp
 	}
 
 	loadFactor := res.Info.LoadFactor
@@ -573,7 +575,7 @@ func (c *Client) calculateFeePerTransactionType(tx *transaction.FlatTransaction,
 			if fulfillmentStr, ok := fulfillment.(string); ok && fulfillmentStr != "" {
 				fulfillmentBytesSize := (len(fulfillmentStr) + 1) / 2 // Math.ceil(length / 2)
 				if fulfillmentBytesSize < 0 {
-					return fmt.Errorf("invalid fulfillment length")
+					return ErrInvalidFulfillmentLength
 				}
 				// BaseFee × (33 + ceil(Fulfillment size in bytes / 16))
 				chunks := (uint64(fulfillmentBytesSize) + 15) / 16 // ceil division
@@ -649,7 +651,7 @@ func (c *Client) checkAccountDeleteBlockers(address types.Address) error {
 	}
 
 	if len(accObjects.AccountObjects) > 0 {
-		return errors.New("account %s cannot be deleted; there are Escrows, PayChannels, RippleStates, or Checks associated with the account")
+		return ErrAccountCannotBeDeleted
 	}
 	return nil
 }
@@ -659,7 +661,7 @@ func (c *Client) checkPaymentAmounts(tx *transaction.FlatTransaction) error {
 		if _, ok := (*tx)["Amount"]; !ok {
 			(*tx)["Amount"] = (*tx)["DeliverMax"]
 		} else if (*tx)["Amount"] != (*tx)["DeliverMax"] {
-			return errors.New("payment transaction: Amount and DeliverMax fields must be identical when both are provided")
+			return ErrAmountAndDeliverMaxMustBeIdentical
 		}
 	}
 	return nil
@@ -677,7 +679,7 @@ func (c *Client) setTransactionFlags(tx *transaction.FlatTransaction) error {
 
 	_, ok = (*tx)["TransactionType"].(string)
 	if !ok {
-		return errors.New("transaction type is missing in transaction")
+		return ErrTransactionTypeMissing
 	}
 
 	return nil
@@ -731,10 +733,10 @@ func (c *Client) handleStream(t streamtypes.Type, message []byte) {
 			c.ledgerClosedChan <- &ledger
 		}
 	case streamtypes.TransactionStreamType:
-		var transaction streamtypes.TransactionStream
-		c.unmarshalMessage(message, &transaction)
+		var transactionStream streamtypes.TransactionStream
+		c.unmarshalMessage(message, &transactionStream)
 		if c.transactionChan != nil {
-			c.transactionChan <- &transaction
+			c.transactionChan <- &transactionStream
 		}
 	case streamtypes.ValidationStreamType:
 		var validation streamtypes.ValidationStream
@@ -758,7 +760,9 @@ func (c *Client) handleStream(t streamtypes.Type, message []byte) {
 		if c.errChan == nil {
 			c.errChan = make(chan error)
 		}
-		c.errChan <- fmt.Errorf("unknown stream type: %v", t)
+		c.errChan <- ErrUnknownStreamType{
+			Type: t,
+		}
 	}
 }
 
@@ -777,7 +781,9 @@ func (c *Client) readMessages() {
 				if c.errChan == nil {
 					c.errChan = make(chan error)
 				}
-				c.errChan <- fmt.Errorf("max reconnection attempts (%d) reached", maxRetries)
+				c.errChan <- ErrMaxReconnectionAttemptsReached{
+					Attempts: maxRetries,
+				}
 				return
 			}
 			retryCount++
@@ -846,7 +852,7 @@ func (c *Client) fetchOwnerReserveFee() (uint64, error) {
 
 	reserveInc := response.State.ValidatedLedger.ReserveInc
 	if reserveInc == 0 {
-		return 0, errors.New("could not fetch Owner Reserve")
+		return 0, ErrCouldNotFetchOwnerReserve
 	}
 
 	return uint64(reserveInc), nil
@@ -860,7 +866,7 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 	// Get RawTransactions from the batch transaction
 	rawTransactions, ok := (*tx)["RawTransactions"].([]map[string]any)
 	if !ok {
-		return 0, errors.New("RawTransactions field missing from Batch transaction")
+		return 0, ErrRawTransactionsFieldMissing
 	}
 
 	// Iterate through each raw transaction
@@ -868,7 +874,7 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Extract the actual transaction from the wrapper
 		innerTx, ok := rawTx["RawTransaction"].(map[string]any)
 		if !ok {
-			return 0, errors.New("RawTransaction field missing from wrapper")
+			return 0, ErrRawTransactionFieldMissing
 		}
 
 		// Calculate fee for this inner transaction (no multi-signing for inner transactions)
@@ -881,7 +887,7 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Extract the calculated fee
 		feeStr, ok := innerTx["Fee"].(string)
 		if !ok {
-			return 0, errors.New("fee field missing after calculation")
+			return 0, ErrFeeFieldMissing
 		}
 
 		innerTx["Fee"] = "0"
@@ -889,7 +895,10 @@ func (c *Client) calculateBatchFees(tx *transaction.FlatTransaction) (uint64, er
 		// Convert fee string to uint64 and add to total
 		feeUint, err := strconv.ParseUint(feeStr, 10, 64)
 		if err != nil {
-			return 0, fmt.Errorf("failed to parse fee '%s': %w", feeStr, err)
+			return 0, ErrFailedToParseFee{
+				Fee: feeStr,
+				Err: err,
+			}
 		}
 
 		totalFees += feeUint

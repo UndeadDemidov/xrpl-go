@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -15,48 +13,17 @@ import (
 )
 
 const (
-	// The Memos field includes arbitrary messaging data with the transaction.
-	// It is presented as an array of objects. Each object has only one field, Memo,
-	// which in turn contains another object with one or more of the following fields:
-	// MemoData, MemoFormat, and MemoType. https://xrpl.org/docs/references/protocol/transactions/common-fields#memos-field
-	MemoSize   = 3
+	// MemoSize is the expected number of fields in a Memo object (MemoData, MemoFormat, MemoType).
+	MemoSize = 3
+	// SignerSize is the expected number of fields in a Signer object (Account, TxnSignature, SigningPubKey).
 	SignerSize = 3
-	// For a token, must have the following fields: currency, issuer, value. https://xrpl.org/docs/references/protocol/data-types/basic-data-types#specifying-currency-amounts
-	IssuedCurrencySize      = 3
+	// IssuedCurrencySize is the expected number of fields in an IssuedCurrency object (currency, issuer, value).
+	IssuedCurrencySize = 3
+	// StandardCurrencyCodeLen is the required length of a standard three-character currency code.
 	StandardCurrencyCodeLen = 3
+	// DomainIDLength is the required length of a domain id
+	DomainIDLength = 64
 )
-
-// *************************
-// Errors
-// *************************
-
-var (
-	// ErrEmptyPath is returned when the path is empty.
-	ErrEmptyPath = errors.New("path(s) should have at least one path")
-	// ErrInvalidTokenCurrency is returned when the token currency is XRP.
-	ErrInvalidTokenCurrency = errors.New("invalid or missing token currency, it also cannot have a similar standard code as XRP")
-	// ErrInvalidTokenFields is returned when the issued currency object does not have the required fields (currency, issuer and value).
-	ErrInvalidTokenFields = errors.New("issued currency object should have 3 fields: currency, issuer, value")
-	// ErrInvalidPathStepCombination is returned when the path step is invalid. The fields combination is invalid.
-	ErrInvalidPathStepCombination = errors.New("invalid path step, check the valid fields combination at https://xrpl.org/docs/concepts/tokens/fungible-tokens/paths#path-specifications")
-	// ErrInvalidTokenValue is returned when the value field is not a valid positive number.
-	ErrInvalidTokenValue = errors.New("value field should be a valid positive number")
-	// ErrInvalidTokenType is returned when an issued currency is of type XRP.
-	ErrInvalidTokenType = errors.New("an issued currency cannot be of type XRP")
-	// ErrMissingTokenCurrency is returned when the currency field is missing for an issued currency.
-	ErrMissingTokenCurrency = errors.New("currency field is missing for the issued currency")
-	// ErrInvalidAssetFields is returned when the asset object does not have the required fields (currency, or currency and issuer).
-	ErrInvalidAssetFields = errors.New("asset object should have at least one field 'currency', or two fields 'currency' and 'issuer'")
-	// ErrMissingAssetCurrency is returned when the currency field is missing for an asset.
-	ErrMissingAssetCurrency = errors.New("currency field is required for an asset")
-	// ErrInvalidAssetIssuer is returned when the issuer field is invalid for an asset.
-	ErrInvalidAssetIssuer = errors.New("issuer field must be a valid XRPL classic address")
-)
-
-// ErrMissingAmount is a function that returns an error when a field of type CurrencyAmount is missing.
-func ErrMissingAmount(fieldName string) error {
-	return fmt.Errorf("missing field %s", fieldName)
-}
 
 // *************************
 // Validations
@@ -68,22 +35,22 @@ func IsMemo(memo types.Memo) (bool, error) {
 	size := len(maputils.GetKeys(memo.Flatten()))
 
 	if size == 0 {
-		return false, errors.New("memo object should have at least one field, MemoData, MemoFormat or MemoType")
+		return false, ErrMemoShouldHaveAtLeastOneField
 	}
 
 	validData := memo.MemoData == "" || typecheck.IsHex(memo.MemoData)
 	if !validData {
-		return false, errors.New("memoData should be a hexadecimal string")
+		return false, ErrMemoDataShouldBeHex
 	}
 
 	validFormat := memo.MemoFormat == "" || typecheck.IsHex(memo.MemoFormat)
 	if !validFormat {
-		return false, errors.New("memoFormat should be a hexadecimal string")
+		return false, ErrMemoFormatShouldBeHex
 	}
 
 	validType := memo.MemoType == "" || typecheck.IsHex(memo.MemoType)
 	if !validType {
-		return false, errors.New("memoType should be a hexadecimal string")
+		return false, ErrMemoTypeShouldBeHex
 	}
 
 	return true, nil
@@ -93,20 +60,20 @@ func IsMemo(memo types.Memo) (bool, error) {
 func IsSigner(signerData types.SignerData) (bool, error) {
 	size := len(maputils.GetKeys(signerData.Flatten()))
 	if size != SignerSize {
-		return false, errors.New("signers: Signer should have 3 fields: Account, TxnSignature, SigningPubKey")
+		return false, ErrSignerShouldHaveThreeFields
 	}
 
 	validAccount := strings.TrimSpace(signerData.Account.String()) != "" && addresscodec.IsValidAddress(signerData.Account.String())
 	if !validAccount {
-		return false, errors.New("signers: Account should be a string")
+		return false, ErrSignerAccountShouldBeString
 	}
 
 	if strings.TrimSpace(signerData.TxnSignature) == "" {
-		return false, errors.New("signers: TxnSignature should be a non-empty string")
+		return false, ErrSignerTxnSignatureShouldBeNonEmpty
 	}
 
 	if strings.TrimSpace(signerData.SigningPubKey) == "" {
-		return false, errors.New("signers: SigningPubKey should be a non-empty string")
+		return false, ErrSignerSigningPubKeyShouldBeNonEmpty
 	}
 
 	return true, nil
@@ -117,7 +84,9 @@ func IsSigner(signerData types.SignerData) (bool, error) {
 // It is a string for an XRP amount or a map for an IssuedCurrency amount.
 func IsAmount(field types.CurrencyAmount, fieldName string, isFieldRequired bool) (bool, error) {
 	if isFieldRequired && field == nil {
-		return false, ErrMissingAmount(fieldName)
+		return false, ErrMissingField{
+			Field: fieldName,
+		}
 	}
 
 	if !isFieldRequired && field == nil {
@@ -252,4 +221,9 @@ func IsAsset(asset ledger.Asset) (bool, error) {
 	}
 
 	return true, nil
+}
+
+// IsDomainID checks if the given domain ID is valid.
+func IsDomainID(id string) bool {
+	return len(id) == DomainIDLength
 }

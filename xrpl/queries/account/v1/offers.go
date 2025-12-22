@@ -11,8 +11,9 @@ import (
 // Request
 // ############################################################################
 
-// The account_offers method retrieves a list of offers made by a given account
-// that are outstanding as of a particular ledger version.
+// OffersRequest is the request type for the account_offers method.
+// It retrieves a list of offers made by a given account that are outstanding
+// as of a particular ledger version.
 type OffersRequest struct {
 	common.BaseRequest
 	Account     types.Address          `json:"account"`
@@ -23,23 +24,23 @@ type OffersRequest struct {
 	Strict      bool                   `json:"strict,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the OffersRequest.
 func (*OffersRequest) Method() string {
 	return "account_offers"
 }
 
+// APIVersion returns the API version for the OffersRequest.
 func (*OffersRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement (V2)
+// Validate checks that the OffersRequest parameters are valid.
+// TODO: implement V2 validation.
 func (*OffersRequest) Validate() error {
 	return nil
 }
 
-// ############################################################################
-// Response
-// ############################################################################
-
+// OffersResponse is the response type for the account_offers method.
 type OffersResponse struct {
 	Account            types.Address              `json:"account"`
 	Offers             []accounttypes.OfferResult `json:"offers"`

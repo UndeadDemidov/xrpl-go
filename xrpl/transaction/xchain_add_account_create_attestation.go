@@ -1,26 +1,13 @@
 package transaction
 
 import (
-	"errors"
 	"strconv"
 
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrInvalidAttestationRewardAccount = errors.New("invalid attestation reward account")
-	ErrInvalidAttestationSignerAccount = errors.New("invalid attestation signer account")
-	ErrInvalidOtherChainSource         = errors.New("invalid other chain source")
-	ErrInvalidPublicKey                = errors.New("invalid public key")
-	ErrInvalidWasLockingChainSend      = errors.New("invalid was locking chain send")
-	ErrInvalidXChainAccountCreateCount = errors.New("invalid x chain account create count")
-)
-
-// (Requires the XChainBridge amendment )
-//
-// The XChainAddAccountCreateAttestation transaction provides an attestation from a witness server that an
-// XChainAccountCreateCommit transaction occurred on the other chain.
+// XChainAddAccountCreateAttestation provides an attestation that an XChainAccountCreateCommit transaction occurred on the other chain. (Requires the XChainBridge amendment)
 //
 // The signature must be from one of the keys on the door's signer list at the time the signature was provided.
 // If the signature list changes between the time the signature was submitted and the quorum is reached,
@@ -85,12 +72,12 @@ type XChainAddAccountCreateAttestation struct {
 	XChainBridge types.XChainBridge
 }
 
-// Returns the type of the transaction.
+// TxType returns the TxType for XChainAddAccountCreateAttestation transactions.
 func (x *XChainAddAccountCreateAttestation) TxType() TxType {
 	return XChainAddAccountCreateAttestationTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a FlatTransaction map representing the XChainAddAccountCreateAttestation transaction.
 func (x *XChainAddAccountCreateAttestation) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -141,7 +128,7 @@ func (x *XChainAddAccountCreateAttestation) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate checks XChainAddAccountCreateAttestation fields and returns false and an error if invalid.
 func (x *XChainAddAccountCreateAttestation) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

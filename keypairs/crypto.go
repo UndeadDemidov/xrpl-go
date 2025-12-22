@@ -1,18 +1,11 @@
+// Package keypairs provides cryptographic key pair generation and management for XRPL.
 package keypairs
 
 import (
 	"encoding/hex"
-	"errors"
 
 	"github.com/Peersyst/xrpl-go/keypairs/interfaces"
 	"github.com/Peersyst/xrpl-go/pkg/crypto"
-)
-
-var (
-	// Static errors
-
-	// ErrInvalidCryptoImplementation is returned when the key does not match any crypto implementation.
-	ErrInvalidCryptoImplementation = errors.New("not a valid crypto implementation")
 )
 
 // GetCryptoImplementationFromKey returns the CryptoImplementation based on the key.

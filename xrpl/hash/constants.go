@@ -1,3 +1,4 @@
+// Package hash provides constants for prefixes used in hashing XRPL objects.
 package hash
 
 // Prefix for hashing functions.
@@ -12,6 +13,7 @@ package hash
 // some arbitrary string. For example "TXN".
 
 const (
-	// Transaction plus signature to give transaction ID 'TXN'
+	// TransactionPrefix is the 4-byte prefix for hashing a transaction plus signature
+	// to generate the transaction ID ('TXN').
 	TransactionPrefix uint32 = 0x54584E00
 )

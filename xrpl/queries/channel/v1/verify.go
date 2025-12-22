@@ -1,3 +1,4 @@
+// Package v1 contains version 1 payment channel queries for XRPL.
 package v1
 
 import (
@@ -10,8 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The channel_verify method checks the validity of a signature that can be
-// used to redeem a specific amount of XRP from a payment channel.
+// VerifyRequest represents a request to check a signature used to redeem XRP from a payment channel.
 type VerifyRequest struct {
 	common.BaseRequest
 	Amount    types.XRPCurrencyAmount `json:"amount"`
@@ -20,15 +20,18 @@ type VerifyRequest struct {
 	Signature string                  `json:"signature"`
 }
 
+// Method returns the JSON-RPC method name for the VerifyRequest.
 func (*VerifyRequest) Method() string {
 	return "channel_verify"
 }
 
+// APIVersion returns the supported API version for the VerifyRequest.
 func (*VerifyRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate checks that the VerifyRequest is correctly formed.
+// TODO implement V2
 func (*VerifyRequest) Validate() error {
 	return nil
 }
@@ -37,7 +40,7 @@ func (*VerifyRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the channel_verify method.
+// VerifyResponse contains the result of a channel_verify request indicating if the signature was verified.
 type VerifyResponse struct {
 	SignatureVerified bool `json:"signature_verified"`
 }

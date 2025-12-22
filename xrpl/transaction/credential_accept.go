@@ -5,9 +5,8 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// A CredentialCreate transaction creates a credential in the ledger.
-// The issuer of the credential uses this transaction to provisionally issue a credential.
-// The credential is not valid until the subject of the credential accepts it with a CredentialAccept transaction.
+// CredentialAccept finalizes the issuance of a provisional credential in the ledger.
+// The issuer-created credential becomes valid when the subject accepts it using this transaction.
 type CredentialAccept struct {
 	// Base transaction fields
 	BaseTx

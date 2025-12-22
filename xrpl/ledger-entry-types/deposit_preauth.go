@@ -4,7 +4,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// A DepositPreauth entry tracks a preauthorization from one account to another.
+// DepositPreauthObj tracks a preauthorization entry from one account to another.
 // DepositPreauth transactions create these entries.
 //
 // This has no effect on processing of transactions unless the account that provided
@@ -50,7 +50,7 @@ type DepositPreauthObj struct {
 	PreviousTxnLgrSeq uint32
 }
 
-// Returns the type of the ledger entry.
+// EntryType returns the ledger entry type for DepositPreauthObj.
 func (*DepositPreauthObj) EntryType() EntryType {
 	return DepositPreauthObjEntry
 }

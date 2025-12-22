@@ -1,3 +1,6 @@
+// Package types contains data structures for CLIO server query types.
+//
+//revive:disable:var-naming
 package types
 
 import (

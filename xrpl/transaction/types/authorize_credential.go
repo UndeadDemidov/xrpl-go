@@ -1,18 +1,8 @@
+//revive:disable:var-naming
 package types
 
-import (
-	"errors"
-)
-
-// Maximum number of accepted credentials.
+// MaxAcceptedCredentials is the maximum number of accepted credentials.
 const MaxAcceptedCredentials int = 10
-
-var (
-	// Credential-specific errors
-
-	ErrInvalidCredentialType   = errors.New("invalid credential type, must be a hexadecimal string between 1 and 64 bytes")
-	ErrInvalidCredentialIssuer = errors.New("credential type: missing field Issuer")
-)
 
 // AuthorizeCredential represents an accepted credential for PermissionedDomainSet transactions.
 type AuthorizeCredential struct {

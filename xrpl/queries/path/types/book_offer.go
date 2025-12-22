@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import (
@@ -5,6 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// BookOffer represents an orderbook offer ledger entry, including metadata such as flags, owner, and amounts to get and pay.
 type BookOffer struct {
 	// The unique ID for this ledger entry. In JSON, this field is represented with different names depending on the
 	// context and API method. (Note, even though this is specified as "optional" in the code, every ledger entry
@@ -33,9 +35,9 @@ type BookOffer struct {
 	// Used in combination with the Account to identify this offer.
 	Sequence uint32
 	// The remaining amount and type of currency requested by the Offer creator.
-	TakerPays types.CurrencyAmount
+	TakerPays interface{}
 	// The remaining amount and type of currency being provided by the Offer creator.
-	TakerGets  types.CurrencyAmount
+	TakerGets  interface{}
 	OwnerFunds string `json:"owner_funds,omitempty"`
 	// TakerGetsFunded types.CurrencyAmount `json:"taker_gets_funded,omitempty"`
 	TakerGetsFunded any `json:"taker_gets_funded,omitempty"`
@@ -44,6 +46,7 @@ type BookOffer struct {
 	Quality         string `json:"quality,omitempty"`
 }
 
+// BookOfferCurrency represents a currency and optional issuer in a book offer.
 type BookOfferCurrency struct {
 	Currency string `json:"currency"`
 	Issuer   string `json:"issuer,omitempty"`

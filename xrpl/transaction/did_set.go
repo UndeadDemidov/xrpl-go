@@ -1,24 +1,18 @@
 package transaction
 
-import "errors"
-
-var (
-	ErrDIDSetMustSetEitherDataOrDIDDocumentOrURI = errors.New("did set: must set either Data, DIDDocument, or URI")
-)
-
-// (Requires the DID amendment)
-// Creates a new DID ledger entry or updates the fields of an existing one.
+// DIDSet creates or updates a DID ledger entry, setting Data, DIDDocument, or URI. (Requires the DID amendment)
 //
+// Example:
 // ```json
 //
 //	{
-//	  "TransactionType": "DIDSet",
-//	  "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-//	  "Fee": "10",
-//	  "Sequence": 391,
-//	  "URI": "697066733A2F2F62616679626569676479727A74357366703775646D37687537367568377932366E6634646675796C71616266336F636C67747179353566627A6469",
-//	  "Data": "",
-//	  "SigningPubKey":"0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020"
+//	    "TransactionType": "DIDSet",
+//	    "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+//	    "Fee": "10",
+//	    "Sequence": 391,
+//	    "URI": "697...",
+//	    "Data": "...",
+//	    "SigningPubKey": "0330..."
 //	}
 //
 // ```
@@ -57,7 +51,7 @@ func (tx *DIDSet) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validate validates the DIDSet struct.
+// Validate checks DIDSet transaction fields and returns false with an error if invalid.
 func (tx *DIDSet) Validate() (bool, error) {
 
 	if ok, err := tx.BaseTx.Validate(); !ok {

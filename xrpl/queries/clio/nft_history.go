@@ -1,3 +1,4 @@
+// Package clio provides types and requests for CLIO-specific XRPL queries.
 package clio
 
 import (
@@ -10,8 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The nft_history method retrieves a list of transactions that involved the
-// specified NFToken.
+// NFTHistoryRequest retrieves a list of transactions that involved the specified NFToken.
 type NFTHistoryRequest struct {
 	common.BaseRequest
 	NFTokenID      string `json:"nft_id"`
@@ -23,15 +23,18 @@ type NFTHistoryRequest struct {
 	Marker         any    `json:"marker,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for NFTHistoryRequest.
 func (*NFTHistoryRequest) Method() string {
 	return "nft_history"
 }
 
+// APIVersion returns the Rippled API version for NFTHistoryRequest.
 func (*NFTHistoryRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement V2
+// Validate checks the NFTHistoryRequest parameters for validity.
+// TODO implement V2
 func (*NFTHistoryRequest) Validate() error {
 	return nil
 }
@@ -40,6 +43,7 @@ func (*NFTHistoryRequest) Validate() error {
 // Response
 // ############################################################################
 
+// NFTHistoryTransactions represents a transaction record returned in NFTHistoryResponse.
 type NFTHistoryTransactions struct {
 	LedgerIndex uint                        `json:"ledger_index"`
 	Meta        transaction.TxObjMeta       `json:"meta"`
@@ -48,7 +52,7 @@ type NFTHistoryTransactions struct {
 	Validated   bool                        `json:"validated"`
 }
 
-// The expected response from the nft_history method.
+// NFTHistoryResponse is the response returned by the nft_history method, containing matching transactions.
 type NFTHistoryResponse struct {
 	NFTokenID      string                   `json:"nft_id"`
 	LedgerIndexMin uint                     `json:"ledger_index_min,omitempty"`

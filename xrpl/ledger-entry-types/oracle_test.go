@@ -15,12 +15,12 @@ func TestPriceData_Flatten(t *testing.T) {
 	testcases := []struct {
 		name      string
 		priceData *PriceData
-		expected  FlatPriceData
+		expected  map[string]any
 	}{
 		{
 			name:      "pass - empty",
 			priceData: &PriceData{},
-			expected: FlatPriceData{
+			expected: map[string]any{
 				"Scale": uint8(0),
 			},
 		},
@@ -32,11 +32,84 @@ func TestPriceData_Flatten(t *testing.T) {
 				AssetPrice: 740,
 				Scale:      3,
 			},
-			expected: FlatPriceData{
+			expected: map[string]any{
 				"BaseAsset":  "XRP",
 				"QuoteAsset": "USD",
-				"AssetPrice": uint64(740),
+				"AssetPrice": "740",
 				"Scale":      uint8(3),
+			},
+		},
+		{
+			name: "pass - complete with currency more than 3 characters",
+			priceData: &PriceData{
+				BaseAsset:  "XRP",
+				QuoteAsset: "ACGBD",
+				AssetPrice: 740,
+				Scale:      3,
+			},
+			expected: map[string]any{
+				"BaseAsset":  "XRP",
+				"QuoteAsset": "ACGBD",
+				"AssetPrice": "740",
+				"Scale":      uint8(3),
+			},
+		},
+	}
+
+	for _, testcase := range testcases {
+		t.Run(testcase.name, func(t *testing.T) {
+			assert.Equal(t, testcase.priceData.Flatten(), testcase.expected)
+		})
+	}
+}
+
+func TestPriceDataWrapper_Flatten(t *testing.T) {
+	testcases := []struct {
+		name      string
+		priceData *PriceDataWrapper
+		expected  map[string]any
+	}{
+		{
+			name:      "pass - empty",
+			priceData: &PriceDataWrapper{},
+			expected:  nil,
+		},
+		{
+			name: "pass - complete",
+			priceData: &PriceDataWrapper{
+				PriceData: PriceData{
+					BaseAsset:  "XRP",
+					QuoteAsset: "USD",
+					AssetPrice: 740,
+					Scale:      3,
+				},
+			},
+			expected: map[string]any{
+				"PriceData": map[string]any{
+					"BaseAsset":  "XRP",
+					"QuoteAsset": "USD",
+					"AssetPrice": "740",
+					"Scale":      uint8(3),
+				},
+			},
+		},
+		{
+			name: "pass - complete with currency more than 3 characters",
+			priceData: &PriceDataWrapper{
+				PriceData: PriceData{
+					BaseAsset:  "XRP",
+					QuoteAsset: "ACGBD",
+					AssetPrice: 740,
+					Scale:      3,
+				},
+			},
+			expected: map[string]any{
+				"PriceData": map[string]any{
+					"BaseAsset":  "XRP",
+					"QuoteAsset": "ACGBD",
+					"AssetPrice": "740",
+					"Scale":      uint8(3),
+				},
 			},
 		},
 	}
@@ -73,7 +146,10 @@ func TestPriceData_Validate(t *testing.T) {
 				QuoteAsset: "USD",
 				Scale:      11,
 			},
-			expected: ErrPriceDataScale,
+			expected: ErrPriceDataScale{
+				Value: 11,
+				Limit: PriceDataScaleMax,
+			},
 		},
 		{
 			name: "fail - asset price and scale not set together",
@@ -98,7 +174,12 @@ func TestPriceData_Validate(t *testing.T) {
 
 	for _, testcase := range testcases {
 		t.Run(testcase.name, func(t *testing.T) {
-			assert.Equal(t, testcase.priceData.Validate(), testcase.expected)
+			err := testcase.priceData.Validate()
+			if testcase.expected == nil {
+				assert.NoError(t, err)
+			} else {
+				assert.ErrorIs(t, err, testcase.expected)
+			}
 		})
 	}
 }

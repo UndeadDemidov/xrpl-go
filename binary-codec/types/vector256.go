@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/Peersyst/xrpl-go/binary-codec/types/interfaces"
 )
 
+// HashLengthBytes is the byte length of a hash in Vector256.
 const HashLengthBytes = 32
 
 // ErrInvalidVector256Type represents an error when a Vector256 is constructed from an unexpected type.

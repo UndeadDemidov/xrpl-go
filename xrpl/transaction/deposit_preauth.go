@@ -1,27 +1,11 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrDepositPreauthInvalidAuthorize              = errors.New("deposit preauth: invalid Authorize")
-	ErrDepositPreauthInvalidUnauthorize            = errors.New("deposit preauth: invalid Unauthorize")
-	ErrDepositPreauthInvalidAuthorizeCredentials   = errors.New("deposit preauth: invalid AuthorizeCredentials")
-	ErrDepositPreauthInvalidUnauthorizeCredentials = errors.New("deposit preauth: invalid UnauthorizeCredentials")
-	ErrDepositPreauthMustSetOnlyOneField           = errors.New("deposit preauth: must set only one field (Authorize or AuthorizeCredentials or Unauthorize or UnauthorizeCredentials)")
-	ErrDepositPreauthAuthorizeCannotBeSender       = errors.New("deposit preauth: Authorize cannot be the same as the sender's account")
-	ErrDepositPreauthUnauthorizeCannotBeSender     = errors.New("deposit preauth: Unauthorize cannot be the same as the sender's account")
-)
-
-// Added by the DepositPreauth amendment.
-// A DepositPreauth transaction gives another account pre-approval to deliver payments to the sender
-// of this transaction.
-// This is only useful if the sender of this transaction is using (or plans to use) Deposit
-// Authorization.
+// DepositPreauth gives pre-approval for another account to deliver payments to the sender. (Requires the DepositPreauth amendment)
 //
 // ```json
 //

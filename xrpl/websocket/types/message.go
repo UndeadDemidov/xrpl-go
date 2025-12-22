@@ -1,3 +1,5 @@
+// Package types contains data structures for websocket message types.
+// revive:disable:var-naming
 package types
 
 import (

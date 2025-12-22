@@ -3,7 +3,6 @@ package wallet
 import (
 	"cmp"
 	"encoding/hex"
-	"errors"
 	"slices"
 
 	binarycodec "github.com/Peersyst/xrpl-go/binary-codec"
@@ -11,21 +10,6 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 	wallettypes "github.com/Peersyst/xrpl-go/xrpl/wallet/types"
-)
-
-var (
-	// ErrBatchAccountNotFound is returned when the batch account is not found in the transaction.
-	ErrBatchAccountNotFound = errors.New("batch account not found in transaction")
-	// ErrTransactionMustBeBatch is returned when the transaction is not a batch transaction.
-	ErrTransactionMustBeBatch = errors.New("transaction must be a batch transaction")
-	// ErrNoTransactionsProvided is returned when no transactions are provided.
-	ErrNoTransactionsProvided = errors.New("no transactions provided")
-	// ErrTxMustIncludeBatchSigner is returned when the transaction does not include a batch signer.
-	ErrTxMustIncludeBatchSigner = errors.New("transaction must include a batch signer")
-	// ErrTransactionAlreadySigned is returned when the transaction has already been signed.
-	ErrTransactionAlreadySigned = errors.New("transaction has already been signed")
-	// ErrBatchSignableNotEqual is returned when the batch signable is not equal.
-	ErrBatchSignableNotEqual = errors.New("batch signable is not equal")
 )
 
 // SignMultiBatchOptions is a set of options for signing a multi-account Batch transaction.
@@ -38,7 +22,7 @@ type SignMultiBatchOptions struct {
 	MultisignAccount string
 }
 
-// Sign a multi-account Batch transaction.
+// SignMultiBatch signs a multi-account Batch transaction.
 // It takes a wallet, a batch transaction, and a set of options.
 // It returns an error if the transaction is invalid.
 func SignMultiBatch(wallet Wallet, tx *transaction.FlatTransaction, opts *SignMultiBatchOptions) error {

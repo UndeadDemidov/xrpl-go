@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -26,14 +24,8 @@ const (
 	tfClose uint32 = 131072 // 0x00020000
 )
 
-var (
-	// ErrInvalidChannel is returned when the Channel is not a valid 64-character hexadecimal string.
-	ErrInvalidChannel = errors.New("invalid Channel, must be a valid 64-character hexadecimal string")
-	// ErrInvalidSignature is returned when the Signature is not a valid hexadecimal string.
-	ErrInvalidSignature = errors.New("invalid Signature, must be a valid hexadecimal string")
-)
-
-// Claim XRP from a payment channel, adjust the payment channel's expiration, or both. This transaction can be used differently depending on the transaction sender's role in the specified channel:
+// PaymentChannelClaim claims XRP from a payment channel, adjusts the payment channel's expiration, or both.
+// This transaction can be used differently depending on the transaction sender's role in the specified channel:
 //
 // The source address of a channel can:
 //
@@ -76,7 +68,7 @@ type PaymentChannelClaim struct {
 	// Must be more than the total amount delivered by the channel so far, but not greater than the Amount of the signed claim. Must be provided except when closing the channel.
 	Balance types.XRPCurrencyAmount `json:",omitempty"`
 	// (Optional) The amount of XRP, in drops, authorized by the Signature. This must match the amount in the signed message.
-	// This is the cumulative amount of XRP that can be dispensed by the channel, including XRP previously redeemed.
+	// This is the cumulative amount of XRP that can be dispensed by the channel, including XRP previously redeemed. Must be provided except when closing the channel.
 	Amount types.XRPCurrencyAmount `json:",omitempty"`
 	// (Optional) The signature of this claim, as hexadecimal. The signed message contains the channel ID and the amount of the claim.
 	// Required unless the sender of the transaction is the source address of the channel.

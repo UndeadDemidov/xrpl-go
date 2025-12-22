@@ -1,25 +1,8 @@
 package transaction
 
 import (
-	"fmt"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
-
-func ValidateRequiredField(tx FlatTransaction, field string, checkValidity func(interface{}) bool) error {
-	// Check if the field is present in the transaction map.
-	if _, ok := tx[field]; !ok {
-		return fmt.Errorf("%s is missing", field)
-	}
-
-	// Check if the field is valid.
-	if !checkValidity(tx[field]) {
-		transactionType, _ := tx["TransactionType"].(string)
-		return fmt.Errorf("%s: invalid field %s", transactionType, field)
-	}
-
-	return nil
-}
 
 // ValidateOptionalField validates an optional field in the transaction map.
 func ValidateOptionalField(tx FlatTransaction, paramName string, checkValidity func(interface{}) bool) error {
@@ -28,7 +11,10 @@ func ValidateOptionalField(tx FlatTransaction, paramName string, checkValidity f
 		// Check if the field is valid.
 		if !checkValidity(value) {
 			transactionType, _ := tx["TransactionType"].(string)
-			return fmt.Errorf("%s: invalid field %s", transactionType, paramName)
+			return ErrTransactionInvalidField{
+				Type:  transactionType,
+				Field: paramName,
+			}
 		}
 	}
 

@@ -1,15 +1,17 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	// ErrEmptyNFTokenOffers is returned when the NFTokenOffers array contains no entries.
-	ErrEmptyNFTokenOffers = errors.New("the NFTokenOffers array must have at least one entry")
-)
+// NFTokenCancelOfferMetadata represents the resulting metadata of a succeeded NFTokenCancelOffer transaction.
+// It extends from TxObjMeta.
+type NFTokenCancelOfferMetadata struct {
+	TxObjMeta
+
+	// rippled 1.11.0 or later.
+	NFTokenIDs []types.NFTokenID `json:"nftoken_ids,omitempty"`
+}
 
 // The NFTokenCancelOffer transaction can be used to cancel existing token offers created using NFTokenCreateOffer.
 //

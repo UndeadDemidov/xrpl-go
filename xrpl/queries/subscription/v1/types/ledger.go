@@ -1,8 +1,9 @@
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/queries/common"
 
-// The LedgerStream only sends ledgerClosed messages when the consensus process declares
+// LedgerStream type only sends ledgerClosed messages when the consensus process declares
 // a new validated ledger. The message identifies the ledger and provides some information
 // about its contents.
 type LedgerStream struct {

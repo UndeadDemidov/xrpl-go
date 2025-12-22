@@ -1,3 +1,4 @@
+// Package typecheck provides functions for runtime type assertions and numeric string validation.
 package typecheck
 
 import (
@@ -54,19 +55,19 @@ func IsHex(s string) bool {
 	return validHexPattern.MatchString(s)
 }
 
-// Checks if the given string is a valid number (Float32).
+// IsFloat32 checks if the given string is a valid Float32 number.
 func IsFloat32(s string) bool {
 	_, err := strconv.ParseFloat(s, 32)
 	return err == nil
 }
 
-// Checks if the given string is a valid number (Float64).
+// IsFloat64 checks if the given string is a valid Float64 number.
 func IsFloat64(s string) bool {
 	_, err := strconv.ParseFloat(s, 64)
 	return err == nil
 }
 
-// Checks if the given string is a valid number (Uint).
+// IsStringNumericUint checks if the given string is a valid unsigned integer with the specified base and bit size.
 func IsStringNumericUint(s string, base, bitSize int) bool {
 	_, err := strconv.ParseUint(s, base, bitSize)
 	return err == nil

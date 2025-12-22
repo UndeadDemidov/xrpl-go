@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -15,21 +13,9 @@ const (
 	tfClawTwoAssets uint32 = 0x00000001
 )
 
-var (
-	// ErrInvalidHolder is returned when the holder is invalid.
-	ErrInvalidHolder = errors.New("invalid holder")
-	// ErrInvalidAmountIssuer is returned when the amount issuer is invalid.
-	ErrInvalidAmountIssuer = errors.New("invalid amount issuer")
-)
-
-// Claw back tokens from a holder who has deposited your issued tokens into an AMM pool.
-// Clawback is disabled by default. To use clawback, you must send an AccountSet transaction
-// to enable the Allow Trust Line Clawback setting. An issuer with any existing tokens cannot
-// enable clawback. You can only enable Allow Trust Line Clawback if you have a completely empty
-// owner directory, meaning you must do so before you set up any trust lines, offers, escrows,
-// payment channels, checks, or signer lists. After you enable clawback, it cannot reverted:
-// the account permanently gains the ability to claw back issued assets on trust lines.
-// (Added by the AMMClawback amendment)
+// AMMClawback claws back tokens from a holder who has deposited issued tokens into an AMM pool.
+// To enable clawback, send an AccountSet transaction to allow trust line clawback. This setting
+// cannot be reverted once the owner directory has any entries. (Added by the AMMClawback amendment)
 //
 // ```json
 //
@@ -70,12 +56,12 @@ type AMMClawback struct {
 	Amount types.IssuedCurrencyAmount `json:",omitempty"`
 }
 
-// Returns the type of the transaction.
+// TxType returns the transaction type for AMMClawback.
 func (a *AMMClawback) TxType() TxType {
 	return AMMClawbackTx
 }
 
-// Returns the flattened transaction.
+// Flatten returns the flattened representation of the AMMClawback transaction.
 func (a *AMMClawback) Flatten() FlatTransaction {
 	flattened := a.BaseTx.Flatten()
 	flattened["TransactionType"] = a.TxType().String()
@@ -99,7 +85,7 @@ func (a *AMMClawback) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the transaction.
+// Validate validates the AMMClawback transaction.
 func (a *AMMClawback) Validate() (bool, error) {
 	_, err := a.BaseTx.Validate()
 	if err != nil {
@@ -124,7 +110,7 @@ func (a *AMMClawback) Validate() (bool, error) {
 	return true, nil
 }
 
-// Sets the clawback flag for two assets.
+// SetClawTwoAssets sets the tfClawTwoAssets flag to claw back both assets based on the AMM pool proportions.
 func (a *AMMClawback) SetClawTwoAssets() {
 	a.Flags |= tfClawTwoAssets
 }

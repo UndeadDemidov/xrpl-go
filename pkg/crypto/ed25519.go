@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/ed25519"
 	"encoding/hex"
-	"errors"
 	"strings"
 )
 
@@ -15,9 +14,6 @@ const (
 
 var (
 	_ Algorithm = &ED25519CryptoAlgorithm{}
-
-	// ErrValidatorNotSupported is returned when a validator keypair is used with the ED25519 algorithm.
-	ErrValidatorNotSupported = errors.New("validator keypairs can not use Ed25519")
 )
 
 // ED25519CryptoAlgorithm is the implementation of the ED25519 cryptographic algorithm.
@@ -60,6 +56,7 @@ func (c ED25519CryptoAlgorithm) DeriveKeypair(decodedSeed []byte, validator bool
 	return private, public, nil
 }
 
+// Sign signs a message using the ED25519 algorithm with the provided private key.
 func (c ED25519CryptoAlgorithm) Sign(msg, privKey string) (string, error) {
 	b, err := hex.DecodeString(privKey)
 	if err != nil {

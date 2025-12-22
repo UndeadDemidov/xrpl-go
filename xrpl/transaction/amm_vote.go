@@ -4,8 +4,8 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 )
 
-// Vote on the trading fee for an Automated Market Maker instance. Up to 8 accounts can vote in proportion to the amount of the AMM's LP Tokens they hold.
-// Each new vote re-calculates the AMM's trading fee based on a weighted average of the votes.
+// AMMVote represents a vote on the trading fee for an Automated Market Maker instance. Up to 8 accounts can vote in proportion to their LP token holdings.
+// Each vote recalculates the AMM's trading fee as a weighted average of votes.
 //
 // Example:
 //
@@ -57,7 +57,7 @@ func (a *AMMVote) Flatten() FlatTransaction {
 	return flattened
 }
 
-// Validates the AMMVote struct and make sure all the fields are correct.
+// Validate checks the AMMVote transaction fields for correctness, returning false and an error if invalid.
 func (a *AMMVote) Validate() (bool, error) {
 	_, err := a.BaseTx.Validate()
 	if err != nil {
@@ -72,8 +72,11 @@ func (a *AMMVote) Validate() (bool, error) {
 		return false, err
 	}
 
-	if a.TradingFee > 1000 {
-		return false, ErrAMMTradingFeeTooHigh
+	if a.TradingFee > AmmMaxTradingFee {
+		return false, ErrAMMTradingFeeTooHigh{
+			Value: a.TradingFee,
+			Limit: AmmMaxTradingFee,
+		}
 	}
 
 	return true, nil

@@ -7,13 +7,9 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/queries/version"
 )
 
-// ############################################################################
-// Request
-// ############################################################################
-
-// The ledger_data method retrieves contents of the specified ledger. You can
-// iterate through several calls to retrieve the entire contents of a single
-// ledger version.
+// DataRequest is the request type for the ledger_data method.
+// It retrieves the contents of the specified ledger and supports iterating
+// through multiple calls to obtain the full contents of a single ledger version.
 type DataRequest struct {
 	common.BaseRequest
 	LedgerHash  common.LedgerHash      `json:"ledger_hash,omitempty"`
@@ -24,24 +20,23 @@ type DataRequest struct {
 	Type        ledger.EntryType       `json:"type,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the DataRequest.
 func (*DataRequest) Method() string {
 	return "ledger_data"
 }
 
+// APIVersion returns the API version for the DataRequest.
 func (*DataRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate checks that the DataRequest parameters are valid.
+// TODO: implement V2 validation.
 func (*DataRequest) Validate() error {
 	return nil
 }
 
-// ############################################################################
-// Response
-// ############################################################################
-
-// The expected response from the ledger_data method.
+// DataResponse is the response type for the ledger_data method.
 type DataResponse struct {
 	LedgerIndex uint32              `json:"ledger_index"`
 	LedgerHash  common.LedgerHash   `json:"ledger_hash"`

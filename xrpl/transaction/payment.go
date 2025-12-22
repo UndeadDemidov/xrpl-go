@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -22,11 +20,11 @@ const (
 	tfLimitQuality uint32 = 262144
 )
 
-// Errors
-var (
-	// ErrPartialPaymentFlagRequired is returned when the tfPartialPayment flag is required but not set.
-	ErrPartialPaymentFlagRequired = errors.New("tfPartialPayment flag required with DeliverMin")
-)
+// PaymentMetadata represents the resulting metadata of a succeeded Payment transaction.
+// It extends from TxObjMeta.
+type PaymentMetadata struct {
+	TxObjMeta
+}
 
 // A Payment transaction represents a transfer of value from one account to another.
 type Payment struct {
@@ -73,6 +71,16 @@ type Payment struct {
 	// Must be supplied for cross-currency/cross-issue payments.
 	// Must be omitted for XRP-to-XRP payments.
 	SendMax types.CurrencyAmount `json:",omitempty"`
+
+	// The domain the sender intends to use. Both the sender and destination must
+	// be part of this domain. The DomainID can be included if the sender intends
+	// it to be a cross-currency payment (i.e. if the payment is going to interact
+	// with the DEX). The domain will only play its role if there is a path that
+	// crossing an orderbook.
+	//
+	// Note: it's still possible that DomainID is included but the payment does
+	// not interact with DEX, it simply means that the DomainID will be ignored
+	DomainID *string `json:",omitempty"`
 }
 
 // TxType returns the type of the transaction (Payment).
@@ -135,6 +143,10 @@ func (p *Payment) Flatten() FlatTransaction {
 		flattened["SendMax"] = p.SendMax.Flatten()
 	}
 
+	if p.DomainID != nil {
+		flattened["DomainID"] = *p.DomainID
+	}
+
 	return flattened
 }
 
@@ -165,7 +177,7 @@ func (p *Payment) SetLimitQualityFlag() {
 	p.Flags |= tfLimitQuality
 }
 
-// ValidatePayment validates the Payment struct and make sure all the fields are correct.
+// Validate validates the Payment struct and make sure all the fields are correct.
 func (p *Payment) Validate() (bool, error) {
 	// Validate the base transaction
 	_, err := p.BaseTx.Validate()
@@ -213,6 +225,12 @@ func (p *Payment) Validate() (bool, error) {
 	// Check partial payment fields
 	if ok, err := checkPartialPayment(p); !ok {
 		return false, err
+	}
+
+	if p.DomainID != nil {
+		if ok := IsDomainID(*p.DomainID); !ok {
+			return false, ErrInvalidDomainID
+		}
 	}
 
 	return true, nil

@@ -1,3 +1,4 @@
+// Package v1 contains version 1 ledger queries for XRPL.
 package v1
 
 import (
@@ -11,7 +12,9 @@ import (
 // Request
 // ############################################################################
 
-// Retrieve information about the public ledger.
+// Request is the request type for the ledger method.
+// It retrieves information about the public ledger, allowing you to specify
+// ledger hash or index and control the returned data (full, accounts, transactions, etc.).
 type Request struct {
 	common.BaseRequest
 	// A 32-byte hex string for the ledger version to use. (See Specifying Ledgers).
@@ -33,15 +36,18 @@ type Request struct {
 	Type  ledger.EntryType `json:"type,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the Request.
 func (*Request) Method() string {
 	return "ledger"
 }
 
+// APIVersion returns the API version for the Request.
 func (*Request) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate checks that the Request parameters are valid.
+// TODO: implement V2 validation.
 func (*Request) Validate() error {
 	return nil
 }
@@ -50,7 +56,7 @@ func (*Request) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the ledger method.
+// Response is the response type for the ledger method.
 type Response struct {
 	Ledger      ledgertypesv1.BaseLedger  `json:"ledger"`
 	LedgerHash  string                    `json:"ledger_hash"`

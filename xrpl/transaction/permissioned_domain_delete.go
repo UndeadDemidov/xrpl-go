@@ -1,15 +1,6 @@
 package transaction
 
-import (
-	"errors"
-)
-
-var (
-	// Credential-specific errors
-	ErrMissingDomainID = errors.New("missing required field: DomainID")
-)
-
-// Delete a permissioned domain that you own.
+// PermissionedDomainDelete deletes a permissioned domain that you own.
 // (Requires the PermissionedDomains amendment)
 //
 // ```json

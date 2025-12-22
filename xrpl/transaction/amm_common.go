@@ -1,10 +1,5 @@
 package transaction
 
-import (
-	"errors"
-	"fmt"
-)
-
 // Common flags for AMM transactions (Deposit and Withdraw).
 const (
 	// Perform a double-asset withdrawal/deposit and receive the specified amount of LP Tokens.
@@ -18,12 +13,6 @@ const (
 	// Perform a single-asset withdrawal/deposit with a specified effective price.
 	tfLimitLPToken uint32 = 4194304
 
-	// The maximum value is 1000, indicating a 1% fee. The minimum value is 0. https://xrpl.org/docs/references/protocol/transactions/types/ammcreate#ammcreate-fields
+	// AmmMaxTradingFee is the maximum trading fee; a value of 1000 corresponds to a 1% fee.
 	AmmMaxTradingFee = 1000
-)
-
-var (
-	ErrAMMTradingFeeTooHigh        = fmt.Errorf("trading fee is too high, max value is %d", AmmMaxTradingFee)
-	ErrAMMMustSetAmountWithAmount2 = errors.New("must set Amount with Amount2")
-	ErrAMMMustSetAmountWithEPrice  = errors.New("must set Amount with EPrice")
 )

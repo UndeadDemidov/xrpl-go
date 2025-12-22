@@ -1,8 +1,7 @@
 package ledger
 
 import (
-	"errors"
-	"fmt"
+	"strconv"
 
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -12,16 +11,10 @@ const (
 	PriceDataScaleMax uint8 = 10
 )
 
-var (
-	// ErrPriceDataScale is returned when the scale is greater than the maximum allowed.
-	ErrPriceDataScale = fmt.Errorf("scale must be less than %d", PriceDataScaleMax)
-	// ErrPriceDataAssetPriceAndScale is returned when the asset price and scale are not set together.
-	ErrPriceDataAssetPriceAndScale = fmt.Errorf("asset price and scale must be set together")
-	// ErrPriceDataBaseAsset is returned when the base asset is required but not set.
-	ErrPriceDataBaseAsset = errors.New("base asset is required")
-	// ErrPriceDataQuoteAsset is returned when the quote asset is required but not set.
-	ErrPriceDataQuoteAsset = errors.New("quote asset is required")
-)
+// PriceDataWrapper represents a wrapper for the PriceData struct.
+type PriceDataWrapper struct {
+	PriceData PriceData
+}
 
 // A PriceData object represents the price information for a token pair.
 type PriceData struct {
@@ -53,7 +46,10 @@ func (priceData *PriceData) Validate() error {
 	}
 
 	if priceData.Scale > PriceDataScaleMax {
-		return ErrPriceDataScale
+		return ErrPriceDataScale{
+			Value: priceData.Scale,
+			Limit: PriceDataScaleMax,
+		}
 	}
 
 	if (priceData.AssetPrice == 0) != (priceData.Scale == 0) {
@@ -63,26 +59,36 @@ func (priceData *PriceData) Validate() error {
 	return nil
 }
 
-type FlatPriceData map[string]interface{}
+// Flatten returns a map containing the PriceData if it is set, or nil otherwise.
+func (mw *PriceDataWrapper) Flatten() map[string]any {
+	if mw.PriceData != (PriceData{}) {
+		flattened := make(map[string]any)
+		flattened["PriceData"] = mw.PriceData.Flatten()
+		return flattened
+	}
+	return nil
+}
 
 // Flatten flattens the price data.
-func (priceData *PriceData) Flatten() FlatPriceData {
+func (priceData *PriceData) Flatten() map[string]any {
 	mapKeys := 2
 
 	if priceData.Scale != 0 && priceData.AssetPrice != 0 {
 		mapKeys = 4
 	}
 
-	flattened := make(FlatPriceData, mapKeys)
+	flattened := make(map[string]any, mapKeys)
 
+	if priceData.AssetPrice != 0 {
+		// AssetPrice needs to be a string
+		flatAssetPrice := strconv.FormatUint(priceData.AssetPrice, 10)
+		flattened["AssetPrice"] = flatAssetPrice
+	}
 	if priceData.BaseAsset != "" {
 		flattened["BaseAsset"] = priceData.BaseAsset
 	}
 	if priceData.QuoteAsset != "" {
 		flattened["QuoteAsset"] = priceData.QuoteAsset
-	}
-	if priceData.AssetPrice != 0 {
-		flattened["AssetPrice"] = priceData.AssetPrice
 	}
 
 	flattened["Scale"] = priceData.Scale
@@ -90,7 +96,7 @@ func (priceData *PriceData) Flatten() FlatPriceData {
 	return flattened
 }
 
-// An Oracle ledger entry holds data associated with a single price oracle object.
+// Oracle ledger entry holds data associated with a single price oracle object.
 // Requires PriceOracle amendment.
 // Example:
 // ```json
@@ -129,7 +135,7 @@ type Oracle struct {
 	Provider string
 	// An array of up to 10 PriceData objects, each representing the price information for a token pair.
 	// More than five PriceData objects require two owner reserves.
-	PriceDataSeries []PriceData
+	PriceDataSeries []PriceDataWrapper
 	// The time the data was last updated, represented in Unix time.
 	LastUpdateTime uint32
 	// An optional Universal Resource Identifier to reference price data off-chain.

@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 // Hash128 struct represents a 128-bit hash.

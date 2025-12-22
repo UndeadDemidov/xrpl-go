@@ -1,11 +1,9 @@
+//revive:disable:var-naming
 package types
 
 import "math/big"
 
-// Perform bitwise AND (&) to check if a flag is enabled within Flags (as a number).
-// @param Flags - A number that represents flags enabled.
-// @param checkFlag - A specific flag to check if it's enabled within Flags.
-// @returns True if checkFlag is enabled within Flags.
+// IsFlagEnabled performs bitwise AND (&) to check if a flag is enabled within Flags (as a number).
 func IsFlagEnabled(flags, checkFlag uint32) bool {
 	flagsBigInt := new(big.Int).SetUint64(uint64(flags))
 	checkFlagBigInt := new(big.Int).SetUint64(uint64(checkFlag))

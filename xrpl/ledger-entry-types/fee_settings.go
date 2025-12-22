@@ -2,7 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// The FeeSettings entry contains the current base transaction cost and reserve amounts as determined by fee voting.
+// FeeSettings entry contains the current base transaction cost and reserve amounts as determined by fee voting.
 // Each ledger version contains at most one FeeSettings entry.
 //
 // ```json

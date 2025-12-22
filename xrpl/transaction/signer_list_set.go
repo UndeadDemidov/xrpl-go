@@ -1,7 +1,6 @@
 package transaction
 
 import (
-	"errors"
 	"fmt"
 
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
@@ -9,22 +8,16 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 )
 
-var (
-	ErrInvalidSignerEntries                      = fmt.Errorf("signerEntries must have at least %d entry and no more than %d entries", MinSigners, MaxSigners)
-	ErrInvalidWalletLocator                      = errors.New("invalid WalletLocator in SignerEntry, must be an hexadecimal string")
-	ErrSignerQuorumGreaterThanSumOfSignerWeights = errors.New("signerQuorum must be less than or equal to the sum of all SignerWeights")
-	ErrInvalidQuorumAndEntries                   = errors.New("signerEntries must be empty when the SignerQuorum is set to 0 to delete a signer list")
-)
-
 const (
-	// At least one account must be part of the SignerList
+	// MinSigners is the minimum number of signers required in the SignerList.
 	MinSigners = 1
 
-	// A SignerList can have at most 32 signers
+	// MaxSigners is the maximum number of signers allowed in the SignerList.
 	MaxSigners = 32
 )
 
-// The SignerListSet transaction creates, replaces, or removes a list of signers that can be used to multi-sign a transaction. This transaction type was introduced by the MultiSign amendment.
+// SignerListSet creates, replaces, or removes a list of signers that can be used to multi-sign a transaction.
+// This transaction type was introduced by the MultiSign amendment.
 //
 // Example:
 //
@@ -120,7 +113,8 @@ func (s *SignerListSet) Validate() (bool, error) {
 
 	// Check if SignerEntries has at least 1 entry and no more than 32 entries
 	if len(s.SignerEntries) < MinSigners || len(s.SignerEntries) > MaxSigners {
-		return false, ErrInvalidSignerEntries
+		return false, fmt.Errorf("%w: must have at least %d entry and no more than %d entries",
+			ErrInvalidSignerEntries, MinSigners, MaxSigners)
 	}
 
 	for _, signerEntry := range s.SignerEntries {

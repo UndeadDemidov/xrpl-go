@@ -1,8 +1,6 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
@@ -16,18 +14,16 @@ const (
 	tfSellNFToken uint32 = 1
 )
 
-// **********************************
-// Errors
-// **********************************
+// NFTokenCreateOfferMetadata represents the resulting metadata of a succeeded NFTokenCreateOffer transaction.
+// It extends from TxObjMeta.
+type NFTokenCreateOfferMetadata struct {
+	TxObjMeta
 
-var (
-	// ErrOwnerPresentForSellOffer is returned when the owner is present for a sell offer.
-	ErrOwnerPresentForSellOffer = errors.New("owner must not be present for a sell offer")
-	// ErrOwnerNotPresentForBuyOffer is returned when the owner is not present for a buy offer.
-	ErrOwnerNotPresentForBuyOffer = errors.New("owner must be present for a buy offer")
-)
+	// OfferID is a string of Amount is present.
+	OfferID *types.OfferID `json:"offer_id,omitempty"`
+}
 
-// Creates either a new Sell offer for an NFToken owned by the account executing the transaction, or a new Buy offer for an NFToken owned by another account.
+// NFTokenCreateOffer creates either a new Sell offer for an NFToken owned by the account executing the transaction, or a new Buy offer for an NFToken owned by another account.
 //
 // If successful, the transaction creates a NFTokenOffer object. Each offer counts as one object towards the owner reserve of the account that placed the offer.
 //
@@ -61,7 +57,7 @@ type NFTokenCreateOffer struct {
 	Destination types.Address `json:",omitempty"`
 }
 
-// If enabled, indicates that the offer is a sell offer. Otherwise, it is a buy offer.
+// SetSellNFTokenFlag sets the flag indicating the offer is a sell offer.
 func (n *NFTokenCreateOffer) SetSellNFTokenFlag() {
 	n.Flags |= tfSellNFToken
 }

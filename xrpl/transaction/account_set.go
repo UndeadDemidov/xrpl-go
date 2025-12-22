@@ -1,15 +1,8 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
-)
-
-var (
-	ErrAccountSetInvalidSetFlag  = errors.New("accountSet: SetFlag must be an integer between asfRequireDest (1) and asfAllowTrustLineClawback (16)")
-	ErrAccountSetInvalidTickSize = errors.New("accountSet: TickSize must be an integer between 0 and 15 inclusive")
 )
 
 const (
@@ -53,6 +46,8 @@ const (
 	asfDisallowIncomingTrustLine uint32 = 15
 	// Permanently gain the ability to claw back issued IOUs
 	asfAllowTrustLineClawback uint32 = 16
+	// Issuers allow their IOUs to be used as escrow amounts
+	asfAllowTrustLineLocking uint32 = 17
 
 	//
 	// Transaction Flags
@@ -70,10 +65,12 @@ const (
 	// The same as ClearFlag: asfDisallowXRP.
 	tfAllowXRP uint32 = 2097152 // 0x00200000
 
-	// Tick size to use for offers involving a currency issued by this address.
-	// The exchange rates of those offers is rounded to this many significant digits.
+	// MinTickSize is the minimum tick size to use for offers involving a currency issued by this address.
 	// Valid values are 3 to 15 inclusive, or 0 to disable.
 	MinTickSize = 3
+
+	// MaxTickSize is the maximum tick size to use for offers involving a currency issued by this address.
+	// Valid values are 3 to 15 inclusive, or 0 to disable.
 	MaxTickSize = 15
 )
 
@@ -339,6 +336,16 @@ func (s *AccountSet) ClearAsfAllowTrustLineClawback() {
 	s.ClearFlag = asfAllowTrustLineClawback
 }
 
+// SetAsfAllowTrustLineLocking sets the allow trust line locking flag.
+func (s *AccountSet) SetAsfAllowTrustLineLocking() {
+	s.SetFlag = asfAllowTrustLineLocking
+}
+
+// ClearAsfAllowTrustLineLocking clears the allow trust line locking flag.
+func (s *AccountSet) ClearAsfAllowTrustLineLocking() {
+	s.ClearFlag = asfAllowTrustLineLocking
+}
+
 // Validate the AccountSet transaction fields.
 func (s *AccountSet) Validate() (bool, error) {
 	flatten := s.Flatten()
@@ -401,7 +408,7 @@ func (s *AccountSet) Validate() (bool, error) {
 
 	// check if SetFlag is within the valid range
 	if s.SetFlag != 0 {
-		if s.SetFlag < asfRequireDest || s.SetFlag > asfAllowTrustLineClawback {
+		if s.SetFlag < asfRequireDest || s.SetFlag > asfAllowTrustLineLocking {
 			return false, ErrAccountSetInvalidSetFlag
 		}
 	}

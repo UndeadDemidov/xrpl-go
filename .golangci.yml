@@ -1,39 +1,36 @@
+version: "2"
+
 linters:
   enable:
-    - gofmt
     - govet
-    # - dupl TODO: enable
-    - gocritic
     - errcheck
     - staticcheck
     - ineffassign
-    - typecheck
-    - gosimple
+    - unused
+    - gocritic
+    - gosec
     - misspell
     - unparam
-    - unused
-    - gosec
     - revive
+  exclusions:
+    rules:
+      - path: examples/
+        linters:
+          - revive
+        text: "package-comments"
+
+formatters:
+  enable:
+    - gofmt
 
 run:
-  timeout: 1m
   tests: false
-
-issues:
-  exclude-rules:
-    - path: examples/
-      linters:
-        - gosec
-    - path: _test\.go
-      linters:
-        - errcheck
-    - path: _mock\.go
-      linters:
-        - errcheck
-        - unused
+  timeout: 1m
 
 output:
   formats:
-    - format: colored-line-number
-  print-issued-lines: true
-  print-linter-name: true
+    text:
+      path: stdout
+      color: true
+      print-linter-name: true
+      print-issued-lines: true

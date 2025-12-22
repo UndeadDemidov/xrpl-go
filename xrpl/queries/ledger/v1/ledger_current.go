@@ -9,21 +9,24 @@ import (
 // Request
 // ############################################################################
 
-// The ledger_current method returns the unique identifiers of the current
-// in-progress ledger.
+// CurrentRequest is the request type for the ledger_current method.
+// It returns the unique identifiers of the current in-progress ledger.
 type CurrentRequest struct {
 	common.BaseRequest
 }
 
+// Method returns the JSON-RPC method name for the CurrentRequest.
 func (*CurrentRequest) Method() string {
 	return "ledger_current"
 }
 
+// APIVersion returns the API version for the CurrentRequest.
 func (*CurrentRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement V2
+// Validate checks that the CurrentRequest parameters are valid.
+// TODO: implement V2 validation.
 func (*CurrentRequest) Validate() error {
 	return nil
 }
@@ -32,7 +35,7 @@ func (*CurrentRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the ledger_current method.
+// CurrentResponse is the response type for the ledger_current method.
 type CurrentResponse struct {
 	LedgerCurrentIndex common.LedgerIndex `json:"ledger_current_index"`
 }

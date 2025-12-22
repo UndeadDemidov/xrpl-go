@@ -1,10 +1,12 @@
 ---
 sidebar_position: 5
+pagination_next: xrpl/currency
+sectionTopLabel: Packages
 ---
 
 # keypairs
 
-## Introduction 
+## Introduction
 
 The keypairs package provides a set of functions for generating and managing cryptographic keypairs. It includes functionality for creating new keypairs, deriving public keys from private keys, and verifying signatures.
 
@@ -27,9 +29,9 @@ Cryptographic algorithms supported by this package are:
 - ed25519
 - secp256k1
 
- Every function in the package that requires a cryptographic algorithm will accept any type that satisfies the `KeypairCryptoAlg` interface. So, if desired, you can implement your own algorithm and use it in this package.
+Every function in the package that requires a cryptographic algorithm will accept any type that satisfies the `KeypairCryptoAlg` interface. So, if desired, you can implement your own algorithm and use it in this package.
 
- However, the library already exports both algorithm getters that satisfy the `KeypairCryptoAlg` and `NodeDerivationCryptoAlg` interfaces. They're available under the package `github.com/Peersyst/xrpl-go/pkg/crypto`, which exports both algorithm getters that satisfy the `KeypairCryptoAlg`, `NodeDerivationCryptoAlg` interfaces.
+However, the library already exports both algorithm getters that satisfy the `KeypairCryptoAlg` and `NodeDerivationCryptoAlg` interfaces. They're available under the package `github.com/Peersyst/xrpl-go/pkg/crypto`, which exports both algorithm getters that satisfy the `KeypairCryptoAlg`, `NodeDerivationCryptoAlg` interfaces.
 
 ### crypto package
 
@@ -73,7 +75,7 @@ They can be split into two groups:
 func GenerateSeed(entropy string, alg interfaces.KeypairCryptoAlg, r interfaces.Randomizer) (string, error)
 ```
 
-Generate a seed that can be used to generate keypairs. You can specify the entropy of the seed or let the function generate a random one (by passing an empty string as entropy and providing a randomizer) and use one of the supported algorithms to generate the seed. The result is a base58-encoded seed, which starts with the character `s`. 
+Generate a seed that can be used to generate keypairs. You can specify the entropy of the seed or let the function generate a random one (by passing an empty string as entropy and providing a randomizer) and use one of the supported algorithms to generate the seed. The result is a base58-encoded seed, which starts with the character `s`.
 
 :::info
 
@@ -88,7 +90,6 @@ func DeriveKeypair(seed string, validator bool) (private, public string, err err
 ```
 
 Derives a keypair (private and public keys) from a seed. If the `validator` parameter is `true`, the keypair will be a validator keypair; otherwise, it will be a user keypair. The result for both the private and public keys is a 33-byte hexadecimal string.
-
 
 #### DeriveClassicAddress
 
@@ -164,7 +165,6 @@ func main() {
 	fmt.Println("Address: ", addr)
 }
 ```
-
 
 ### How to generate a new keypair from entropy
 

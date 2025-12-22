@@ -1,24 +1,23 @@
+//revive:disable:var-naming
 package types
 
 import "github.com/Peersyst/xrpl-go/xrpl/queries/common"
 
+// PeerStatusEvents represents the event types for peer status changes in the subscription stream.
 type PeerStatusEvents string
 
 const (
-	// The peer closed a ledger version with this Ledger Index, which usually means it is about
-	// to start consensus.
+	// PeerStatusClosingLedger indicates the peer closed a ledger version with this Ledger Index, which usually means it is about to start consensus.
 	PeerStatusClosingLedger PeerStatusEvents = "CLOSING_LEDGER"
-	// The peer built this ledger version as the result of a consensus round. Note: This ledger
-	// is still not certain to become immutably validated.
+	// PeerStatusAcceptedLedger indicates the peer built this ledger version as the result of a consensus round. Note: this ledger is still not certain to become immutably validated.
 	PeerStatusAcceptedLedger PeerStatusEvents = "ACCEPTED_LEDGER"
-	// The peer concluded it was not following the rest of the network and switched to a different
-	// ledger version.
+	// PeerStatusSwitchedLedger indicates the peer concluded it was not following the rest of the network and switched to a different ledger version.
 	PeerStatusSwitchedLedger PeerStatusEvents = "SWITCHED_LEDGER"
-	// The peer fell behind the rest of the network in tracking which ledger versions are validated
-	// and which are undergoing consensus.
+	// PeerStatusLostSync indicates the peer fell behind the rest of the network in tracking which ledger versions are validated and which are undergoing consensus.
 	PeerStatusLostSync PeerStatusEvents = "LOST_SYNC"
 )
 
+// PeerStatusStream represents a message from the Peer Status subscription stream, containing event type and ledger details.
 type PeerStatusStream struct {
 	// `peerStatusChange` indicates this comes from the Peer Status stream.
 	Type Type `json:"type"`

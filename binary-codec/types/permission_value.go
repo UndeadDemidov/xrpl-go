@@ -11,8 +11,11 @@ import (
 )
 
 var (
-	ErrInvalidJSONNumber         = errors.New("invalid json.Number")
+	// ErrInvalidJSONNumber is returned when a json.Number cannot be parsed to an integer.
+	ErrInvalidJSONNumber = errors.New("invalid json.Number")
+	// ErrUnsupportedPermissionType is returned when the JSON type is unsupported for PermissionValue.
 	ErrUnsupportedPermissionType = errors.New("unsupported JSON type for PermissionValue")
+	// ErrPermissionValueOutOfRange is returned when the permission value is outside the uint32 range.
 	ErrPermissionValueOutOfRange = errors.New("permission value out of uint32 range")
 )
 

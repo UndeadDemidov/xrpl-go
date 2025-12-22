@@ -1,3 +1,6 @@
+// Package types contains data structures for subscription stream types.
+//
+//revive:disable:var-naming
 package types
 
 import (
@@ -6,12 +9,14 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
+// OrderBook specifies the currencies and optional filters for subscribing to an order book stream.
 type OrderBook struct {
 	TakerGets types.IssuedCurrencyAmount `json:"taker_gets"`
 	TakerPays types.IssuedCurrencyAmount `json:"taker_pays"`
 	Taker     types.Address              `json:"taker"`
 	Snapshot  bool                       `json:"snapshot,omitempty"`
 	Both      bool                       `json:"both,omitempty"`
+	Domain    *string                    `json:"domain,omitempty"`
 }
 
 // OrderBookStream documented as identical to TransactionStream

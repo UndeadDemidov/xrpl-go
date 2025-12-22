@@ -5,12 +5,10 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// (Requires the XChainBridge amendment)
-//
-// The XChainCommit is the second step in a cross-chain transfer. It puts assets into trust on the locking chain
-// so that they can be wrapped on the issuing chain, or burns wrapped assets on the issuing chain so that they can
-// be returned on the locking chain.
-//
+// XChainCommit is the second step in a cross-chain transfer transaction.
+// It puts assets into trust on the locking chain (to be wrapped on the issuing chain)
+// or burns wrapped assets on the issuing chain (to be returned on the locking chain).
+// Requires the XChainBridge amendment.
 // ```json
 //
 //	{
@@ -50,12 +48,12 @@ type XChainCommit struct {
 	XChainClaimID string
 }
 
-// Returns the type of the transaction.
+// TxType returns the transaction type for XChainCommit.
 func (x *XChainCommit) TxType() TxType {
 	return XChainCommitTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a flattened representation of the XChainCommit transaction.
 func (x *XChainCommit) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -80,7 +78,7 @@ func (x *XChainCommit) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate checks the XChainCommit transaction for correctness and returns whether it is valid.
 func (x *XChainCommit) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

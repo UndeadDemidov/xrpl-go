@@ -1,34 +1,16 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// DelegateSet-specific errors
-var (
-	// ErrDelegateSetAuthorizeAccountConflict is returned when the Authorize account matches the Account.
-	ErrDelegateSetAuthorizeAccountConflict = errors.New("authorize account cannot be the same as the Account")
-	// ErrDelegateSetPermissionMalformed is returned when the Permissions array is empty or malformed.
-	ErrDelegateSetPermissionMalformed = errors.New("permissions array is required and cannot be empty")
-	// ErrDelegateSetPermissionsMaxLength is returned when the Permissions array exceeds the maximum length.
-	ErrDelegateSetPermissionsMaxLength = errors.New("permissions array cannot exceed maximum length")
-	// ErrDelegateSetEmptyPermissionValue is returned when a permission value is empty or undefined.
-	ErrDelegateSetEmptyPermissionValue = errors.New("permission value cannot be empty")
-	// ErrDelegateSetNonDelegatableTransaction is returned when trying to delegate a non-delegatable transaction type.
-	ErrDelegateSetNonDelegatableTransaction = errors.New("cannot delegate non-delegatable transaction types")
-	// ErrDelegateSetDuplicatePermissions is returned when the same permission is specified multiple times.
-	ErrDelegateSetDuplicatePermissions = errors.New("duplicate permissions are not allowed")
-)
-
 const (
-	// Maximum number of permissions that can be delegated in a single transaction
+	// PermissionsMaxLength is the maximum number of permissions that can be delegated in a single transaction.
 	PermissionsMaxLength = 10
 )
 
-// Set of transaction types that cannot be delegated
+// NonDelegatableTransactionsMap defines the set of transaction types that cannot be delegated.
 var NonDelegatableTransactionsMap = map[string]uint8{
 	string(AccountSetTx):    0,
 	string(SetRegularKeyTx): 0,

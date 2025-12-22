@@ -109,7 +109,7 @@ func TestXChainCommit_Validate(t *testing.T) {
 				},
 			},
 			expected:    false,
-			expectedErr: ErrMissingAmount("Amount"),
+			expectedErr: ErrMissingField{Field: "Amount"},
 		},
 		{
 			name: "fail - missing xchain bridge",

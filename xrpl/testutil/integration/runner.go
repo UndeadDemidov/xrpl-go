@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// Runner manages the setup, execution, and teardown of integration test transactions against an XRPL client.
 type Runner struct {
 	t      *testing.T
 	config *RunnerConfig
@@ -18,6 +19,7 @@ type Runner struct {
 	wallets []*wallet.Wallet
 }
 
+// TestTransactionOptions defines options for testing transactions, such as skipping autofill.
 type TestTransactionOptions struct {
 	SkipAutofill bool
 }

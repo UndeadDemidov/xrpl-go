@@ -1,18 +1,11 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrEscrowCancelMissingOwner         = errors.New("escrow cancel: missing owner")
-	ErrEscrowCancelMissingOfferSequence = errors.New("escrow cancel: missing offer sequence")
-)
-
-// Return escrowed XRP to the sender.
+// EscrowCancel returns escrowed XRP to the sender.
 //
 // Example:
 //
@@ -46,7 +39,7 @@ func (e *EscrowCancel) Flatten() FlatTransaction {
 	flattened["TransactionType"] = "EscrowCancel"
 
 	if e.Owner != "" {
-		flattened["Owner"] = e.Owner
+		flattened["Owner"] = e.Owner.String()
 	}
 
 	if e.OfferSequence != 0 {

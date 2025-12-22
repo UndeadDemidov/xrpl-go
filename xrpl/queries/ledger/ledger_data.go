@@ -11,9 +11,7 @@ import (
 // Request
 // ############################################################################
 
-// The ledger_data method retrieves contents of the specified ledger. You can
-// iterate through several calls to retrieve the entire contents of a single
-// ledger version.
+// DataRequest retrieves contents of the specified ledger. Multiple calls can be used to iterate through the ledger version.
 type DataRequest struct {
 	common.BaseRequest
 	LedgerHash  common.LedgerHash      `json:"ledger_hash,omitempty"`
@@ -24,15 +22,18 @@ type DataRequest struct {
 	Type        ledger.EntryType       `json:"type,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for DataRequest.
 func (*DataRequest) Method() string {
 	return "ledger_data"
 }
 
+// APIVersion returns the Rippled API version for DataRequest.
 func (*DataRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
-// TODO: Implement V2
+// Validate checks the DataRequest fields for validity.
+// TODO implement V2
 func (*DataRequest) Validate() error {
 	return nil
 }
@@ -41,7 +42,7 @@ func (*DataRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the ledger_data method.
+// DataResponse is the response returned by the ledger_data method, containing ledger state entries.
 type DataResponse struct {
 	LedgerIndex string              `json:"ledger_index"`
 	LedgerHash  common.LedgerHash   `json:"ledger_hash"`

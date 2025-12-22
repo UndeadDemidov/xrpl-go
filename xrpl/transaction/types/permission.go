@@ -1,11 +1,5 @@
+//revive:disable:var-naming
 package types
-
-import "errors"
-
-var (
-	// ErrInvalidPermissionValue is returned when PermissionValue is empty or undefined.
-	ErrInvalidPermissionValue = errors.New("permission value cannot be empty or undefined")
-)
 
 // Permission represents a transaction permission that can be delegated to another account.
 // This matches the xrpl.js Permission interface structure.
@@ -25,7 +19,7 @@ func (p *Permission) Flatten() map[string]interface{} {
 	return flattened
 }
 
-// Validate validates the Permission structure.
+// IsValid checks if the Permission structure is valid.
 func (p *Permission) IsValid() bool {
 	return p.Permission.IsValid()
 }

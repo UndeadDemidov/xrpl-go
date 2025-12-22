@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine AS install
+FROM golang:1.24-alpine AS install
 RUN apk add --no-cache make git ca-certificates
 
 WORKDIR /app
@@ -7,7 +7,7 @@ RUN go mod download
 COPY . .
 
 FROM install AS lint
-RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
+RUN go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.2.2
 RUN make lint
 
 FROM lint AS test

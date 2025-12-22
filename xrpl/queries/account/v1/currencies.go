@@ -10,8 +10,9 @@ import (
 // Request
 // ############################################################################
 
-// The `account_currencies` command retrieves a list of currencies that an
-// account can send or receive, based on its trust lines.
+// CurrenciesRequest is the request type for the account_currencies method.
+// It retrieves a list of currencies that an account can send or receive,
+// based on its trust lines.
 type CurrenciesRequest struct {
 	common.BaseRequest
 	Account     types.Address          `json:"account"`
@@ -20,15 +21,18 @@ type CurrenciesRequest struct {
 	Strict      bool                   `json:"strict,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the CurrenciesRequest.
 func (*CurrenciesRequest) Method() string {
 	return "account_currencies"
 }
 
+// APIVersion returns the API version for the CurrenciesRequest.
 func (*CurrenciesRequest) APIVersion() int {
 	return version.RippledAPIV1
 }
 
-// TODO: Implement (V2)
+// Validate checks that the CurrenciesRequest parameters are valid.
+// TODO: implement V2.
 func (*CurrenciesRequest) Validate() error {
 	return nil
 }
@@ -37,7 +41,7 @@ func (*CurrenciesRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_currencies method.
+// CurrenciesResponse is the response type for the account_currencies method.
 type CurrenciesResponse struct {
 	LedgerHash        common.LedgerHash  `json:"ledger_hash,omitempty"`
 	LedgerIndex       common.LedgerIndex `json:"ledger_index"`

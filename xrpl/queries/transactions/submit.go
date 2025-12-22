@@ -1,37 +1,36 @@
+// Package transactions contains transaction-related queries for XRPL.
 package transactions
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/queries/common"
 	"github.com/Peersyst/xrpl-go/xrpl/queries/version"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction"
-)
-
-var (
-	ErrNoTxBlob = errors.New("no TxBlob defined")
 )
 
 // ############################################################################
 // Request
 // ############################################################################
 
-// The submit method applies a transaction and sends it to the network to be
-// confirmed and included in future ledgers.
+// SubmitRequest is the request type for the submit command.
+// It applies a transaction and sends it to the network to be confirmed
+// and included in future ledgers.
 type SubmitRequest struct {
 	common.BaseRequest
 	TxBlob   string `json:"tx_blob"`
 	FailHard bool   `json:"fail_hard,omitempty"`
 }
 
+// Method returns the JSON-RPC method name for the SubmitRequest.
 func (*SubmitRequest) Method() string {
 	return "submit"
 }
 
+// APIVersion returns the API version required by the SubmitRequest.
 func (*SubmitRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
 
+// Validate verifies the SubmitRequest parameters, returning ErrNoTxBlob if the TxBlob is empty.
 func (req *SubmitRequest) Validate() error {
 	if req.TxBlob == "" {
 		return ErrNoTxBlob
@@ -43,7 +42,8 @@ func (req *SubmitRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the submit method.
+// SubmitResponse is the response type returned by the submit command.
+// It includes execution result, transaction blob, flags, and ledger indices.
 type SubmitResponse struct {
 	EngineResult             string                      `json:"engine_result"`
 	EngineResultCode         int                         `json:"engine_result_code"`

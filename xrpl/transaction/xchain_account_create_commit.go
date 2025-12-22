@@ -5,11 +5,8 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// (Requires the XChainBridge amendment )
-//
-// This transaction can only be used for XRP-XRP bridges.
-//
-// The XChainAccountCreateCommit transaction creates a new account for a witness server to submit transactions on an issuing chain.
+// XChainAccountCreateCommit creates a new account for a witness server to submit transactions on an issuing chain.
+// This transaction can only be used for XRP-XRP bridges and requires the XChainBridge amendment.
 //
 // ```json
 //
@@ -47,12 +44,12 @@ type XChainAccountCreateCommit struct {
 	XChainBridge types.XChainBridge
 }
 
-// Returns the type of the transaction.
+// TxType returns the transaction type for XChainAccountCreateCommit.
 func (x *XChainAccountCreateCommit) TxType() TxType {
 	return XChainAccountCreateCommitTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a flattened representation of the XChainAccountCreateCommit transaction.
 func (x *XChainAccountCreateCommit) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -77,7 +74,7 @@ func (x *XChainAccountCreateCommit) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate validates the XChainAccountCreateCommit transaction.
 func (x *XChainAccountCreateCommit) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

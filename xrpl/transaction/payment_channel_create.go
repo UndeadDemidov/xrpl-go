@@ -6,7 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// Create a payment channel and fund it with XRP. The address sending this transaction becomes the "source address" of the payment channel.
+// PaymentChannelCreate creates a payment channel and funds it with XRP. The sender becomes the "source address" of the channel.
 //
 // Example:
 //

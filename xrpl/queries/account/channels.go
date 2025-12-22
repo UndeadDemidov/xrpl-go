@@ -1,28 +1,17 @@
 package account
 
 import (
-	"errors"
-
 	accounttypes "github.com/Peersyst/xrpl-go/xrpl/queries/account/types"
 	"github.com/Peersyst/xrpl-go/xrpl/queries/common"
 	"github.com/Peersyst/xrpl-go/xrpl/queries/version"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrNoAccountID = errors.New("no account ID specified")
-)
-
 // ############################################################################
 // Request
 // ############################################################################
 
-//   - The account_channels method returns information about an account's Payment
-//
-// Channels. This includes only channels where the specified account is the
-// channel's source, not the destination. (A channel's "source" and "owner" are
-// the same.) All information retrieved is relative to a particular version of
-// the ledger.
+// ChannelsRequest returns information about an account's payment channels where the account is the source for a specific ledger version.
 type ChannelsRequest struct {
 	common.BaseRequest
 	Account            types.Address          `json:"account"`
@@ -38,6 +27,7 @@ func (*ChannelsRequest) Method() string {
 	return "account_channels"
 }
 
+// APIVersion returns the API version supported by ChannelsRequest.
 func (*ChannelsRequest) APIVersion() int {
 	return version.RippledAPIV2
 }
@@ -55,7 +45,7 @@ func (r *ChannelsRequest) Validate() error {
 // Response
 // ############################################################################
 
-// The expected response from the account_channels method.
+// ChannelsResponse represents the response from the account_channels method, including payment channel results and pagination data.
 type ChannelsResponse struct {
 	Account     types.Address                `json:"account"`
 	Channels    []accounttypes.ChannelResult `json:"channels"`

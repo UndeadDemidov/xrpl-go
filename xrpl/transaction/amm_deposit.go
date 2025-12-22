@@ -1,19 +1,12 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/ledger-entry-types"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrAMMAtLeastOneAssetMustBeSet = errors.New("at least one of the assets must be set")
-)
-
-// Deposit funds into an Automated Market Maker (AMM) instance and receive the AMM's liquidity provider tokens (LP Tokens) in exchange.
-// You can deposit one or both of the assets in the AMM's pool.
-// If successful, this transaction creates a trust line to the AMM Account (limit 0) to hold the LP Tokens.
+// AMMDeposit deposits funds into an Automated Market Maker (AMM) and receives liquidity provider tokens (LP Tokens) in exchange.
+// You can deposit one or both assets in the AMM's pool. A trust line to hold LP Tokens is created upon success.
 //
 // Example:
 //
@@ -69,32 +62,32 @@ const (
 	tfTwoAssetIfEmpty uint32 = 8388608
 )
 
-// Perform a double-asset deposit and receive the specified amount of LP Tokens.
+// SetLPTokentFlag performs a double-asset deposit and receives the specified amount of LP Tokens.
 func (a *AMMDeposit) SetLPTokentFlag() {
 	a.Flags |= tfLPToken
 }
 
-// Perform a single-asset deposit with a specified amount of the asset to deposit.
+// SetSingleAssetFlag performs a single-asset deposit with a specified asset amount.
 func (a *AMMDeposit) SetSingleAssetFlag() {
 	a.Flags |= tfSingleAsset
 }
 
-// Perform a double-asset deposit with specified amounts of both assets.
+// SetTwoAssetFlag performs a double-asset deposit with specified amounts of both assets.
 func (a *AMMDeposit) SetTwoAssetFlag() {
 	a.Flags |= tfTwoAsset
 }
 
-// Perform a single-asset deposit and receive the specified amount of LP Tokens.
+// SetOneAssetLPTokenFlag performs a single-asset deposit and receives the specified amount of LP Tokens.
 func (a *AMMDeposit) SetOneAssetLPTokenFlag() {
 	a.Flags |= tfOneAssetLPToken
 }
 
-// Perform a single-asset deposit with a specified effective price.
+// SetLimitLPTokenFlag performs a single-asset deposit with a specified effective price.
 func (a *AMMDeposit) SetLimitLPTokenFlag() {
 	a.Flags |= tfLimitLPToken
 }
 
-// Perform a special double-asset deposit to an AMM with an empty pool.
+// SetTwoAssetIfEmptyFlag performs a special double-asset deposit into an empty AMM pool.
 func (a *AMMDeposit) SetTwoAssetIfEmptyFlag() {
 	a.Flags |= tfTwoAssetIfEmpty
 }

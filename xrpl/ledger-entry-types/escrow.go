@@ -1,11 +1,12 @@
 package ledger
 
 import (
+	"encoding/json"
+
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-// (Added by the Escrow amendment.)
-// An Escrow ledger entry represents an escrow, which holds XRP until specific conditions are met.
+// Escrow represents an escrow ledger entry that holds XRP until specified conditions are met. (Added by the Escrow amendment.)
 //
 // ```json
 //
@@ -24,7 +25,9 @@ import (
 //	    "PreviousTxnID": "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",
 //	    "PreviousTxnLgrSeq": 28991004,
 //	    "SourceTag": 11747,
-//	    "index": "DC5F3851D8A1AB622F957761E5963BC5BD439D5C24AC6AD7AC4523F0640244AC"
+//	    "index": "DC5F3851D8A1AB622F957761E5963BC5BD439D5C24AC6AD7AC4523F0640244AC",
+//	    "TransferRate": 1000,
+//	    "IssuerNode": 1234567890
 //	}
 //
 // ```
@@ -40,8 +43,9 @@ type Escrow struct {
 	// The address of the owner (sender) of this escrow. This is the account that provided the XRP,
 	// and gets it back if the escrow is canceled.
 	Account types.Address
-	// The amount of XRP, in drops, currently held in the escrow.
-	Amount types.XRPCurrencyAmount
+	// Amount of XRP or fungible tokens to deduct from the sender's balance and escrow.
+	// Once escrowed, the payment can either go to the Destination address (after the FinishAfter time) or be returned to the sender (after the CancelAfter time).
+	Amount types.CurrencyAmount
 	// The escrow can be canceled if and only if this field is present and the time it specifies has passed.
 	// Specifically, this is specified as seconds since the Ripple Epoch and it "has passed" if it's
 	// earlier than the close time of the previous validated ledger.
@@ -68,9 +72,64 @@ type Escrow struct {
 	PreviousTxnLgrSeq uint32
 	// An arbitrary tag to further specify the source for this escrow, such as a hosted recipient at the owner's address.
 	SourceTag uint32 `json:",omitempty"`
+	// The fee to charge when users finish an escrow, initially set on the creation of an escrow contract and updated on subsequent finish transactions.
+	TransferRate uint32 `json:",omitempty"`
+	// (Optional) The ledger index of the issuer's directory node associated with the Escrow. Used when the issuer is neither the source nor destination account.
+	IssuerNode uint64 `json:",omitempty"`
 }
 
-// Returns the type of the ledger entry.
+// EntryType returns the ledger entry type for Escrow.
 func (*Escrow) EntryType() EntryType {
 	return EscrowEntry
+}
+
+// UnmarshalJSON implements custom JSON unmarshalling for Escrow.
+func (e *Escrow) UnmarshalJSON(data []byte) error {
+	type escrowHelper struct {
+		Index             types.Hash256 `json:"index,omitempty"`
+		LedgerEntryType   EntryType
+		Flags             uint32
+		Account           types.Address
+		Amount            json.RawMessage
+		CancelAfter       uint32 `json:",omitempty"`
+		Condition         string `json:",omitempty"`
+		Destination       types.Address
+		DestinationNode   string `json:",omitempty"`
+		DestinationTag    uint32 `json:",omitempty"`
+		FinishAfter       uint32 `json:",omitempty"`
+		OwnerNode         string
+		PreviousTxnID     types.Hash256
+		PreviousTxnLgrSeq uint32
+		SourceTag         uint32 `json:",omitempty"`
+		TransferRate      uint32 `json:",omitempty"`
+		IssuerNode        uint64 `json:",omitempty"`
+	}
+	var h escrowHelper
+	if err := json.Unmarshal(data, &h); err != nil {
+		return err
+	}
+	*e = Escrow{
+		Index:             h.Index,
+		LedgerEntryType:   h.LedgerEntryType,
+		Flags:             h.Flags,
+		Account:           h.Account,
+		CancelAfter:       h.CancelAfter,
+		Condition:         h.Condition,
+		Destination:       h.Destination,
+		DestinationNode:   h.DestinationNode,
+		DestinationTag:    h.DestinationTag,
+		FinishAfter:       h.FinishAfter,
+		OwnerNode:         h.OwnerNode,
+		PreviousTxnID:     h.PreviousTxnID,
+		PreviousTxnLgrSeq: h.PreviousTxnLgrSeq,
+		SourceTag:         h.SourceTag,
+		TransferRate:      h.TransferRate,
+		IssuerNode:        h.IssuerNode,
+	}
+	amount, err := types.UnmarshalCurrencyAmount(h.Amount)
+	if err != nil {
+		return err
+	}
+	e.Amount = amount
+	return nil
 }

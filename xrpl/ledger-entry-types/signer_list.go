@@ -9,7 +9,7 @@ const (
 	lsfOneOwnerCount uint32 = 0x00010000
 )
 
-// A SignerList entry represents a list of parties that, as a group, are authorized to sign a transaction in place of an individual account.
+// SignerList entry represents a list of parties that, as a group, are authorized to sign a transaction in place of an individual account.
 // You can create, replace, or remove a signer list using a SignerListSet transaction.
 //
 // Example:
@@ -70,7 +70,7 @@ type SignerList struct {
 	Flags        uint32
 }
 
-// Wrapper for SignerEntry
+// SignerEntryWrapper wraps a SignerEntry for inclusion in a SignerList ledger entry.
 type SignerEntryWrapper struct {
 	SignerEntry SignerEntry
 }
@@ -82,8 +82,7 @@ func (s *SignerEntryWrapper) Flatten() FlatLedgerObject {
 	return flattened
 }
 
-// Each member of the SignerEntries field is an object that describes that signer in the list.
-// https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/signerlist#signer-entry-object
+// SignerEntry describes a signer in a SignerList ledger entry, including account, weight, and optional locator.
 type SignerEntry struct {
 	// An XRP Ledger address whose signature contributes to the multi-signature. It does not need to be a funded address in the ledger.
 	Account types.Address

@@ -1,3 +1,4 @@
+// Package maputils provides utility functions for working with maps.
 package maputils
 
 // GetKeys returns the keys of the given map.

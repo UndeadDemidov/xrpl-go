@@ -7,11 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Refactored
+
+- `TxResponse` `Meta` field type changed to `TxMetadataBuilder`, enabling custom parsing for specific transactions metadata such as `Payment`, `NFTokenMint`, etc.
+
+## [v0.1.13]
+
+### Added
+
+#### binary-codec
+
+- `Number` and `AssetScale` fields to `definitions.json`.
+
+#### xrpl
+
+- `PermissionedDEX` support (XLS-81d).
+
+### Fixed
+
+#### xrpl
+
+- `OracleSet` transaction to Flatten correctly and `Oracle` PriceDataSeries array.
+
+#### binary-codec
+
+- `definitions.json` where `LastUpdatedTime` had a typo issue.
+
+### Refactored
+
+#### xrpl
+
+- Replaced `bip32` and `bip39` dependencies due to repository deletion and, therefore, dependency outdated.
+
+## [v0.1.12]
+
 ### Added
 
 #### xrpl
 
 - Adds `PermissionedDomain` ledger entry type (XLS-80d).
+- Adds `TokenEscrow` support (XLS-85).
+
+### Fixed
+
+- Flatten function in Escrow transaction types for Destination and Owner fields.
 
 ## [v0.1.11]
 

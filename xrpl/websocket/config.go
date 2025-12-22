@@ -6,6 +6,7 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/common"
 )
 
+// ClientConfig configures options for the XRPL WebSocket client.
 type ClientConfig struct {
 	// Connection config
 	host          string
@@ -22,6 +23,7 @@ type ClientConfig struct {
 	faucetProvider common.FaucetProvider
 }
 
+// NewClientConfig returns a ClientConfig initialized with default settings.
 func NewClientConfig() *ClientConfig {
 	return &ClientConfig{
 		host:          common.DefaultHost,

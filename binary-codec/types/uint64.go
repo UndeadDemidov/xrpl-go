@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import (
@@ -13,6 +14,7 @@ import (
 // UInt64 represents a 64-bit unsigned integer.
 type UInt64 struct{}
 
+// ErrInvalidUInt64String is returned when a value is not a valid string representation of a UInt64.
 var ErrInvalidUInt64String = errors.New("invalid UInt64 string, value should be a string representation of a UInt64")
 
 // FromJSON converts a JSON value into a serialized byte slice representing a 64-bit unsigned integer.

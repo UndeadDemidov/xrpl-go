@@ -8,7 +8,7 @@ const (
 	lsfAccepted uint32 = 0x00010000
 )
 
-// A Credential entry represents a credential, which contains an attestation about a subject account from a credential issuer account.
+// Credential entry represents a credential, which contains an attestation about a subject account from a credential issuer account.
 // The meaning of the attestation is defined by the issuer.
 // Requires the Credentials amendment to be enabled: https://xrpl.org/resources/known-amendments#credentials
 type Credential struct {
@@ -40,6 +40,7 @@ type Credential struct {
 	URI string `json:",omitempty"`
 }
 
+// EntryType returns the type of the ledger entry.
 func (*Credential) EntryType() EntryType {
 	return CredentialEntry
 }

@@ -2,7 +2,7 @@ package ledger
 
 import "github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 
-// A DID ledger entry holds references to, or data associated with, a single DID.
+// DID ledger entry holds references to, or data associated with, a single DID.
 // Requires the "did" amendment to be enabled.
 // Example:
 // ```json

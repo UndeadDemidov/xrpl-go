@@ -1,25 +1,24 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	// ErrInvalidTransferFee is returned when the transferFee is not between 0 and 50000 inclusive.
-	ErrInvalidTransferFee = errors.New("transferFee must be between 0 and 50000 inclusive")
-	// ErrIssuerAccountConflict is returned when the issuer is the same as the account.
-	ErrIssuerAccountConflict = errors.New("issuer cannot be the same as the account")
-	// ErrTransferFeeRequiresTransferableFlag is returned when the transferFee is set without the tfTransferable flag.
-	ErrTransferFeeRequiresTransferableFlag = errors.New("transferFee can only be set if the tfTransferable flag is enabled")
-	// ErrAmountRequiredWithExpirationOrDestination is returned when Expiration or Destination is set without Amount.
-	ErrAmountRequiredWithExpirationOrDestination = errors.New("amount is required when Expiration or Destination is present")
-)
+// NFTokenMintMetadata represents the resulting metadata of a succeeded NFTokenMint transaction.
+// It extends from TxObjMeta.
+type NFTokenMintMetadata struct {
+	TxObjMeta
 
-// The NFTokenMint transaction creates a non-fungible token and adds it to the relevant NFTokenPage object of the NFTokenMinter as an NFToken object.
+	// rippled 1.11.0 or later.
+	NFTokenID *types.NFTokenID `json:"nftoken_id,omitempty"`
+
+	// OfferID is a string of Amount is present.
+	OfferID *types.OfferID `json:"offer_id,omitempty"`
+}
+
+// NFTokenMint transaction creates a non-fungible token and adds it to the relevant NFTokenPage object of the NFTokenMinter as an NFToken object.
 // This transaction is the only opportunity the NFTokenMinter has to specify any token fields that are defined as immutable (for example, the TokenFlags).
 //
 // Example:
@@ -94,27 +93,27 @@ const (
 	tfMutable uint32 = 16
 )
 
-// Allow the issuer (or an entity authorized by the issuer) to destroy the minted NFToken. (The NFToken's owner can always do so.)
+// SetBurnableFlag allows the issuer (or an entity authorized by the issuer) to destroy the minted NFToken. (The NFToken's owner can always do so.)
 func (n *NFTokenMint) SetBurnableFlag() {
 	n.Flags |= tfBurnable
 }
 
-// The minted NFToken can only be bought or sold for XRP. This can be desirable if the token has a transfer fee and the issuer does not want to receive fees in non-XRP currencies.
+// SetOnlyXRPFlag restricts the minted NFToken to be bought or sold only for XRP.
 func (n *NFTokenMint) SetOnlyXRPFlag() {
 	n.Flags |= tfOnlyXRP
 }
 
-// DEPRECATED Automatically create trust lines from the issuer to hold transfer fees received from transferring the minted NFToken. The fixRemoveNFTokenAutoTrustLine amendment makes it invalid to set this flag.
+// SetTrustlineFlag is deprecated and was used to auto-create trust lines for transfer fees. (Invalid with fixRemoveNFTokenAutoTrustLine amendment.) Deprecated in favor of tfTransferable.
 func (n *NFTokenMint) SetTrustlineFlag() {
 	n.Flags |= tfTrustLine
 }
 
-// The minted NFToken can be transferred to others. If this flag is not enabled, the token can still be transferred from or to the issuer, but a transfer to the issuer must be made based on a buy offer from the issuer and not a sell offer from the NFT holder.
+// SetTransferableFlag allows the minted NFToken to be transferred to others.
 func (n *NFTokenMint) SetTransferableFlag() {
 	n.Flags |= tfTransferable
 }
 
-// The URI field of the minted NFToken can be updated using the NFTokenModify transaction.
+// SetMutableFlag allows the URI field of the minted NFToken to be updated using the NFTokenModify transaction.
 func (n *NFTokenMint) SetMutableFlag() {
 	n.Flags |= tfMutable
 }
@@ -159,7 +158,7 @@ func (n *NFTokenMint) Flatten() FlatTransaction {
 }
 
 const (
-	// Allowing a transfer fee of up to 50%.
+	// MaxTransferFee allows a transfer fee of up to 50%.
 	MaxTransferFee = 50000
 )
 

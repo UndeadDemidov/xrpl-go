@@ -1,20 +1,12 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/pkg/typecheck"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrInvalidXChainClaimID = errors.New("invalid XChainClaimID")
-)
-
-// (Requires the XChainBridge amendment )
-//
-// The XChainAddClaimAttestation transaction provides proof from a witness server,
+// XChainAddClaimAttestation transaction provides proof from a witness server,
 // attesting to an XChainCommit transaction.
 //
 // The signature must be from one of the keys on the door's signer list at the time the signature was provided.
@@ -22,6 +14,7 @@ var (
 // the new signature set is used and some of the currently collected signatures may be removed.
 //
 // Any account can submit signatures.
+// (Requires the XChainBridge amendment)
 //
 // ```json
 //
@@ -98,12 +91,12 @@ type XChainAddClaimAttestation struct {
 	XChainClaimID string
 }
 
-// Returns the type of the transaction.
+// TxType returns the type of the transaction.
 func (x *XChainAddClaimAttestation) TxType() TxType {
 	return XChainAddClaimAttestationTx
 }
 
-// Returns a flattened version of the transaction.
+// Flatten returns a flattened version of the transaction.
 func (x *XChainAddClaimAttestation) Flatten() FlatTransaction {
 	flatTx := x.BaseTx.Flatten()
 
@@ -150,7 +143,7 @@ func (x *XChainAddClaimAttestation) Flatten() FlatTransaction {
 	return flatTx
 }
 
-// Validates the transaction.
+// Validate validates the transaction.
 func (x *XChainAddClaimAttestation) Validate() (bool, error) {
 	_, err := x.BaseTx.Validate()
 	if err != nil {

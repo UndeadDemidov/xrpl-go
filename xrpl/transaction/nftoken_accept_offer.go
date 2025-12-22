@@ -1,21 +1,19 @@
 package transaction
 
 import (
-	"errors"
-
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	// ErrNFTokenBrokerFeeZero is returned when NFTokenBrokerFee is zero.
-	ErrNFTokenBrokerFeeZero = errors.New("nftoken accept offer: NFTokenBrokerFee cannot be zero")
-	// ErrMissingOffer is returned when at least one of NFTokenSellOffer or NFTokenBuyOffer is not set.
-	ErrMissingOffer = errors.New("at least one of NFTokenSellOffer or NFTokenBuyOffer must be set")
-	// ErrMissingBothOffers is returned when NFTokenBrokerFee is set but neither NFTokenSellOffer nor NFTokenBuyOffer are set (brokered mode).
-	ErrMissingBothOffers = errors.New("when NFTokenBrokerFee is set (brokered mode), both NFTokenSellOffer and NFTokenBuyOffer must be set")
-)
+// NFTokenAcceptOfferMetadata represents the resulting metadata of a succeeded NFTokenAcceptOffer transaction.
+// It extends from TxObjMeta.
+type NFTokenAcceptOfferMetadata struct {
+	TxObjMeta
 
-// The NFTokenAcceptOffer transaction is used to accept offers to buy or sell an NFToken. It can either:
+	// rippled 1.11.0 or later.
+	NFTokenID *types.NFTokenID `json:"nftoken_id,omitempty"`
+}
+
+// NFTokenAcceptOffer transaction is used to accept offers to buy or sell an NFToken. It can either:
 //
 // - Allow one offer to be accepted. This is called direct mode.
 //

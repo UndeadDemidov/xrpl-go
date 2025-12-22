@@ -1,33 +1,35 @@
 {
   "TYPES": {
-    "Done": -1,
-    "Unknown": -2,
-    "NotPresent": 0,
-    "UInt16": 1,
-    "UInt32": 2,
-    "UInt64": 3,
-    "Hash128": 4,
-    "Hash256": 5,
+    "AccountID": 8,
     "Amount": 6,
     "Blob": 7,
-    "AccountID": 8,
-    "STObject": 14,
-    "STArray": 15,
-    "UInt8": 16,
+    "Currency": 26,
+    "Done": -1,
+    "Hash128": 4,
     "Hash160": 17,
+    "Hash192": 21,
+    "Hash256": 5,
+    "Issue": 24,
+    "LedgerEntry": 10002,
+    "Metadata": 10004,
+    "NotPresent": 0,
+    "Number": 9,
     "PathSet": 18,
-    "Vector256": 19,
-    "UInt96": 20,
+    "STArray": 15,
+    "STObject": 14,
+    "Transaction": 10001,
+    "UInt16": 1,
     "UInt192": 21,
+    "UInt32": 2,
     "UInt384": 22,
     "UInt512": 23,
-    "Issue": 24,
-    "XChainBridge": 25,
-    "Currency": 26,
-    "Transaction": 10001,
-    "LedgerEntry": 10002,
+    "UInt64": 3,
+    "UInt8": 16,
+    "UInt96": 20,
+    "Unknown": -2,
     "Validation": 10003,
-    "Metadata": 10004
+    "Vector256": 19,
+    "XChainBridge": 25
   },
   "LEDGER_ENTRY_TYPES": {
     "AccountRoot": 97,
@@ -232,6 +234,16 @@
         "isVLEncoded": false,
         "isSerialized": true,
         "isSigningField": true,
+        "type": "UInt8"
+      }
+    ],
+    [
+      "AssetScale",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 5,
         "type": "UInt8"
       }
     ],
@@ -526,7 +538,7 @@
       }
     ],
     [
-      "LastUpdateTime",
+      "LastUpdatedTime",
       {
         "nth": 15,
         "isVLEncoded": false,
@@ -1092,6 +1104,46 @@
         "isVLEncoded": false,
         "isSerialized": true,
         "isSigningField": true,
+        "type": "UInt64"
+      }
+    ],
+    [
+      "MaximumAmount",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 24,
+        "type": "UInt64"
+      }
+    ],
+    [
+      "OutstandingAmount",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 25,
+        "type": "UInt64"
+      }
+    ],
+    [
+      "MPTAmount",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 26,
+        "type": "UInt64"
+      }
+    ],
+    [
+      "IssuerNode",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 27,
         "type": "UInt64"
       }
     ],
@@ -2306,6 +2358,16 @@
       }
     ],
     [
+      "ShareMPTID",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 2,
+        "type": "Hash192"
+      }
+    ],
+    [
       "LockingChainIssue",
       {
         "nth": 1,
@@ -2363,6 +2425,16 @@
         "isSerialized": true,
         "isSigningField": true,
         "type": "AccountID"
+      }
+    ],
+    [
+      "Number",
+      {
+        "isSerialized": true,
+        "isSigningField": true,
+        "isVLEncoded": false,
+        "nth": 1,
+        "type": "Number"
       }
     ],
     [

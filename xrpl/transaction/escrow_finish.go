@@ -1,18 +1,11 @@
 package transaction
 
 import (
-	"errors"
-
 	addresscodec "github.com/Peersyst/xrpl-go/address-codec"
 	"github.com/Peersyst/xrpl-go/xrpl/transaction/types"
 )
 
-var (
-	ErrEscrowFinishMissingOwner         = errors.New("escrow finish: missing owner")
-	ErrEscrowFinishMissingOfferSequence = errors.New("escrow finish: missing offer sequence")
-)
-
-// Deliver XRP from a held payment to the recipient.
+// EscrowFinish delivers XRP from a held payment to the recipient.
 //
 // Example:
 //
@@ -56,7 +49,7 @@ func (e *EscrowFinish) Flatten() FlatTransaction {
 	flattened["TransactionType"] = "EscrowFinish"
 
 	if e.Owner != "" {
-		flattened["Owner"] = e.Owner
+		flattened["Owner"] = e.Owner.String()
 	}
 
 	if e.OfferSequence != 0 {

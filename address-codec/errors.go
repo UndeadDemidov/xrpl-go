@@ -6,22 +6,22 @@ import (
 )
 
 var (
-	// Static errors
+	// address
 
-	// Invalid classic address
+	// ErrInvalidClassicAddress indicates an invalid classic address.
 	ErrInvalidClassicAddress = errors.New("invalid classic address")
-	// Invalid seed
+	// ErrInvalidSeed indicates an invalid seed; could not determine encoding algorithm.
 	ErrInvalidSeed = errors.New("invalid seed; could not determine encoding algorithm")
-
-	// Invalid x-address
+	// ErrInvalidXAddress indicates an invalid x-address.
 	ErrInvalidXAddress = errors.New("invalid x-address")
-	// Invalid tag
+	// ErrInvalidTag indicates an invalid tag.
 	ErrInvalidTag = errors.New("invalid tag")
-	// Invalid accountId
-	ErrInvalidAccountID = errors.New("invalid accountId")
-
-	// Invalid xrpl address, general error
+	// ErrInvalidAccountID indicates an invalid account ID.
+	ErrInvalidAccountID = errors.New("invalid account ID")
+	// ErrInvalidAddressFormat indicates a general invalid XRPL address format.
 	ErrInvalidAddressFormat = errors.New("invalid address format")
+
+	// checksum
 
 	// ErrChecksum indicates that the checksum of a check-encoded string does not verify against
 	// the checksum.

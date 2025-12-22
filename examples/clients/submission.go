@@ -8,12 +8,13 @@ import (
 	"github.com/Peersyst/xrpl-go/xrpl/wallet"
 )
 
+// SubmittableTransaction defines the interface for transactions that can be submitted to the XRPL.
 type SubmittableTransaction interface {
 	TxType() transactions.TxType
 	Flatten() transactions.FlatTransaction
 }
 
-// Client interface that both RPC and WebSocket clients must implement
+// TransactionClient defines the interface that both RPC and WebSocket clients must implement.
 type TransactionClient interface {
 	Autofill(tx *transactions.FlatTransaction) error
 	SubmitTxBlobAndWait(txBlob string, failHard bool) (*requests.TxResponse, error)

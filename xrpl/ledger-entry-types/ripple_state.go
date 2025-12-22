@@ -31,7 +31,7 @@ const (
 	lsfHighDeepFreeze uint32 = 0x04000000
 )
 
-// A RippleState ledger entry represents a trust line between two accounts.
+// RippleState ledger entry represents a trust line between two accounts.
 // Each account can change its own limit and other settings, but the balance
 // is a single shared value. A trust line that is entirely in its default state
 // is considered the same as a trust line that does not exist and is automatically deleted.

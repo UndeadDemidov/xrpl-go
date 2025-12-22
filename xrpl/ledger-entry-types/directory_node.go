@@ -11,7 +11,7 @@ const (
 	lsfNFTokenSellOffers uint32 = 0x00000002
 )
 
-// The DirectoryNode ledger entry type provides a list of links to other entries in the ledger's state data.
+// DirectoryNode ledger entry type provides a list of links to other entries in the ledger's state data.
 // A single conceptual Directory takes the form of a doubly linked list, with one or more DirectoryNode entries
 // each containing up to 32 IDs of other entries.
 // The first DirectoryNode entry is called the root of the directory, and all entries other than the root can be added or deleted as necessary.
@@ -78,6 +78,8 @@ type DirectoryNode struct {
 	TakerPaysCurrency string `json:",omitempty"`
 	// (Offer directories only) The issuer of the TakerPays amount from the offers in this directory.
 	TakerPaysIssuer string `json:",omitempty"`
+	// The domain that the offer directory is a part of.
+	DomainID string `json:",omitempty"`
 }
 
 // EntryType returns the type of ledger entry.

@@ -10,15 +10,22 @@ import (
 )
 
 const (
+	// MPTIssuanceIDBytesLength is the number of bytes for an MPT issuance ID.
 	MPTIssuanceIDBytesLength = 24
 )
 
 var (
-	ErrInvalidIssueObject       = errors.New("invalid issue object")
-	ErrInvalidCurrency          = errors.New("invalid currency")
-	ErrInvalidIssuer            = errors.New("invalid issuer")
+	// ErrInvalidIssueObject is returned when the JSON object is not a valid Issue.
+	// ErrInvalidIssueObject is returned when the JSON object is not a valid Issue.
+	ErrInvalidIssueObject = errors.New("invalid issue object")
+	// ErrInvalidCurrency is returned when the currency field is missing or invalid in the Issue JSON.
+	ErrInvalidCurrency = errors.New("invalid currency")
+	// ErrInvalidIssuer is returned when the issuer field is missing or invalid in the Issue JSON.
+	ErrInvalidIssuer = errors.New("invalid issuer")
+	// ErrMissingIssueLengthOption is returned when no length option is provided to Issue.ToJSON.
 	ErrMissingIssueLengthOption = errors.New("missing length option for Issue.ToJSON")
-	XRPBytes                    = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+	// XRPBytes is the serialized byte representation for native XRP (zero-value currency issuer).
+	XRPBytes = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 )
 
 // Issue represents an XRPL Issue, which is essentially an AccountID.

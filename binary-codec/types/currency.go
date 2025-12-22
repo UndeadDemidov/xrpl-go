@@ -1,3 +1,4 @@
+//revive:disable:var-naming
 package types
 
 import (
@@ -9,11 +10,15 @@ import (
 )
 
 var (
+	// ErrMissingCurrencyLengthOption is returned when no length option is
+	// provided to Currency.ToJSON.
 	ErrMissingCurrencyLengthOption = errors.New("missing length option for Currency.ToJSON")
 )
 
+// Currency handles encoding and decoding of currency values in the binary codec.
 type Currency struct{}
 
+// FromJSON parses a JSON value into its binary currency representation.
 func (c *Currency) FromJSON(json any) ([]byte, error) {
 	if str, ok := json.(string); ok {
 		return c.fromString(str)
@@ -21,12 +26,16 @@ func (c *Currency) FromJSON(json any) ([]byte, error) {
 	return nil, ErrInvalidCurrency
 }
 
+// ToJSON serializes a binary currency value into a JSON-compatible format.
+// It requires a length option specifying the byte length to read.
 func (c *Currency) ToJSON(p interfaces.BinaryParser, opts ...int) (any, error) {
-	if len(opts) == 0 {
-		return nil, ErrMissingCurrencyLengthOption
+	// default to 20 bytes, https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/oracle#currency-internal-format
+	length := 20
+	if len(opts) > 0 && opts[0] > 0 {
+		length = opts[0]
 	}
 
-	currencyBytes, err := p.ReadBytes(opts[0])
+	currencyBytes, err := p.ReadBytes(length)
 	if err != nil {
 		return nil, err
 	}
